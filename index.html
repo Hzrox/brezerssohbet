@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BREZERS SOHBET | Sesli & Yazılı Topluluk</title>
+    <title>BREZERS SOHBET | Ultra Topluluk Platformu</title>
     <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -11,7 +11,7 @@
     <style>
         :root {
             --bg-main: #090d16;
-            --bg-card: rgba(22, 30, 46, 0.7);
+            --bg-card: rgba(22, 30, 46, 0.75);
             --border-color: rgba(255, 255, 255, 0.08);
             --primary: #6366f1;
             --primary-glow: rgba(99, 102, 241, 0.35);
@@ -22,560 +22,186 @@
             --text-muted: #94a3b8;
             --green: #22c55e;
             --gold: #f59e0b;
+            --purple: #a855f7;
+            --like-red: #f43f5e;
         }
 
-        * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
+        body.theme-cyberpunk {
+            --bg-main: #050515;
+            --bg-card: rgba(20, 10, 35, 0.85);
+            --primary: #ff007f;
+            --primary-glow: rgba(255, 0, 127, 0.5);
+            --accent: #00f0ff;
+            --border-color: rgba(0, 240, 255, 0.2);
         }
 
-        body { 
-            background-color: var(--bg-main); 
-            color: var(--text); 
-            min-height: 100vh; 
-            display: flex; 
-            overflow: hidden; 
+        body.theme-gold {
+            --bg-main: #110d05;
+            --bg-card: rgba(35, 25, 10, 0.85);
+            --primary: #f59e0b;
+            --primary-glow: rgba(245, 158, 11, 0.4);
+            --accent: #fbbf24;
+            --border-color: rgba(245, 158, 11, 0.2);
         }
 
-        /* Auth Screen Modal */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text); min-height: 100vh; display: flex; overflow: hidden; transition: background 0.3s; }
+
+        .announcement-bar {
+            position: fixed; top: 0; left: 0; width: 100%; background: linear-gradient(90deg, #ef4444, #a855f7);
+            color: #fff; padding: 8px 16px; text-align: center; font-size: 0.85rem; font-weight: 700; z-index: 10000;
+            display: none; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
         .auth-overlay { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            background: rgba(9, 13, 22, 0.95); 
-            backdrop-filter: blur(15px); 
-            z-index: 9999; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(9, 13, 22, 0.95); backdrop-filter: blur(15px); 
+            z-index: 9999; display: flex; justify-content: center; align-items: center; 
         }
 
         .auth-card { 
-            background: var(--bg-card); 
-            border: 1px solid var(--border-color); 
-            padding: 35px 40px; 
-            border-radius: 24px; 
-            width: 100%; 
-            max-width: 440px; 
-            text-align: center; 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
+            background: var(--bg-card); border: 1px solid var(--border-color); 
+            padding: 35px 40px; border-radius: 24px; width: 100%; max-width: 440px; 
+            text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
         }
 
         .auth-card h2 { 
-            font-size: 1.7rem; 
-            margin-bottom: 6px; 
-            background: linear-gradient(135deg, #38bdf8, #6366f1); 
-            -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent; 
-            font-weight: 800; 
+            font-size: 1.7rem; margin-bottom: 6px; 
+            background: linear-gradient(135deg, var(--accent), var(--primary)); 
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; 
         }
         
-        .auth-tabs { 
-            display: flex; 
-            background: rgba(255, 255, 255, 0.05); 
-            border-radius: 12px; 
-            padding: 4px; 
-            margin: 20px 0; 
-        }
+        .auth-tabs { display: flex; background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 4px; margin: 20px 0; }
+        .auth-tab { flex: 1; padding: 10px; border: none; background: transparent; color: var(--text-muted); font-weight: 600; border-radius: 8px; cursor: pointer; transition: all 0.3s; }
+        .auth-tab.active { background: var(--primary); color: #fff; box-shadow: 0 0 10px var(--primary-glow); }
 
-        .auth-tab { 
-            flex: 1; 
-            padding: 10px; 
-            border: none; 
-            background: transparent; 
-            color: var(--text-muted); 
-            font-weight: 600; 
-            border-radius: 8px; 
-            cursor: pointer; 
-            transition: all 0.3s; 
+        .input-group { margin-bottom: 16px; text-align: left; }
+        .input-group label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; }
+        .input-group input, .input-group select, .input-group textarea { 
+            width: 100%; padding: 12px 16px; border-radius: 12px; background: rgba(255,255,255,0.04); 
+            border: 1px solid var(--border-color); color: #fff; outline: none; transition: all 0.3s; 
         }
-
-        .auth-tab.active { 
-            background: var(--primary); 
-            color: #fff; 
-            box-shadow: 0 0 10px var(--primary-glow); 
-        }
-
-        .input-group { 
-            margin-bottom: 16px; 
-            text-align: left; 
-        }
-
-        .input-group label { 
-            display: block; 
-            font-size: 0.85rem; 
-            color: var(--text-muted); 
-            margin-bottom: 6px; 
-        }
-
-        .input-group input { 
-            width: 100%; 
-            padding: 12px 16px; 
-            border-radius: 12px; 
-            background: rgba(255,255,255,0.04); 
-            border: 1px solid var(--border-color); 
-            color: #fff; 
-            outline: none; 
-            transition: all 0.3s; 
-        }
-
-        .input-group input:focus { 
-            border-color: var(--primary); 
-            box-shadow: 0 0 15px var(--primary-glow); 
-        }
+        .input-group select option { background: #0f172a; color: #fff; }
 
         .btn-primary { 
-            width: 100%; 
-            padding: 14px; 
-            border-radius: 12px; 
-            border: none; 
-            background: linear-gradient(135deg, var(--primary), #4f46e5); 
-            color: #fff; 
-            font-weight: 700; 
-            cursor: pointer; 
-            box-shadow: 0 0 20px var(--primary-glow); 
-            transition: transform 0.2s, background 0.3s; 
+            width: 100%; padding: 12px; border-radius: 12px; border: none; 
+            background: linear-gradient(135deg, var(--primary), #4f46e5); color: #fff; 
+            font-weight: 700; cursor: pointer; box-shadow: 0 0 15px var(--primary-glow); transition: all 0.2s; 
         }
-
-        .btn-primary:hover { 
-            transform: translateY(-2px); 
-        }
+        .btn-primary:hover { transform: translateY(-2px); }
 
         .btn-telegram { 
-            background: #0088cc; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 10px; 
-            text-decoration: none; 
-            color: #fff; 
-            font-weight: 600; 
-            padding: 12px; 
-            border-radius: 12px; 
-            margin-bottom: 12px; 
-            transition: all 0.3s; 
+            background: #0088cc; display: flex; align-items: center; justify-content: center; gap: 10px; 
+            text-decoration: none; color: #fff; font-weight: 600; padding: 10px; border-radius: 12px; margin-bottom: 8px; 
         }
 
-        /* Main Dashboard Layout */
-        .app-container { 
-            display: flex; 
-            width: 100vw; 
-            height: 100vh; 
-        }
+        .app-container { display: flex; width: 100vw; height: 100vh; }
+        .sidebar { width: 320px; background: rgba(15, 23, 42, 0.8); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 20px; gap: 10px; overflow-y: auto;}
 
-        .sidebar { 
-            width: 310px; 
-            background: rgba(15, 23, 42, 0.8); 
-            border-right: 1px solid var(--border-color); 
-            display: flex; 
-            flex-direction: column; 
-            padding: 20px; 
-        }
+        .user-profile-box { display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 16px; cursor: pointer; transition: all 0.3s; }
+        .user-profile-box:hover { border-color: var(--primary); }
+        .avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); }
+        .avatar.speaking { border-color: var(--green) !important; box-shadow: 0 0 15px rgba(34, 197, 94, 0.6); }
 
-        .user-profile-box { 
-            display: flex; 
-            align-items: center; 
-            gap: 12px; 
-            padding: 12px; 
-            background: rgba(255,255,255,0.03); 
-            border: 1px solid var(--border-color); 
-            border-radius: 16px; 
-            margin-bottom: 15px; 
-        }
+        .role-badge { font-size: 0.65rem; padding: 2px 8px; border-radius: 6px; font-weight: 800; text-transform: uppercase; margin-left: 4px; }
+        .role-admin { background: var(--admin-red); color: #fff; }
+        .role-vip { background: var(--gold); color: #000; }
+        .role-streamer { background: var(--purple); color: #fff; }
+        .role-member { background: rgba(255,255,255,0.1); color: var(--text-muted); }
 
-        .avatar { 
-            width: 46px; 
-            height: 46px; 
-            border-radius: 50%; 
-            object-fit: cover; 
-            border: 2px solid var(--primary); 
-        }
+        .xp-bar-container { width: 100%; background: rgba(255, 255, 255, 0.05); border-radius: 10px; height: 8px; overflow: hidden; margin-top: 6px; }
+        .xp-bar-fill { height: 100%; width: 35%; background: linear-gradient(90deg, var(--accent), var(--primary)); border-radius: 10px; transition: width 0.4s; }
 
-        .avatar.speaking { 
-            border-color: var(--green) !important; 
-            box-shadow: 0 0 15px rgba(34, 197, 94, 0.6); 
-        }
-
-        .avatar.admin-avatar { 
-            border-color: var(--admin-red) !important; 
-            box-shadow: 0 0 15px var(--admin-glow); 
-        }
-
-        .user-info h4 { 
-            font-size: 0.9rem; 
-            display: flex; 
-            align-items: center; 
-            gap: 6px; 
-        }
-
-        .user-info p { 
-            font-size: 0.75rem; 
-            color: var(--accent); 
-        }
-
-        .admin-badge { 
-            background: linear-gradient(135deg, #ef4444, #b91c1c); 
-            color: #fff; 
-            font-size: 0.6rem; 
-            padding: 2px 6px; 
-            border-radius: 6px; 
-            font-weight: 800; 
-        }
-
-        .xp-bar-container {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            height: 8px;
-            overflow: hidden;
-            margin-top: 6px;
-        }
-
-        .xp-bar-fill {
-            height: 100%;
-            width: 55%;
-            background: linear-gradient(90deg, var(--accent), var(--primary));
-            border-radius: 10px;
-        }
-
-        /* Content Area & Voice Room Layout */
-        .main-content { 
-            flex: 1; 
-            display: flex; 
-            flex-direction: column; 
-            background: var(--bg-main); 
-            position: relative; 
-        }
-
-        .rooms-header { 
-            padding: 20px 30px; 
-            border-bottom: 1px solid var(--border-color); 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-        }
-
-        .rooms-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
-            gap: 20px; 
-            padding: 30px; 
-            overflow-y: auto; 
-        } 
+        .main-content { flex: 1; display: flex; flex-direction: column; background: var(--bg-main); position: relative; }
+        .rooms-header { padding: 20px 30px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+        .rooms-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; padding: 30px; overflow-y: auto; } 
         
-        .room-card { 
-            background: var(--bg-card); 
-            border: 1px solid var(--border-color); 
-            border-radius: 20px; 
-            padding: 20px; 
-            transition: all 0.3s; 
-            cursor: pointer; 
-        }
+        .room-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 20px; transition: all 0.3s; cursor: pointer; }
+        .room-card:hover { border-color: var(--primary); box-shadow: 0 10px 30px var(--primary-glow); transform: translateY(-4px); }
 
-        .room-card:hover { 
-            border-color: var(--primary); 
-            box-shadow: 0 10px 30px var(--primary-glow); 
-            transform: translateY(-4px); 
-        }
+        .active-room-view { display: none; flex-direction: column; height: 100%; background: #0c121e; }
+        .room-nav { padding: 15px 25px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background: rgba(15, 23, 42, 0.9); }
+        .room-body { display: flex; flex: 1; overflow: hidden; }
 
-        .room-title { 
-            font-size: 1rem; 
-            font-weight: 700; 
-            margin-bottom: 8px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-        }
+        .screen-share-display { display: none; width: 100%; height: 260px; background: #000; border-bottom: 1px solid var(--border-color); position: relative; justify-content: center; align-items: center; }
+        .screen-share-display video { height: 100%; max-width: 100%; object-fit: contain; }
 
-        .room-badge { 
-            background: rgba(56, 189, 248, 0.1); 
-            color: var(--accent); 
-            font-size: 0.7rem; 
-            padding: 4px 8px; 
-            border-radius: 20px; 
-        }
+        .voice-participants { flex: 1; padding: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 15px; align-content: start; overflow-y: auto; }
+        .participant-card { display: flex; flex-direction: column; align-items: center; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); padding: 15px; border-radius: 16px; text-align: center; cursor: pointer; transition: transform 0.2s; }
+        .participant-card:hover { transform: scale(1.04); border-color: var(--primary); }
 
-        /* Inside Active Voice Room View */
-        .active-room-view { 
-            display: none; 
-            flex-direction: column; 
-            height: 100%; 
-            background: #0c121e; 
-        }
+        /* Instagram Akışı & Gönderi Kartları */
+        .feed-container { max-width: 600px; margin: 0 auto; width: 100%; padding: 20px; overflow-y: auto; height: 100%; display: flex; flex-direction: column; gap: 25px; }
+        .post-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; overflow: hidden; }
+        .post-header { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--border-color); }
+        .post-header img { width: 38px; height: 38px; border-radius: 50%; cursor: pointer; }
+        .post-img { width: 100%; max-height: 480px; object-fit: cover; display: block; }
+        .post-actions { padding: 12px 18px; display: flex; gap: 16px; font-size: 1.3rem; }
+        .post-action-btn { cursor: pointer; transition: transform 0.2s; color: var(--text-muted); }
+        .post-action-btn:hover { transform: scale(1.15); }
+        .post-action-btn.liked { color: var(--like-red); }
+        .post-body { padding: 0 18px 16px; font-size: 0.88rem; }
+        .post-body b { color: var(--accent); }
+        .post-comments { max-height: 120px; overflow-y: auto; padding: 8px 18px; border-top: 1px solid var(--border-color); background: rgba(0,0,0,0.2); font-size: 0.8rem; display: flex; flex-direction: column; gap: 6px; }
 
-        .room-nav { 
-            padding: 15px 25px; 
-            border-bottom: 1px solid var(--border-color); 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            background: rgba(15, 23, 42, 0.9); 
-        }
+        /* Instagram Stili Profil Modalı */
+        .insta-profile-modal { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 24px; width: 620px; max-height: 88vh; overflow-y: auto; padding: 25px; }
+        .insta-profile-header { display: flex; gap: 25px; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; margin-bottom: 20px; }
+        .insta-profile-pp { width: 95px; height: 95px; border-radius: 50%; border: 3px solid var(--primary); object-fit: cover; }
+        .insta-stats { display: flex; gap: 20px; text-align: center; margin: 12px 0; }
+        .insta-stat-item b { display: block; font-size: 1.1rem; color: #fff; }
+        .insta-stat-item span { font-size: 0.75rem; color: var(--text-muted); }
+        .insta-posts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .insta-grid-item { aspect-ratio: 1/1; border-radius: 12px; overflow: hidden; position: relative; cursor: pointer; }
+        .insta-grid-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+        .insta-grid-item:hover img { transform: scale(1.08); }
 
-        .room-body { 
-            display: flex; 
-            flex: 1; 
-            overflow: hidden; 
-        }
+        .chat-panel { width: 330px; background: rgba(15, 23, 42, 0.7); border-left: 1px solid var(--border-color); display: flex; flex-direction: column; }
+        .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .chat-msg { background: rgba(255,255,255,0.04); padding: 10px 12px; border-radius: 10px; font-size: 0.85rem; word-break: break-word; }
+        .chat-msg b { color: var(--accent); display: block; font-size: 0.75rem; margin-bottom: 2px; }
 
-        .voice-participants { 
-            flex: 1; 
-            padding: 30px; 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); 
-            gap: 20px; 
-            align-content: start; 
-            overflow-y: auto; 
-        }
+        .chat-tools { display: flex; gap: 6px; padding: 6px 12px; background: rgba(0,0,0,0.2); border-top: 1px solid var(--border-color); }
+        .chat-tool-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: var(--text-muted); padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; }
 
-        .participant-card { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            background: rgba(255,255,255,0.03); 
-            border: 1px solid var(--border-color); 
-            padding: 15px; 
-            border-radius: 16px; 
-            text-align: center; 
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
+        .chat-input-box { padding: 12px; border-top: 1px solid var(--border-color); display: flex; gap: 8px; }
+        .chat-input-box input { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid var(--border-color); background: rgba(0,0,0,0.2); color: #fff; outline: none; }
 
-        .participant-card:hover {
-            transform: scale(1.04);
-            border-color: var(--primary);
-        }
+        .soundboard-box { display: flex; gap: 8px; overflow-x: auto; padding: 10px 20px; background: rgba(0,0,0,0.3); border-top: 1px solid var(--border-color); }
+        .sb-btn { background: rgba(255,255,255,0.08); border: 1px solid var(--border-color); color: var(--text); padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+        .sb-btn:hover { background: var(--primary); color: #fff; }
 
-        .participant-card img { 
-            width: 60px; 
-            height: 60px; 
-            border-radius: 50%; 
-            margin-bottom: 8px; 
-        }
+        .room-controls { padding: 15px 30px; border-top: 1px solid var(--border-color); background: rgba(15, 23, 42, 0.9); display: flex; justify-content: center; gap: 15px; }
+        .control-btn { width: 48px; height: 48px; border-radius: 50%; border: none; background: rgba(255,255,255,0.1); color: #fff; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; }
+        .control-btn.active { background: var(--admin-red); }
+        .control-btn.screen-active { background: var(--green); }
 
-        /* Chat Side Panel */
-        .chat-panel { 
-            width: 320px; 
-            background: rgba(15, 23, 42, 0.7); 
-            border-left: 1px solid var(--border-color); 
-            display: flex; 
-            flex-direction: column; 
-        }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 9998; display: none; justify-content: center; align-items: center; }
+        .modal-box { background: var(--bg-card); border: 1px solid var(--border-color); padding: 25px; border-radius: 20px; width: 580px; max-height: 85vh; overflow-y: auto; }
+        .admin-section { background: rgba(0,0,0,0.25); border: 1px solid var(--border-color); border-radius: 14px; padding: 15px; margin-bottom: 15px; }
+        .admin-section h4 { font-size: 0.9rem; color: var(--accent); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
 
-        .chat-messages { 
-            flex: 1; 
-            padding: 15px; 
-            overflow-y: auto; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 10px; 
-        }
+        .action-btn { padding: 6px 12px; border-radius: 8px; border: none; font-size: 0.75rem; cursor: pointer; font-weight: 700; }
+        .btn-ban { background: var(--admin-red); color: #fff; }
+        .btn-mute { background: #f59e0b; color: #fff; }
 
-        .chat-msg { 
-            background: rgba(255,255,255,0.04); 
-            padding: 10px 12px; 
-            border-radius: 10px; 
-            font-size: 0.85rem; 
-        }
-
-        .chat-msg b { 
-            color: var(--accent); 
-            display: block; 
-            font-size: 0.75rem; 
-            margin-bottom: 2px; 
-        }
-
-        .chat-input-box { 
-            padding: 12px; 
-            border-top: 1px solid var(--border-color); 
-            display: flex; 
-            gap: 8px; 
-        }
-
-        .chat-input-box input { 
-            flex: 1; 
-            padding: 10px; 
-            border-radius: 10px; 
-            border: 1px solid var(--border-color); 
-            background: rgba(0,0,0,0.2); 
-            color: #fff; 
-            outline: none; 
-        }
-
-        /* Bottom Controls Bar */
-        .room-controls { 
-            padding: 15px 30px; 
-            border-top: 1px solid var(--border-color); 
-            background: rgba(15, 23, 42, 0.9); 
-            display: flex; 
-            justify-content: center; 
-            gap: 15px; 
-        }
-
-        .control-btn { 
-            width: 48px; 
-            height: 48px; 
-            border-radius: 50%; 
-            border: none; 
-            background: rgba(255,255,255,0.1); 
-            color: #fff; 
-            font-size: 1.1rem; 
-            cursor: pointer; 
-            transition: all 0.3s; 
-        }
-
-        .control-btn.active { 
-            background: var(--admin-red); 
-        }
-
-        .control-btn.screen-active {
-            background: var(--green);
-        }
-
-        .control-btn:hover { 
-            transform: scale(1.08); 
-        }
-
-        /* Modals */
-        .modal-overlay { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            background: rgba(0,0,0,0.8); 
-            backdrop-filter: blur(8px); 
-            z-index: 9998; 
-            display: none; 
-            justify-content: center; 
-            align-items: center; 
-        }
-
-        .admin-modal { 
-            background: var(--bg-card); 
-            border: 1px solid var(--admin-red); 
-            padding: 25px; 
-            border-radius: 20px; 
-            width: 580px; 
-            max-height: 85vh; 
-            overflow-y: auto; 
-        }
-
-        .admin-section {
-            background: rgba(0,0,0,0.25);
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            padding: 15px;
-            margin-bottom: 15px;
-        }
-
-        .admin-section h4 {
-            font-size: 0.9rem;
-            color: var(--accent);
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .user-manage-item { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 10px; 
-            border-bottom: 1px solid var(--border-color); 
-        }
-
-        .action-btn { 
-            padding: 6px 12px; 
-            border-radius: 8px; 
-            border: none; 
-            font-size: 0.75rem; 
-            cursor: pointer; 
-            font-weight: 700; 
-        }
-
-        .btn-ban { 
-            background: var(--admin-red); 
-            color: #fff; 
-        }
-
-        .btn-mute { 
-            background: #f59e0b; 
-            color: #fff; 
-        }
-
-        .btn-admin-add {
-            background: var(--primary);
-            color: #fff;
-        }
-
-        .file-upload-btn { 
-            display: inline-block; 
-            width: 100%; 
-            padding: 10px; 
-            background: rgba(255, 255, 255, 0.05); 
-            border: 1px dashed var(--border-color); 
-            border-radius: 12px; 
-            text-align: center; 
-            cursor: pointer; 
-            color: var(--text-muted); 
-            font-size: 0.8rem; 
-        }
-
-        .uid-display-box {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid var(--border-color);
-            padding: 10px 14px;
-            border-radius: 12px;
-            font-family: monospace;
-            font-size: 0.9rem;
-            color: var(--accent);
-        }
-
-        .copy-uid-btn {
-            background: rgba(56, 189, 248, 0.15);
-            border: none;
-            color: var(--accent);
-            padding: 4px 8px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.75rem;
-            font-weight: 700;
-        }
-
-        .admin-action-row {
-            display: flex;
-            gap: 10px;
-            margin-top: 8px;
-        }
-
-        .admin-action-row input {
-            flex: 1;
-            padding: 10px 12px;
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
-            background: rgba(255,255,255,0.05);
-            color: #fff;
-            outline: none;
-            font-size: 0.85rem;
-        }
+        .nav-tab-btn { padding: 8px 16px; border-radius: 12px; border: 1px solid var(--border-color); background: rgba(255,255,255,0.05); color: var(--text); font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        .nav-tab-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
     </style>
 </head>
 <body>
+
+    <!-- Top Duyuru Barı -->
+    <div class="announcement-bar" id="announcementBar">
+        <span id="announcementText"><i class="fa-solid fa-bullhorn"></i> Duyuru metni...</span>
+        <button onclick="closeAnnouncement()" style="background:none; border:none; color:#fff; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+    </div>
 
     <!-- Auth Modal -->
     <div class="auth-overlay" id="authModal">
         <div class="auth-card">
             <h2>BREZERS SOHBET</h2>
-            <p style="color: var(--text-muted); font-size: 0.85rem;">Topluluğa Katılın ve Canlı Sesli Sohbet Edin</p>
+            <p style="color: var(--text-muted); font-size: 0.85rem;">Sosyal Topluluğa Giriş Yapın</p>
 
             <div class="auth-tabs">
                 <button class="auth-tab active" id="loginTabBtn" onclick="switchTab('login')">Giriş Yap</button>
@@ -600,132 +226,194 @@
                     <input type="email" id="regEmail" placeholder="ornek@gmail.com">
                 </div>
                 <div class="input-group">
-                    <label><i class="fa-solid fa-key"></i> Şifre</label>
-                    <input type="password" id="regPassword" placeholder="••••••••">
+                    <label><i class="fa-solid fa-user-tag"></i> Rol Seçimi</label>
+                    <select id="regRole">
+                        <option value="member">Üye</option>
+                        <option value="streamer">Yayıncı / İçerik Üretici</option>
+                        <option value="vip">VIP Üye</option>
+                    </select>
                 </div>
                 <div class="input-group">
-                    <label><i class="fa-solid fa-shield-halved"></i> Şifre Tekrarı</label>
-                    <input type="password" id="regPasswordRepeat" placeholder="••••••••">
+                    <label><i class="fa-solid fa-key"></i> Şifre</label>
+                    <input type="password" id="regPassword" placeholder="••••••••">
                 </div>
                 <button class="btn-primary" onclick="handleRegister()">Kayıt Ol</button>
             </div>
         </div>
     </div>
 
-    <!-- Admin Panel Modal (GÜNCELLENDİ: Manuel UID Ban/Susturma ve Admin Ekleme Entegre Edildi) -->
+    <!-- Instagram Stili Detaylı Profil Modalı -->
+    <div class="modal-overlay" id="instaProfileModal">
+        <div class="insta-profile-modal">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h3 id="profileModalTitle"><i class="fa-solid fa-user"></i> Kullanıcı Profili</h3>
+                <button onclick="closeInstaProfileModal()" style="background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="insta-profile-header">
+                <img src="" id="profileModalPP" class="insta-profile-pp" alt="PP">
+                <div style="flex: 1;">
+                    <h3 id="profileModalUsername" style="display:flex; align-items:center; gap:8px;">
+                        <span>Kullanıcı</span>
+                        <span id="profileModalRole" class="role-badge role-member">ÜYE</span>
+                    </h3>
+                    <p id="profileModalBio" style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">"Sanal Harekat Başladı..."</p>
+                    
+                    <div class="insta-stats">
+                        <div class="insta-stat-item"><b id="statPostsCount">0</b><span>Gönderi</span></div>
+                        <div class="insta-stat-item"><b id="statFollowersCount">0</b><span>Takipçi</span></div>
+                        <div class="insta-stat-item"><b id="statFollowingCount">0</b><span>Takip Edilen</span></div>
+                    </div>
+
+                    <div style="display:flex; gap:10px;">
+                        <button id="followToggleBtn" class="btn-primary" style="padding: 6px 14px; font-size: 0.8rem;" onclick="toggleFollow()">Takip Et</button>
+                        <button class="btn-primary" style="padding: 6px 14px; font-size: 0.8rem; background:rgba(255,255,255,0.1); border:1px solid var(--border-color);" onclick="openDMFromProfile()">Mesaj Gönder</button>
+                    </div>
+                </div>
+            </div>
+
+            <h4 style="margin-bottom: 12px; font-size: 0.9rem; color: var(--accent);"><i class="fa-solid fa-camera"></i> Paylaştığı Fotoğraflar</h4>
+            <div class="insta-posts-grid" id="profilePostsGrid">
+                <!-- Fotoğraflar Buraya Yüklenecek -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Fotoğraf / Gönderi Paylaşma Modalı -->
+    <div class="modal-overlay" id="createPostModal">
+        <div class="modal-box" style="max-width:440px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h3><i class="fa-solid fa-square-plus"></i> Fotoğraf Paylaş</h3>
+                <button onclick="closeCreatePostModal()" style="background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="input-group">
+                <label><i class="fa-solid fa-link"></i> Fotoğraf Bağlantısı (URL)</label>
+                <input type="text" id="postImgUrlInput" placeholder="https://ornek.com/resim.jpg">
+            </div>
+
+            <div class="input-group">
+                <label><i class="fa-solid fa-upload"></i> Dosyadan Seç / Yükle</label>
+                <input type="file" id="postFileInput" accept="image/*" onchange="previewPostFile(event)">
+            </div>
+
+            <div class="input-group">
+                <label><i class="fa-solid fa-pen"></i> Gönderi Açıklaması</label>
+                <textarea id="postCaptionInput" rows="3" placeholder="Açıklama yazın..."></textarea>
+            </div>
+
+            <button class="btn-primary" onclick="submitNewPost()">Paylaş</button>
+        </div>
+    </div>
+
+    <!-- Admin Panel Modal -->
     <div class="modal-overlay" id="adminModal">
-        <div class="admin-modal">
+        <div class="modal-box" style="border-color: var(--admin-red);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                 <h3 style="color: var(--admin-red);"><i class="fa-solid fa-user-shield"></i> Admin Yönetim Paneli</h3>
                 <button onclick="closeAdminModal()" style="background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
-            <!-- 1. Manuel UID İşlemleri -->
             <div class="admin-section">
-                <h4><i class="fa-solid fa-gavel"></i> Manuel UID ile İşlem Yap</h4>
-                <div class="admin-action-row">
-                    <input type="text" id="manualUIDInput" placeholder="Kullanıcı UID Girin (Örn: 123456)">
-                    <button class="action-btn btn-ban" onclick="manualBanByUID()"><i class="fa-solid fa-ban"></i> Banla</button>
-                    <button class="action-btn btn-mute" onclick="manualMuteByUID()"><i class="fa-solid fa-microphone-slash"></i> Muteat</button>
+                <h4><i class="fa-solid fa-bullhorn"></i> Toplu Duyuru Yayınla</h4>
+                <div style="display:flex; gap:8px;">
+                    <input type="text" id="announcementInput" placeholder="Tüm kullanıcılara duyuru..." style="flex:1; padding:8px; border-radius:8px; border:1px solid var(--border-color); background:rgba(255,255,255,0.05); color:#fff;">
+                    <button class="action-btn" style="background:var(--primary); color:#fff;" onclick="publishAnnouncement()">Yayınla</button>
                 </div>
             </div>
 
-            <!-- 2. Yeni Admin Ekleme -->
             <div class="admin-section">
-                <h4><i class="fa-solid fa-user-plus"></i> Yeni Admin / Yönetici Ekle</h4>
-                <div class="admin-action-row">
-                    <input type="text" id="addAdminUIDInput" placeholder="Admin yapılacak UID Girin">
-                    <button class="action-btn btn-admin-add" onclick="addAdminByUID()"><i class="fa-solid fa-crown"></i> Admin Yap</button>
+                <h4><i class="fa-solid fa-gavel"></i> Manuel UID Ban & Mute</h4>
+                <div style="display:flex; gap:8px; margin-bottom:8px;">
+                    <input type="text" id="manualUIDInput" placeholder="Kullanıcı UID Girin" style="flex:1; padding:8px; border-radius:8px; border:1px solid var(--border-color); background:rgba(255,255,255,0.05); color:#fff;">
+                </div>
+                <div style="display:flex; gap:8px;">
+                    <button class="action-btn btn-ban" style="flex:1;" onclick="manualBanByUID()">Banla</button>
+                    <button class="action-btn btn-mute" style="flex:1;" onclick="manualMuteByUID()">Sustur</button>
                 </div>
             </div>
 
-            <!-- 3. Odalardaki Aktif Kullanıcılar -->
             <div class="admin-section">
-                <h4><i class="fa-solid fa-users"></i> Odadaki Aktif Kullanıcılar</h4>
+                <h4><i class="fa-solid fa-users"></i> Aktif Odadaki Kullanıcılar</h4>
                 <div id="adminUserList"></div>
             </div>
         </div>
     </div>
 
-    <!-- Profile Settings Modal -->
+    <!-- Settings Modal -->
     <div class="modal-overlay" id="settingsModal">
         <div class="auth-card" style="position: relative;">
             <button onclick="closeSettings()" style="position: absolute; right: 20px; top: 20px; background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
-            <h3 style="margin-bottom: 20px; color: var(--accent);"><i class="fa-solid fa-gear"></i> Profil Ayarları</h3>
+            <h3 style="margin-bottom: 20px; color: var(--accent);"><i class="fa-solid fa-gear"></i> Profil & Tema Ayarları</h3>
             
             <div class="input-group">
-                <label><i class="fa-solid fa-id-card"></i> Benzersiz Kimliğin (UID)</label>
-                <div class="uid-display-box">
-                    <span id="modalUIDText">#------</span>
-                    <button class="copy-uid-btn" onclick="copyUID()"><i class="fa-solid fa-copy"></i> Kopyala</button>
-                </div>
+                <label><i class="fa-solid fa-palette"></i> Arayüz Teması</label>
+                <select id="themeSelect" onchange="changeTheme(this.value)">
+                    <option value="default">Varsayılan (Dark Blue)</option>
+                    <option value="cyberpunk">Cyberpunk Neon</option>
+                    <option value="gold">Luxury Gold</option>
+                </select>
             </div>
 
             <div class="input-group">
                 <label><i class="fa-solid fa-user"></i> Kullanıcı Adı</label>
-                <input type="text" id="editUsernameInput" placeholder="Kullanıcı adınızı girin">
+                <input type="text" id="editUsernameInput">
             </div>
 
             <div class="input-group">
-                <label><i class="fa-solid fa-pen"></i> Durum / Hakkında Yazısı</label>
-                <input type="text" id="editStatusInput" placeholder="Sanal Harekat Başladı...">
-            </div>
-
-            <div class="input-group">
-                <label><i class="fa-solid fa-image"></i> Profil Resmi Değiştir</label>
-                <label for="avatarFileInput" class="file-upload-btn"><i class="fa-solid fa-upload"></i> Görsel Seç / Yükle</label>
-                <input type="file" id="avatarFileInput" accept="image/*" style="display: none;" onchange="previewAvatar(event)">
+                <label><i class="fa-solid fa-pen"></i> Durum Yazısı</label>
+                <input type="text" id="editStatusInput">
             </div>
             
-            <button class="btn-primary" onclick="saveProfileSettings()">Kaydet ve Güncelle</button>
+            <button class="btn-primary" onclick="saveProfileSettings()">Kaydet</button>
         </div>
     </div>
 
-    <!-- User Detail Info Pop-up Modal -->
-    <div class="modal-overlay" id="userCardModal">
-        <div class="auth-card" style="position: relative; max-width: 360px;">
-            <button onclick="closeUserCardModal()" style="position: absolute; right: 20px; top: 20px; background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
-            <img src="" id="cardModalAvatar" style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--accent); margin-bottom: 10px;">
-            <h3 id="cardModalName" style="margin-bottom: 4px;">Kullanıcı Adı</h3>
-            <p id="cardModalUID" style="font-size: 0.8rem; color: var(--accent); font-family: monospace; margin-bottom: 12px;">UID: #000000</p>
-            <div style="background: rgba(255,255,255,0.03); padding: 10px; border-radius: 12px; border: 1px solid var(--border-color); font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">
-                <p id="cardModalStatus">"Topluluk üyesi"</p>
-            </div>
-            <div style="display: flex; justify-content: center; gap: 8px;">
-                <span style="background: rgba(99, 102, 241, 0.2); color: var(--primary); font-size: 0.7rem; padding: 4px 8px; border-radius: 6px; font-weight: 700;">LEVEL 3</span>
-                <span style="background: rgba(34, 197, 94, 0.2); color: var(--green); font-size: 0.7rem; padding: 4px 8px; border-radius: 6px; font-weight: 700;">ONLİNE</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Main App Container -->
+    <!-- App Main Container -->
     <div class="app-container">
         <!-- Sidebar -->
         <div class="sidebar">
-            <div class="user-profile-box">
+            <div class="user-profile-box" onclick="openMyOwnProfile()">
                 <img src="https://api.dicebear.com/7.x/bottts/svg?seed=user" id="userAvatar" class="avatar" alt="PP">
                 <div class="user-info" style="flex: 1;">
                     <h4 id="displayUsername">
                         <span>Kullanıcı</span>
-                        <span id="adminBadge" class="admin-badge" style="display: none;">👑 ADMIN</span>
+                        <span id="userRoleBadge" class="role-badge role-member">Üye</span>
                     </h4>
-                    <p id="displayUID">UID: #------</p>
-                    <div class="xp-bar-container" title="Seviye XP İlerlemeniz">
-                        <div class="xp-bar-fill"></div>
+                    <p id="displayUID" style="font-size:0.75rem; color:var(--accent);">UID: #------</p>
+                    <div style="display:flex; justify-content:space-between; font-size:0.65rem; color:var(--text-muted); margin-top:4px;">
+                        <span>Level <b id="userLevelText">1</b></span>
+                        <span id="userXPText">35/100 XP</span>
+                    </div>
+                    <div class="xp-bar-container">
+                        <div class="xp-bar-fill" id="xpBarFill"></div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Fotoğraf Paylaşım Butonu -->
+            <button class="btn-primary" style="background: linear-gradient(135deg, #a855f7, #ec4899);" onclick="openCreatePostModal()">
+                <i class="fa-solid fa-camera-retro"></i> Fotoğraf Paylaş
+            </button>
+
+            <!-- Canlı Radyo Widget -->
+            <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-color); padding:10px; border-radius:14px;">
+                <p style="font-size:0.75rem; font-weight:700; color:var(--accent); margin-bottom:6px;"><i class="fa-solid fa-music"></i> Canlı Radyo</p>
+                <audio id="radioPlayer" controls style="width:100%; height:30px;">
+                    <source src="https://stream.zeno.fm/f3wvbbqmdg8uv" type="audio/mpeg">
+                </audio>
             </div>
 
             <a href="https://t.me/Hzrox" target="_blank" class="btn-telegram">
                 <i class="fa-brands fa-telegram" style="font-size: 1.2rem;"></i> @Hzrox Telegram
             </a>
 
-            <button id="adminPanelBtn" class="btn-primary" style="display: none; background: rgba(239, 68, 68, 0.2); border: 1px solid var(--admin-red); color: var(--admin-red); margin-bottom: 10px;" onclick="openAdminModal()">
+            <button id="adminPanelBtn" class="btn-primary" style="display: none; background: rgba(239, 68, 68, 0.2); border: 1px solid var(--admin-red); color: var(--admin-red);" onclick="openAdminModal()">
                 <i class="fa-solid fa-shield-halved"></i> Admin Paneli
             </button>
 
-            <button class="btn-primary" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: var(--text); margin-bottom: 15px;" onclick="openSettings()">
-                <i class="fa-solid fa-user-pen"></i> Profili / PP / UID
+            <button class="btn-primary" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: var(--text);" onclick="openSettings()">
+                <i class="fa-solid fa-sliders"></i> Profil & Tema
             </button>
 
             <div style="margin-top: auto;">
@@ -738,39 +426,61 @@
         <!-- Main Content Area -->
         <div class="main-content">
             
-            <!-- 1. Lobi View -->
+            <!-- Üst Navigasyon Tabları -->
+            <div style="padding:15px 30px; border-bottom:1px solid var(--border-color); display:flex; gap:12px; background:rgba(15,23,42,0.6);">
+                <button class="nav-tab-btn active" id="tabVoiceBtn" onclick="switchMainTab('voice')"><i class="fa-solid fa-microphone"></i> Sesli Odalar</button>
+                <button class="nav-tab-btn" id="tabFeedBtn" onclick="switchMainTab('feed')"><i class="fa-solid fa-images"></i> Topluluk Fotoğraf Akışı</button>
+            </div>
+
+            <!-- 1. Lobi View (Sesli Odalar) -->
             <div id="lobbyView" style="display: flex; flex-direction: column; height: 100%;">
                 <div class="rooms-header">
-                    <h2><i class="fa-solid fa-microphone"></i> Aktif Canlı Odalar</h2>
-                    <button class="btn-primary" style="width: auto; padding: 10px 20px;" onclick="createNewRealRoom()">+ Oda Oluştur</button>
+                    <h2><i class="fa-solid fa-headset"></i> Aktif Odalar</h2>
+                    <div style="display:flex; gap:10px;">
+                        <button class="btn-primary" style="width: auto; padding: 10px 16px; background:rgba(56, 189, 248, 0.2); border:1px solid var(--accent); color:var(--accent);" onclick="createTempRoom()">+ Geçici Oda Aç</button>
+                        <button class="btn-primary" style="width: auto; padding: 10px 16px;" onclick="createNewRealRoom()">+ Oda Oluştur</button>
+                    </div>
                 </div>
-                <div class="rooms-grid" id="roomsContainer">
-                    <p style="color: var(--text-muted); font-size: 0.9rem;">Yükleniyor...</p>
+                <div class="rooms-grid" id="roomsContainer"></div>
+            </div>
+
+            <!-- 2. Instagram Akışı View -->
+            <div id="feedView" style="display: none; height: 100%; overflow: hidden;">
+                <div class="feed-container" id="feedPostsContainer">
+                    <!-- Paylaşılan Fotoğraflar Buraya Yüklenecek -->
                 </div>
             </div>
 
-            <!-- 2. Active Voice Room View -->
+            <!-- 3. Active Voice Room View -->
             <div class="active-room-view" id="activeRoomView">
                 <div class="room-nav">
                     <div>
                         <h3 id="currentRoomTitle">🎙 Genel Sohbet</h3>
-                        <p style="font-size: 0.75rem; color: var(--accent);" id="currentRoomUsersCount">0 Kullanıcı Bağlı</p>
+                        <p style="font-size: 0.75rem; color: var(--accent);" id="currentRoomUsersCount">0 Katılımcı</p>
                     </div>
                     <button class="btn-primary" style="width: auto; background: var(--admin-red); padding: 8px 16px;" onclick="leaveRoom()">
-                        <i class="fa-solid fa-phone-slash"></i> Odadan Ayrıl
+                        <i class="fa-solid fa-phone-slash"></i> Ayrıl
                     </button>
                 </div>
 
+                <div class="screen-share-display" id="screenShareDisplay">
+                    <video id="screenVideo" autoplay playsinline muted></video>
+                </div>
+
                 <div class="room-body">
-                    <!-- Katılımcı Kartları -->
                     <div class="voice-participants" id="participantsContainer"></div>
 
-                    <!-- Canlı Chat -->
                     <div class="chat-panel">
                         <div style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: 700; font-size: 0.85rem;">
-                            <i class="fa-solid fa-comments"></i> Oda İçi Chat
+                            <i class="fa-solid fa-comments"></i> Oda Chat
                         </div>
                         <div class="chat-messages" id="chatMessages"></div>
+                        
+                        <div class="chat-tools">
+                            <button class="chat-tool-btn" onclick="triggerMiniGame('zar')">🎲 Zar At</button>
+                            <button class="chat-tool-btn" onclick="triggerMiniGame('yazitura')">🪙 Yazı-Tura</button>
+                        </div>
+
                         <div class="chat-input-box">
                             <input type="text" id="chatInput" placeholder="Mesaj yazın..." onkeypress="handleChatKeyPress(event)">
                             <button class="btn-primary" style="width: auto; padding: 0 15px;" onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
@@ -778,11 +488,17 @@
                     </div>
                 </div>
 
-                <!-- Alt Ses & Ekran Paylaşım Kontrolleri -->
+                <div class="soundboard-box">
+                    <span style="font-size:0.75rem; font-weight:700; color:var(--text-muted); align-self:center;">EFEKTLER:</span>
+                    <button class="sb-btn" onclick="playSoundEffect('gulte')">😂 Gülme</button>
+                    <button class="sb-btn" onclick="playSoundEffect('alkis')">👏 Alkış</button>
+                    <button class="sb-btn" onclick="playSoundEffect('fark')">🔥 Wow</button>
+                </div>
+
                 <div class="room-controls">
-                    <button class="control-btn" id="micBtn" onclick="toggleMic()" title="Mikrofon Aç/Kapat"><i class="fa-solid fa-microphone"></i></button>
-                    <button class="control-btn" id="deafenBtn" onclick="toggleDeafen()" title="Kulaklık Sustur"><i class="fa-solid fa-volume-high"></i></button>
-                    <button class="control-btn" id="screenBtn" onclick="toggleScreenShare()" title="Ekran Paylaş"><i class="fa-solid fa-desktop"></i></button>
+                    <button class="control-btn" id="micBtn" onclick="toggleMic()"><i class="fa-solid fa-microphone"></i></button>
+                    <button class="control-btn" id="deafenBtn" onclick="toggleDeafen()"><i class="fa-solid fa-volume-high"></i></button>
+                    <button class="control-btn" id="screenBtn" onclick="toggleScreenShare()"><i class="fa-solid fa-desktop"></i></button>
                 </div>
             </div>
 
@@ -792,27 +508,39 @@
     <script>
         let currentUID = "";
         let currentUsername = "";
+        let userRole = "member";
         let userStatus = "Sanal Harekat Başladı...";
+        let userLevel = 1;
+        let userXP = 35;
         let isAdmin = false;
-        let isMuted = false;
-        let isDeafened = false;
-        let isSharingScreen = false;
-        let selectedAvatarData = null;
 
         let activeRealRooms = [
-            { id: 1, name: "🔥 BREZERS Genel Sohbet", users: [{ uid: "100000", name: "ROX (Kurucu)", avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=RoxAdmin", status: "Sistem Yöneticisi" }] },
-            { id: 2, name: "🎮 Oyun & Muhabbet", users: [] },
-            { id: 3, name: "🎵 Müzik Dinleme Odası", users: [] }
+            { id: 1, name: "🔥 BREZERS Genel Sohbet", isTemp: false, users: [{ uid: "100000", name: "ROX (Kurucu)", role: "admin", avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=RoxAdmin" }] },
+            { id: 2, name: "🎮 Oyun & Muhabbet", isTemp: false, users: [] }
         ];
 
-        let adminUIDs = ["100000"];
-        let currentJoinedRoom = null;
-        let bannedUsers = [];
-        let mutedUsers = [];
+        let allPosts = [
+            {
+                id: 101,
+                authorUID: "100000",
+                authorName: "ROX (Kurucu)",
+                authorAvatar: "https://api.dicebear.com/7.x/bottts/svg?seed=RoxAdmin",
+                imgUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&q=80",
+                caption: "Yeni arayüz ve sosyal sistem yayınlandı! 🔥 Bütün topluluğa hayırlı olsun.",
+                likes: ["100000"],
+                comments: [{ author: "Ahmet", text: "Eline sağlık reis harika olmuş!" }]
+            }
+        ];
 
-        function generateUID() { 
-            return Math.floor(100000 + Math.random() * 900000).toString(); 
-        }
+        let userFollowData = {
+            followers: [],
+            following: []
+        };
+
+        let activeViewingUID = null;
+        let uploadedPostImgBase64 = null;
+
+        function generateUID() { return Math.floor(100000 + Math.random() * 900000).toString(); }
 
         function switchTab(tab) {
             if(tab === 'login') {
@@ -831,87 +559,221 @@
         function handleLogin() {
             const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value.trim();
-            if(!email || !password) return alert("Lütfen email ve şifre girin!");
-            processAuth(email, password);
+            if(!email || !password) return alert("Bilgileri girin!");
+            processAuth(email, password, "member");
         }
 
         function handleRegister() {
             const email = document.getElementById('regEmail').value.trim();
             const password = document.getElementById('regPassword').value.trim();
-            const passwordRepeat = document.getElementById('regPasswordRepeat').value.trim();
-            if(!email || !password || !passwordRepeat) return alert("Tüm alanları doldurun!");
-            if(password !== passwordRepeat) return alert("Şifreler eşleşmiyor!");
-            processAuth(email, password);
+            const role = document.getElementById('regRole').value;
+            if(!email || !password) return alert("Bilgileri girin!");
+            processAuth(email, password, role);
         }
 
-        function processAuth(email, password) {
+        function processAuth(email, password, selectedRole) {
             if (email === "roxhzr@gmail.com" && password === "hasan890") {
                 isAdmin = true;
+                userRole = "admin";
                 currentUID = "100000";
                 currentUsername = "ROX (Kurucu)";
             } else {
                 currentUID = generateUID();
                 currentUsername = email.split('@')[0];
-                isAdmin = adminUIDs.includes(currentUID);
-            }
-
-            if(isAdmin) {
-                document.getElementById('adminBadge').style.display = "inline-block";
-                document.getElementById('adminPanelBtn').style.display = "block";
-                document.getElementById('userAvatar').classList.add("admin-avatar");
-            } else {
-                document.getElementById('adminBadge').style.display = "none";
-                document.getElementById('adminPanelBtn').style.display = "none";
-                document.getElementById('userAvatar').classList.remove("admin-avatar");
+                userRole = selectedRole;
             }
 
             document.getElementById('displayUsername').querySelector('span').innerText = currentUsername;
             document.getElementById('displayUID').innerText = "UID: #" + currentUID;
-            document.getElementById('modalUIDText').innerText = "#" + currentUID;
-            document.getElementById('editUsernameInput').value = currentUsername;
-            document.getElementById('editStatusInput').value = userStatus;
-            
-            if(!selectedAvatarData) {
-                const avatarSeed = isAdmin ? "RoxAdmin" : currentUsername;
-                document.getElementById('userAvatar').src = `https://api.dicebear.com/7.x/bottts/svg?seed=${avatarSeed}`;
-            }
+            document.getElementById('userAvatar').src = `https://api.dicebear.com/7.x/bottts/svg?seed=${currentUsername}`;
 
             document.getElementById('authModal').style.display = 'none';
             renderLobbyRooms();
+            renderFeedPosts();
         }
 
-        function createNewRealRoom() {
-            const roomName = prompt("Oluşturulacak Canlı Oda Adı:");
-            if(!roomName) return;
+        function switchMainTab(tab) {
+            document.getElementById('tabVoiceBtn').classList.toggle('active', tab === 'voice');
+            document.getElementById('tabFeedBtn').classList.toggle('active', tab === 'feed');
 
-            const newRoom = {
+            if(tab === 'voice') {
+                document.getElementById('lobbyView').style.display = 'flex';
+                document.getElementById('feedView').style.display = 'none';
+            } else {
+                document.getElementById('lobbyView').style.display = 'none';
+                document.getElementById('feedView').style.display = 'block';
+                renderFeedPosts();
+            }
+        }
+
+        /* ----- INSTAGRAM GÖNDERİ & FOTO YÖNETİMİ ----- */
+        function renderFeedPosts() {
+            const container = document.getElementById('feedPostsContainer');
+            container.innerHTML = '';
+
+            allPosts.forEach(post => {
+                const isLiked = post.likes.includes(currentUID);
+                const card = document.createElement('div');
+                card.className = 'post-card';
+                card.innerHTML = `
+                    <div class="post-header">
+                        <img src="${post.authorAvatar}" onclick="openUserProfile('${post.authorUID}', '${post.authorName}', '${post.authorAvatar}')">
+                        <div>
+                            <b style="font-size:0.9rem; cursor:pointer;" onclick="openUserProfile('${post.authorUID}', '${post.authorName}', '${post.authorAvatar}')">${post.authorName}</b>
+                            <p style="font-size:0.7rem; color:var(--text-muted);">UID: #${post.authorUID}</p>
+                        </div>
+                    </div>
+                    <img src="${post.imgUrl}" class="post-img" alt="Foto">
+                    <div class="post-actions">
+                        <i class="fa-solid fa-heart post-action-btn ${isLiked ? 'liked' : ''}" onclick="toggleLikePost(${post.id})"></i>
+                        <i class="fa-solid fa-comment post-action-btn" onclick="focusCommentInput(${post.id})"></i>
+                    </div>
+                    <div class="post-body">
+                        <p style="font-weight:700; margin-bottom:4px;">${post.likes.length} beğeni</p>
+                        <p><b>${post.authorName}</b> ${post.caption}</p>
+                    </div>
+                    <div class="post-comments" id="commentsBox_${post.id}">
+                        ${post.comments.map(c => `<p><b>${c.author}:</b>${c.text}</p>`).join('')}
+                    </div>
+                    <div style="display:flex; padding:10px 18px; border-top:1px solid var(--border-color); gap:8px;">
+                        <input type="text" id="commentInput_${post.id}" placeholder="Yorum ekle..." style="flex:1; border:none; background:transparent; color:#fff; outline:none; font-size:0.85rem;">
+                        <button style="background:none; border:none; color:var(--accent); font-weight:700; cursor:pointer;" onclick="addCommentToPost(${post.id})">Paylaş</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function toggleLikePost(postId) {
+            const post = allPosts.find(p => p.id === postId);
+            if(!post) return;
+
+            const idx = post.likes.indexOf(currentUID);
+            if(idx > -1) {
+                post.likes.splice(idx, 1);
+            } else {
+                post.likes.push(currentUID);
+            }
+            renderFeedPosts();
+        }
+
+        function addCommentToPost(postId) {
+            const input = document.getElementById(`commentInput_${postId}`);
+            const text = input.value.trim();
+            if(!text) return;
+
+            const post = allPosts.find(p => p.id === postId);
+            if(post) {
+                post.comments.push({ author: currentUsername, text: text });
+                renderFeedPosts();
+            }
+        }
+
+        function openCreatePostModal() {
+            document.getElementById('createPostModal').style.display = 'flex';
+        }
+
+        function closeCreatePostModal() {
+            document.getElementById('createPostModal').style.display = 'none';
+        }
+
+        function previewPostFile(e) {
+            const file = e.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = (evt) => {
+                    uploadedPostImgBase64 = evt.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function submitNewPost() {
+            const urlInput = document.getElementById('postImgUrlInput').value.trim();
+            const caption = document.getElementById('postCaptionInput').value.trim();
+            const finalImg = uploadedPostImgBase64 || urlInput;
+
+            if(!finalImg) return alert("Lütfen resim URL'si girin veya dosya seçin!");
+
+            const newPost = {
                 id: Date.now(),
-                name: roomName,
-                users: []
+                authorUID: currentUID,
+                authorName: currentUsername,
+                authorAvatar: document.getElementById('userAvatar').src,
+                imgUrl: finalImg,
+                caption: caption || "Fotoğraf paylaşımı",
+                likes: [],
+                comments: []
             };
 
-            activeRealRooms.push(newRoom);
-            renderLobbyRooms();
-            joinRoom(newRoom.id);
+            allPosts.unshift(newPost);
+            closeCreatePostModal();
+            switchMainTab('feed');
+            uploadedPostImgBase64 = null;
         }
 
+        /* ----- DETAYLI PROFiL & TAKİP SİSTEMİ ----- */
+        function openMyOwnProfile() {
+            openUserProfile(currentUID, currentUsername, document.getElementById('userAvatar').src);
+        }
+
+        function openUserProfile(uid, name, avatar) {
+            activeViewingUID = uid;
+            document.getElementById('profileModalPP').src = avatar;
+            document.getElementById('profileModalUsername').querySelector('span').innerText = name;
+            
+            const userPosts = allPosts.filter(p => p.authorUID === uid);
+            document.getElementById('statPostsCount').innerText = userPosts.length;
+            document.getElementById('statFollowersCount').innerText = userFollowData.followers.length;
+            document.getElementById('statFollowingCount').innerText = userFollowData.following.length;
+
+            const followBtn = document.getElementById('followToggleBtn');
+            if(uid === currentUID) {
+                followBtn.style.display = 'none';
+            } else {
+                followBtn.style.display = 'block';
+                followBtn.innerText = userFollowData.following.includes(uid) ? "Takibi Bırak" : "Takip Et";
+            }
+
+            const grid = document.getElementById('profilePostsGrid');
+            grid.innerHTML = '';
+            userPosts.forEach(p => {
+                const item = document.createElement('div');
+                item.className = 'insta-grid-item';
+                item.innerHTML = `<img src="${p.imgUrl}">`;
+                grid.appendChild(item);
+            });
+
+            document.getElementById('instaProfileModal').style.display = 'flex';
+        }
+
+        function closeInstaProfileModal() {
+            document.getElementById('instaProfileModal').style.display = 'none';
+        }
+
+        function toggleFollow() {
+            if(!activeViewingUID) return;
+            const idx = userFollowData.following.indexOf(activeViewingUID);
+            if(idx > -1) {
+                userFollowData.following.splice(idx, 1);
+            } else {
+                userFollowData.following.push(activeViewingUID);
+            }
+            openUserProfile(activeViewingUID, "", document.getElementById('profileModalPP').src);
+        }
+
+        /* ----- LOBİ & SESLİ ODA FONKSİYONLARI ----- */
         function renderLobbyRooms() {
             const container = document.getElementById('roomsContainer');
             container.innerHTML = '';
-
-            if(activeRealRooms.length === 0) {
-                container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.9rem;">Henüz açık oda yok. İlk odayı sen oluştur!</p>';
-                return;
-            }
 
             activeRealRooms.forEach(room => {
                 const card = document.createElement('div');
                 card.className = 'room-card';
                 card.onclick = () => joinRoom(room.id);
                 card.innerHTML = `
-                    <div class="room-title">
-                        <span>${room.name}</span>
-                        <span class="room-badge">Canlı Ses</span>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-weight:700;">${room.name}</span>
                     </div>
                     <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 10px;">
                         <i class="fa-solid fa-users" style="color: var(--accent);"></i> ${room.users.length} Katılımcı
@@ -922,264 +784,25 @@
         }
 
         function joinRoom(roomId) {
-            if(bannedUsers.includes(currentUID)) {
-                return alert("⛔ Yönetici tarafından bu platformdan banlandınız!");
-            }
-
             const room = activeRealRooms.find(r => r.id === roomId);
             if(!room) return;
-
-            currentJoinedRoom = room;
-
-            if(!room.users.find(u => u.uid === currentUID)) {
-                room.users.push({ 
-                    uid: currentUID, 
-                    name: currentUsername, 
-                    avatar: document.getElementById('userAvatar').src,
-                    status: userStatus
-                });
-            }
-
             document.getElementById('lobbyView').style.display = 'none';
+            document.getElementById('feedView').style.display = 'none';
             document.getElementById('activeRoomView').style.display = 'flex';
             document.getElementById('currentRoomTitle').innerText = room.name;
-            
-            updateRoomParticipants();
-            renderLobbyRooms();
         }
 
         function leaveRoom() {
-            if(currentJoinedRoom) {
-                currentJoinedRoom.users = currentJoinedRoom.users.filter(u => u.uid !== currentUID);
-            }
-            currentJoinedRoom = null;
             document.getElementById('activeRoomView').style.display = 'none';
             document.getElementById('lobbyView').style.display = 'flex';
-            renderLobbyRooms();
         }
 
-        function updateRoomParticipants() {
-            if(!currentJoinedRoom) return;
-            const container = document.getElementById('participantsContainer');
-            container.innerHTML = '';
+        function openSettings() { document.getElementById('settingsModal').style.display = 'flex'; }
+        function closeSettings() { document.getElementById('settingsModal').style.display = 'none'; }
+        function openAdminModal() { document.getElementById('adminModal').style.display = 'flex'; }
+        function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
 
-            document.getElementById('currentRoomUsersCount').innerText = `${currentJoinedRoom.users.length} Katılımcı Odada`;
-
-            currentJoinedRoom.users.forEach(u => {
-                const card = document.createElement('div');
-                card.className = 'participant-card';
-                card.onclick = () => openUserCardModal(u);
-                card.innerHTML = `
-                    <img src="${u.avatar}" class="avatar ${u.uid === currentUID && !isMuted ? 'speaking' : ''}">
-                    <span style="font-size:0.8rem; font-weight:700;">${u.name}</span>
-                    <span style="font-size:0.65rem; color:var(--text-muted); margin-top:4px;">
-                        ${u.uid === currentUID && isMuted ? 'Muted' : 'Aktif'}
-                    </span>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        function toggleMic() {
-            if(mutedUsers.includes(currentUID)) {
-                return alert("⚠️ Yönetici tarafından susturuldunuz (Muted)!");
-            }
-            isMuted = !isMuted;
-            const btn = document.getElementById('micBtn');
-            btn.classList.toggle('active', isMuted);
-            btn.innerHTML = isMuted ? '<i class="fa-solid fa-microphone-slash"></i>' : '<i class="fa-solid fa-microphone"></i>';
-            updateRoomParticipants();
-        }
-
-        function toggleDeafen() {
-            isDeafened = !isDeafened;
-            const btn = document.getElementById('deafenBtn');
-            btn.classList.toggle('active', isDeafened);
-            btn.innerHTML = isDeafened ? '<i class="fa-solid fa-volume-xmark"></i>' : '<i class="fa-solid fa-volume-high"></i>';
-        }
-
-        function toggleScreenShare() {
-            isSharingScreen = !isSharingScreen;
-            const btn = document.getElementById('screenBtn');
-            btn.classList.toggle('screen-active', isSharingScreen);
-            alert(isSharingScreen ? "🖥️ Ekran paylaşımı başlatıldı." : "🖥️ Ekran paylaşımı durduruldu.");
-        }
-
-        function sendChatMessage() {
-            if(mutedUsers.includes(currentUID)) return alert("⚠️ Susturulduğunuz için mesaj gönderemezsiniz.");
-            const input = document.getElementById('chatInput');
-            const txt = input.value.trim();
-            if(!txt) return;
-
-            const chatBox = document.getElementById('chatMessages');
-            const msgDiv = document.createElement('div');
-            msgDiv.className = 'chat-msg';
-            msgDiv.innerHTML = `<b>${currentUsername}</b> ${txt}`;
-            chatBox.appendChild(msgDiv);
-            chatBox.scrollTop = chatBox.scrollHeight;
-
-            input.value = '';
-        }
-
-        function handleChatKeyPress(e) {
-            if(e.key === 'Enter') sendChatMessage();
-        }
-
-        /* ----- ADMIN FONKSİYONLARI ----- */
-        function openAdminModal() {
-            if(!isAdmin) return;
-            const listContainer = document.getElementById('adminUserList');
-            listContainer.innerHTML = '';
-
-            let allUsers = [];
-            activeRealRooms.forEach(r => allUsers.push(...r.users));
-
-            if(allUsers.length === 0) {
-                listContainer.innerHTML = '<p style="color:var(--text-muted); font-size:0.85rem;">Şu an odalarda kimse yok.</p>';
-            } else {
-                allUsers.forEach(u => {
-                    if(u.uid === currentUID) return;
-                    const isUserMuted = mutedUsers.includes(u.uid);
-                    const item = document.createElement('div');
-                    item.className = 'user-manage-item';
-                    item.innerHTML = `
-                        <div>
-                            <b>${u.name}</b> <span style="font-size:0.75rem; color:var(--text-muted);">(UID: #${u.uid})</span>
-                        </div>
-                        <div style="display:flex; gap:6px;">
-                            <button class="action-btn btn-mute" onclick="adminMuteUser('${u.uid}')">${isUserMuted ? 'Susturmayı Kaldır' : 'Sustur'}</button>
-                            <button class="action-btn btn-ban" onclick="adminBanUser('${u.uid}')">Banla / At</button>
-                        </div>
-                    `;
-                    listContainer.appendChild(item);
-                });
-            }
-
-            document.getElementById('adminModal').style.display = 'flex';
-        }
-
-        function closeAdminModal() { 
-            document.getElementById('adminModal').style.display = 'none'; 
-        }
-
-        function manualBanByUID() {
-            const uidInput = document.getElementById('manualUIDInput').value.trim();
-            if(!uidInput) return alert("Lütfen banlanacak bir UID girin!");
-            if(uidInput === "100000") return alert("Kurucuyu banlayamazsınız!");
-            
-            if(!bannedUsers.includes(uidInput)) {
-                bannedUsers.push(uidInput);
-                alert(`UID: #${uidInput} başarıyla banlandı!`);
-            } else {
-                alert("Bu UID zaten banlı!");
-            }
-            document.getElementById('manualUIDInput').value = '';
-        }
-
-        function manualMuteByUID() {
-            const uidInput = document.getElementById('manualUIDInput').value.trim();
-            if(!uidInput) return alert("Lütfen susturulacak bir UID girin!");
-            
-            if(!mutedUsers.includes(uidInput)) {
-                mutedUsers.push(uidInput);
-                alert(`UID: #${uidInput} başarıyla susturuldu!`);
-            } else {
-                mutedUsers = mutedUsers.filter(id => id !== uidInput);
-                alert(`UID: #${uidInput} susturması kaldırıldı!`);
-            }
-            document.getElementById('manualUIDInput').value = '';
-        }
-
-        function addAdminByUID() {
-            const uidInput = document.getElementById('addAdminUIDInput').value.trim();
-            if(!uidInput) return alert("Lütfen admin yapılacak bir UID girin!");
-            
-            if(!adminUIDs.includes(uidInput)) {
-                adminUIDs.push(uidInput);
-                alert(`UID: #${uidInput} kullanıcısına Admin yetkisi verildi!`);
-            } else {
-                alert("Bu kullanıcı zaten Admin!");
-            }
-            document.getElementById('addAdminUIDInput').value = '';
-        }
-
-        function adminMuteUser(uid) {
-            if(mutedUsers.includes(uid)) {
-                mutedUsers = mutedUsers.filter(id => id !== uid);
-                alert("Kullanıcının susturması kaldırıldı.");
-            } else {
-                mutedUsers.push(uid);
-                alert("Kullanıcı susturuldu.");
-            }
-            openAdminModal();
-        }
-
-        function adminBanUser(uid) {
-            bannedUsers.push(uid);
-            alert("Kullanıcı banlandı!");
-            activeRealRooms.forEach(r => {
-                r.users = r.users.filter(u => u.uid !== uid);
-            });
-            renderLobbyRooms();
-            openAdminModal();
-        }
-
-        function previewAvatar(e) {
-            const file = e.target.files[0];
-            if(file) {
-                const reader = new FileReader();
-                reader.onload = (evt) => {
-                    selectedAvatarData = evt.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function openSettings() { 
-            document.getElementById('settingsModal').style.display = 'flex'; 
-        }
-
-        function closeSettings() { 
-            document.getElementById('settingsModal').style.display = 'none'; 
-        }
-
-        function copyUID() {
-            navigator.clipboard.writeText(currentUID);
-            alert("Benzersiz UID panoya kopyalandı: #" + currentUID);
-        }
-
-        function openUserCardModal(userObj) {
-            document.getElementById('cardModalAvatar').src = userObj.avatar;
-            document.getElementById('cardModalName').innerText = userObj.name;
-            document.getElementById('cardModalUID').innerText = "UID: #" + userObj.uid;
-            document.getElementById('cardModalStatus').innerText = `"${userObj.status || 'Topluluk üyesi'}"`;
-            document.getElementById('userCardModal').style.display = 'flex';
-        }
-
-        function closeUserCardModal() {
-            document.getElementById('userCardModal').style.display = 'none';
-        }
-
-        function saveProfileSettings() {
-            const newName = document.getElementById('editUsernameInput').value.trim();
-            const newStatus = document.getElementById('editStatusInput').value.trim();
-
-            if(newName) {
-                currentUsername = newName;
-                document.getElementById('displayUsername').querySelector('span').innerText = newName;
-            }
-            if(newStatus) {
-                userStatus = newStatus;
-            }
-            if(selectedAvatarData) {
-                document.getElementById('userAvatar').src = selectedAvatarData;
-            }
-            closeSettings();
-        }
-
-        function logout() { 
-            location.reload(); 
-        }
+        function logout() { location.reload(); }
     </script>
 </body>
 </html>
