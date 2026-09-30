@@ -23,82 +23,459 @@
             --green: #22c55e;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-        body { background-color: var(--bg-main); color: var(--text); min-height: 100vh; display: flex; overflow: hidden; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+        }
 
-        /* Auth Screen */
-        .auth-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(9, 13, 22, 0.95); backdrop-filter: blur(15px); z-index: 9999; display: flex; justify-content: center; align-items: center; }
-        .auth-card { background: var(--bg-card); border: 1px solid var(--border-color); padding: 35px 40px; border-radius: 24px; width: 100%; max-width: 440px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
-        .auth-card h2 { font-size: 1.7rem; margin-bottom: 6px; background: linear-gradient(135deg, #38bdf8, #6366f1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; }
+        body { 
+            background-color: var(--bg-main); 
+            color: var(--text); 
+            min-height: 100vh; 
+            display: flex; 
+            overflow: hidden; 
+        }
+
+        /* Auth Screen Modal */
+        .auth-overlay { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(9, 13, 22, 0.95); 
+            backdrop-filter: blur(15px); 
+            z-index: 9999; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+        }
+
+        .auth-card { 
+            background: var(--bg-card); 
+            border: 1px solid var(--border-color); 
+            padding: 35px 40px; 
+            border-radius: 24px; 
+            width: 100%; 
+            max-width: 440px; 
+            text-align: center; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
+        }
+
+        .auth-card h2 { 
+            font-size: 1.7rem; 
+            margin-bottom: 6px; 
+            background: linear-gradient(135deg, #38bdf8, #6366f1); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            font-weight: 800; 
+        }
         
-        .auth-tabs { display: flex; background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 4px; margin: 20px 0; }
-        .auth-tab { flex: 1; padding: 10px; border: none; background: transparent; color: var(--text-muted); font-weight: 600; border-radius: 8px; cursor: pointer; transition: all 0.3s; }
-        .auth-tab.active { background: var(--primary); color: #fff; box-shadow: 0 0 10px var(--primary-glow); }
+        .auth-tabs { 
+            display: flex; 
+            background: rgba(255, 255, 255, 0.05); 
+            border-radius: 12px; 
+            padding: 4px; 
+            margin: 20px 0; 
+        }
 
-        .input-group { margin-bottom: 16px; text-align: left; }
-        .input-group label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; }
-        .input-group input { width: 100%; padding: 12px 16px; border-radius: 12px; background: rgba(255,255,255,0.04); border: 1px solid var(--border-color); color: #fff; outline: none; transition: all 0.3s; }
-        .input-group input:focus { border-color: var(--primary); box-shadow: 0 0 15px var(--primary-glow); }
+        .auth-tab { 
+            flex: 1; 
+            padding: 10px; 
+            border: none; 
+            background: transparent; 
+            color: var(--text-muted); 
+            font-weight: 600; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            transition: all 0.3s; 
+        }
 
-        .btn-primary { width: 100%; padding: 14px; border-radius: 12px; border: none; background: linear-gradient(135deg, var(--primary), #4f46e5); color: #fff; font-weight: 700; cursor: pointer; box-shadow: 0 0 20px var(--primary-glow); transition: transform 0.2s; }
-        .btn-primary:hover { transform: translateY(-2px); }
+        .auth-tab.active { 
+            background: var(--primary); 
+            color: #fff; 
+            box-shadow: 0 0 10px var(--primary-glow); 
+        }
 
-        .btn-telegram { background: #0088cc; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; color: #fff; font-weight: 600; padding: 12px; border-radius: 12px; margin-bottom: 12px; transition: all 0.3s; }
+        .input-group { 
+            margin-bottom: 16px; 
+            text-align: left; 
+        }
+
+        .input-group label { 
+            display: block; 
+            font-size: 0.85rem; 
+            color: var(--text-muted); 
+            margin-bottom: 6px; 
+        }
+
+        .input-group input { 
+            width: 100%; 
+            padding: 12px 16px; 
+            border-radius: 12px; 
+            background: rgba(255,255,255,0.04); 
+            border: 1px solid var(--border-color); 
+            color: #fff; 
+            outline: none; 
+            transition: all 0.3s; 
+        }
+
+        .input-group input:focus { 
+            border-color: var(--primary); 
+            box-shadow: 0 0 15px var(--primary-glow); 
+        }
+
+        .btn-primary { 
+            width: 100%; 
+            padding: 14px; 
+            border-radius: 12px; 
+            border: none; 
+            background: linear-gradient(135deg, var(--primary), #4f46e5); 
+            color: #fff; 
+            font-weight: 700; 
+            cursor: pointer; 
+            box-shadow: 0 0 20px var(--primary-glow); 
+            transition: transform 0.2s, background 0.3s; 
+        }
+
+        .btn-primary:hover { 
+            transform: translateY(-2px); 
+        }
+
+        .btn-telegram { 
+            background: #0088cc; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 10px; 
+            text-decoration: none; 
+            color: #fff; 
+            font-weight: 600; 
+            padding: 12px; 
+            border-radius: 12px; 
+            margin-bottom: 12px; 
+            transition: all 0.3s; 
+        }
 
         /* Main Dashboard Layout */
-        .app-container { display: flex; width: 100vw; height: 100vh; }
-        .sidebar { width: 300px; background: rgba(15, 23, 42, 0.8); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 20px; }
-        .user-profile-box { display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 16px; margin-bottom: 15px; }
-        .avatar { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); }
-        .avatar.speaking { border-color: var(--green) !important; box-shadow: 0 0 15px rgba(34, 197, 94, 0.6); }
-        .avatar.admin-avatar { border-color: var(--admin-red) !important; box-shadow: 0 0 15px var(--admin-glow); }
+        .app-container { 
+            display: flex; 
+            width: 100vw; 
+            height: 100vh; 
+        }
 
-        .user-info h4 { font-size: 0.9rem; display: flex; align-items: center; gap: 6px; }
-        .user-info p { font-size: 0.75rem; color: var(--accent); }
-        .admin-badge { background: linear-gradient(135deg, #ef4444, #b91c1c); color: #fff; font-size: 0.6rem; padding: 2px 6px; border-radius: 6px; font-weight: 800; }
+        .sidebar { 
+            width: 300px; 
+            background: rgba(15, 23, 42, 0.8); 
+            border-right: 1px solid var(--border-color); 
+            display: flex; 
+            flex-direction: column; 
+            padding: 20px; 
+        }
+
+        .user-profile-box { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            padding: 12px; 
+            background: rgba(255,255,255,0.03); 
+            border: 1px solid var(--border-color); 
+            border-radius: 16px; 
+            margin-bottom: 15px; 
+        }
+
+        .avatar { 
+            width: 44px; 
+            height: 44px; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            border: 2px solid var(--primary); 
+        }
+
+        .avatar.speaking { 
+            border-color: var(--green) !important; 
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.6); 
+        }
+
+        .avatar.admin-avatar { 
+            border-color: var(--admin-red) !important; 
+            box-shadow: 0 0 15px var(--admin-glow); 
+        }
+
+        .user-info h4 { 
+            font-size: 0.9rem; 
+            display: flex; 
+            align-items: center; 
+            gap: 6px; 
+        }
+
+        .user-info p { 
+            font-size: 0.75rem; 
+            color: var(--accent); 
+        }
+
+        .admin-badge { 
+            background: linear-gradient(135deg, #ef4444, #b91c1c); 
+            color: #fff; 
+            font-size: 0.6rem; 
+            padding: 2px 6px; 
+            border-radius: 6px; 
+            font-weight: 800; 
+        }
 
         /* Content Area & Voice Room Layout */
-        .main-content { flex: 1; display: flex; flex-direction: column; background: var(--bg-main); position: relative; }
-        .rooms-header { padding: 20px 30px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
-        .rooms-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; padding: 30px; overflow-y: auto; }
+        .main-content { 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column; 
+            background: var(--bg-main); 
+            position: relative; 
+        }
+
+        .rooms-header { 
+            padding: 20px 30px; 
+            border-bottom: 1px solid var(--border-color); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+
+        .rooms-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
+            gap: 20px; 
+            padding: 30px; 
+            overflow-y: auto; 
+        }
         
-        .room-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 20px; transition: all 0.3s; cursor: pointer; }
-        .room-card:hover { border-color: var(--primary); box-shadow: 0 10px 30px var(--primary-glow); transform: translateY(-4px); }
-        .room-title { font-size: 1rem; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
-        .room-badge { background: rgba(56, 189, 248, 0.1); color: var(--accent); font-size: 0.7rem; padding: 4px 8px; border-radius: 20px; }
+        .room-card { 
+            background: var(--bg-card); 
+            border: 1px solid var(--border-color); 
+            border-radius: 20px; 
+            padding: 20px; 
+            transition: all 0.3s; 
+            cursor: pointer; 
+        }
+
+        .room-card:hover { 
+            border-color: var(--primary); 
+            box-shadow: 0 10px 30px var(--primary-glow); 
+            transform: translateY(-4px); 
+        }
+
+        .room-title { 
+            font-size: 1rem; 
+            font-weight: 700; 
+            margin-bottom: 8px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+        }
+
+        .room-badge { 
+            background: rgba(56, 189, 248, 0.1); 
+            color: var(--accent); 
+            font-size: 0.7rem; 
+            padding: 4px 8px; 
+            border-radius: 20px; 
+        }
 
         /* Inside Active Voice Room View */
-        .active-room-view { display: none; flex-direction: column; height: 100%; background: #0c121e; }
-        .room-nav { padding: 15px 25px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background: rgba(15, 23, 42, 0.9); }
-        .room-body { display: flex; flex: 1; overflow: hidden; }
-        .voice-participants { flex: 1; padding: 30px; display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 20px; align-content: start; overflow-y: auto; }
-        .participant-card { display: flex; flex-direction: column; align-items: center; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); padding: 15px; border-radius: 16px; text-align: center; }
-        .participant-card img { width: 60px; height: 60px; border-radius: 50%; margin-bottom: 8px; }
+        .active-room-view { 
+            display: none; 
+            flex-direction: column; 
+            height: 100%; 
+            background: #0c121e; 
+        }
+
+        .room-nav { 
+            padding: 15px 25px; 
+            border-bottom: 1px solid var(--border-color); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            background: rgba(15, 23, 42, 0.9); 
+        }
+
+        .room-body { 
+            display: flex; 
+            flex: 1; 
+            overflow: hidden; 
+        }
+
+        .voice-participants { 
+            flex: 1; 
+            padding: 30px; 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); 
+            gap: 20px; 
+            align-content: start; 
+            overflow-y: auto; 
+        }
+
+        .participant-card { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            background: rgba(255,255,255,0.03); 
+            border: 1px solid var(--border-color); 
+            padding: 15px; 
+            border-radius: 16px; 
+            text-align: center; 
+        }
+
+        .participant-card img { 
+            width: 60px; 
+            height: 60px; 
+            border-radius: 50%; 
+            margin-bottom: 8px; 
+        }
 
         /* Chat Side Panel */
-        .chat-panel { width: 320px; background: rgba(15, 23, 42, 0.7); border-left: 1px solid var(--border-color); display: flex; flex-direction: column; }
-        .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-        .chat-msg { background: rgba(255,255,255,0.04); padding: 10px 12px; border-radius: 10px; font-size: 0.85rem; }
-        .chat-msg b { color: var(--accent); display: block; font-size: 0.75rem; margin-bottom: 2px; }
-        .chat-input-box { padding: 12px; border-top: 1px solid var(--border-color); display: flex; gap: 8px; }
-        .chat-input-box input { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid var(--border-color); background: rgba(0,0,0,0.2); color: #fff; outline: none; }
+        .chat-panel { 
+            width: 320px; 
+            background: rgba(15, 23, 42, 0.7); 
+            border-left: 1px solid var(--border-color); 
+            display: flex; 
+            flex-direction: column; 
+        }
 
-        /* Bottom Control Controls Bar */
-        .room-controls { padding: 15px 30px; border-top: 1px solid var(--border-color); background: rgba(15, 23, 42, 0.9); display: flex; justify-content: center; gap: 15px; }
-        .control-btn { width: 48px; height: 48px; border-radius: 50%; border: none; background: rgba(255,255,255,0.1); color: #fff; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; }
-        .control-btn.active { background: var(--admin-red); }
-        .control-btn:hover { transform: scale(1.08); }
+        .chat-messages { 
+            flex: 1; 
+            padding: 15px; 
+            overflow-y: auto; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px; 
+        }
 
-        /* Admin Modal Panel */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 9998; display: none; justify-content: center; align-items: center; }
-        .admin-modal { background: var(--bg-card); border: 1px solid var(--admin-red); padding: 25px; border-radius: 20px; width: 550px; max-height: 80vh; overflow-y: auto; }
-        .user-manage-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid var(--border-color); }
-        .action-btn { padding: 6px 12px; border-radius: 8px; border: none; font-size: 0.75rem; cursor: pointer; font-weight: 700; }
-        .btn-ban { background: var(--admin-red); color: #fff; }
-        .btn-mute { background: #f59e0b; color: #fff; }
-        .btn-unban { background: var(--green); color: #fff; }
+        .chat-msg { 
+            background: rgba(255,255,255,0.04); 
+            padding: 10px 12px; 
+            border-radius: 10px; 
+            font-size: 0.85rem; 
+        }
 
-        .file-upload-btn { display: inline-block; width: 100%; padding: 10px; background: rgba(255, 255, 255, 0.05); border: 1px dashed var(--border-color); border-radius: 12px; text-align: center; cursor: pointer; color: var(--text-muted); font-size: 0.8rem; }
+        .chat-msg b { 
+            color: var(--accent); 
+            display: block; 
+            font-size: 0.75rem; 
+            margin-bottom: 2px; 
+        }
+
+        .chat-input-box { 
+            padding: 12px; 
+            border-top: 1px solid var(--border-color); 
+            display: flex; 
+            gap: 8px; 
+        }
+
+        .chat-input-box input { 
+            flex: 1; 
+            padding: 10px; 
+            border-radius: 10px; 
+            border: 1px solid var(--border-color); 
+            background: rgba(0,0,0,0.2); 
+            color: #fff; 
+            outline: none; 
+        }
+
+        /* Bottom Controls Bar */
+        .room-controls { 
+            padding: 15px 30px; 
+            border-top: 1px solid var(--border-color); 
+            background: rgba(15, 23, 42, 0.9); 
+            display: flex; 
+            justify-content: center; 
+            gap: 15px; 
+        }
+
+        .control-btn { 
+            width: 48px; 
+            height: 48px; 
+            border-radius: 50%; 
+            border: none; 
+            background: rgba(255,255,255,0.1); 
+            color: #fff; 
+            font-size: 1.1rem; 
+            cursor: pointer; 
+            transition: all 0.3s; 
+        }
+
+        .control-btn.active { 
+            background: var(--admin-red); 
+        }
+
+        .control-btn:hover { 
+            transform: scale(1.08); 
+        }
+
+        /* Modals */
+        .modal-overlay { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.8); 
+            backdrop-filter: blur(8px); 
+            z-index: 9998; 
+            display: none; 
+            justify-content: center; 
+            align-items: center; 
+        }
+
+        .admin-modal { 
+            background: var(--bg-card); 
+            border: 1px solid var(--admin-red); 
+            padding: 25px; 
+            border-radius: 20px; 
+            width: 550px; 
+            max-height: 80vh; 
+            overflow-y: auto; 
+        }
+
+        .user-manage-item { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 10px; 
+            border-bottom: 1px solid var(--border-color); 
+        }
+
+        .action-btn { 
+            padding: 6px 12px; 
+            border-radius: 8px; 
+            border: none; 
+            font-size: 0.75rem; 
+            cursor: pointer; 
+            font-weight: 700; 
+        }
+
+        .btn-ban { 
+            background: var(--admin-red); 
+            color: #fff; 
+        }
+
+        .btn-mute { 
+            background: #f59e0b; 
+            color: #fff; 
+        }
+
+        .file-upload-btn { 
+            display: inline-block; 
+            width: 100%; 
+            padding: 10px; 
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px dashed var(--border-color); 
+            border-radius: 12px; 
+            text-align: center; 
+            cursor: pointer; 
+            color: var(--text-muted); 
+            font-size: 0.8rem; 
+        }
     </style>
 </head>
 <body>
@@ -144,23 +521,19 @@
         </div>
     </div>
 
-    <!-- Admin Yönetim Paneli Modalı -->
+    <!-- Admin Panel Modal -->
     <div class="modal-overlay" id="adminModal">
         <div class="admin-modal">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                 <h3 style="color: var(--admin-red);"><i class="fa-solid fa-user-shield"></i> Admin Yönetim Paneli</h3>
                 <button onclick="closeAdminModal()" style="background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
             </div>
-
-            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">Kullanıcıları susturun, kısıtlayın veya topluluktan engelleyin.</p>
-            
-            <div id="adminUserList">
-                <!-- Dinamik Yönetim Listesi -->
-            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">Aktif kullanıcıları susturun veya siteden banlayın.</p>
+            <div id="adminUserList"></div>
         </div>
     </div>
 
-    <!-- Settings Modal -->
+    <!-- Profile Settings Modal -->
     <div class="modal-overlay" id="settingsModal">
         <div class="auth-card" style="position: relative;">
             <button onclick="closeSettings()" style="position: absolute; right: 20px; top: 20px; background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
@@ -170,8 +543,8 @@
                 <input type="text" id="editUsernameInput" placeholder="Kullanıcı adınızı girin">
             </div>
             <div class="input-group">
-                <label>Cihazından PP Seç</label>
-                <label for="avatarFileInput" class="file-upload-btn"><i class="fa-solid fa-image"></i> Görsel Seç / Yükle</label>
+                <label>Cihazından Profil Resmi Seç</label>
+                <label for="avatarFileInput" class="file-upload-btn"><i class="fa-solid fa-image"></i> Görsel Yükle</label>
                 <input type="file" id="avatarFileInput" accept="image/*" style="display: none;" onchange="previewAvatar(event)">
             </div>
             <button class="btn-primary" onclick="saveProfileSettings()">Kaydet ve Güncelle</button>
@@ -197,7 +570,6 @@
                 <i class="fa-brands fa-telegram" style="font-size: 1.2rem;"></i> @Hzrox Telegram
             </a>
 
-            <!-- Admin Özel Paneli Butonu -->
             <button id="adminPanelBtn" class="btn-primary" style="display: none; background: rgba(239, 68, 68, 0.2); border: 1px solid var(--admin-red); color: var(--admin-red); margin-bottom: 10px;" onclick="openAdminModal()">
                 <i class="fa-solid fa-shield-halved"></i> Admin Paneli
             </button>
@@ -216,25 +588,23 @@
         <!-- Main Content Area -->
         <div class="main-content">
             
-            <!-- 1. Odalar Listesi Paneli (Lobi) -->
+            <!-- 1. Lobi View -->
             <div id="lobbyView" style="display: flex; flex-direction: column; height: 100%;">
                 <div class="rooms-header">
-                    <h2><i class="fa-solid fa-microphone"></i> Gerçek Canlı Ses Odaları</h2>
-                    <button class="btn-primary" style="width: auto; padding: 10px 20px;" onclick="createNewRealRoom()">
-                        + Oda Oluştur
-                    </button>
+                    <h2><i class="fa-solid fa-microphone"></i> Aktif Canlı Odalar</h2>
+                    <button class="btn-primary" style="width: auto; padding: 10px 20px;" onclick="createNewRealRoom()">+ Oda Oluştur</button>
                 </div>
                 <div class="rooms-grid" id="roomsContainer">
-                    <p style="color: var(--text-muted); font-size: 0.9rem;">Henüz açık oda yok. İlk odayı sen oluştur!</p>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Yükleniyor...</p>
                 </div>
             </div>
 
-            <!-- 2. Ses Odası İçi Ekranı -->
+            <!-- 2. Active Voice Room View -->
             <div class="active-room-view" id="activeRoomView">
                 <div class="room-nav">
                     <div>
-                        <h3 id="currentRoomTitle">🎙️ Genel Sohbet Odası</h3>
-                        <p style="font-size: 0.75rem; color: var(--accent);" id="currentRoomUsersCount">1 Kullanıcı Bağlı</p>
+                        <h3 id="currentRoomTitle">🎙️️ Genel Sohbet</h3>
+                        <p style="font-size: 0.75rem; color: var(--accent);" id="currentRoomUsersCount">0 Kullanıcı Bağlı</p>
                     </div>
                     <button class="btn-primary" style="width: auto; background: var(--admin-red); padding: 8px 16px;" onclick="leaveRoom()">
                         <i class="fa-solid fa-phone-slash"></i> Odadan Ayrıl
@@ -242,19 +612,15 @@
                 </div>
 
                 <div class="room-body">
-                    <!-- Odadaki Kullanıcılar Kartları -->
-                    <div class="voice-participants" id="participantsContainer">
-                        <!-- Katılımcılar Yüklenecek -->
-                    </div>
+                    <!-- Katılımcı Kartları -->
+                    <div class="voice-participants" id="participantsContainer"></div>
 
-                    <!-- Canlı Yazılı Chat -->
+                    <!-- Canlı Chat -->
                     <div class="chat-panel">
                         <div style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: 700; font-size: 0.85rem;">
                             <i class="fa-solid fa-comments"></i> Oda İçi Chat
                         </div>
-                        <div class="chat-messages" id="chatMessages">
-                            <!-- Mesajlar -->
-                        </div>
+                        <div class="chat-messages" id="chatMessages"></div>
                         <div class="chat-input-box">
                             <input type="text" id="chatInput" placeholder="Mesaj yazın..." onkeypress="handleChatKeyPress(event)">
                             <button class="btn-primary" style="width: auto; padding: 0 15px;" onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
@@ -262,10 +628,10 @@
                     </div>
                 </div>
 
-                <!-- Alt Ses & Mute Kontrolleri -->
+                <!-- Alt Ses Kontrolleri -->
                 <div class="room-controls">
-                    <button class="control-btn" id="micBtn" onclick="toggleMic()" title="Mikrofon"><i class="fa-solid fa-microphone"></i></button>
-                    <button class="control-btn" id="deafenBtn" onclick="toggleDeafen()" title="Kulaklık/Ses"><i class="fa-solid fa-volume-high"></i></button>
+                    <button class="control-btn" id="micBtn" onclick="toggleMic()" title="Mikrofon Aç/Kapat"><i class="fa-solid fa-microphone"></i></button>
+                    <button class="control-btn" id="deafenBtn" onclick="toggleDeafen()" title="Kulaklık Sustur"><i class="fa-solid fa-volume-high"></i></button>
                 </div>
             </div>
 
@@ -278,17 +644,21 @@
         let isAdmin = false;
         let isMuted = false;
         let isDeafened = false;
-        let isBanned = false;
-        let activeRealRooms = [];
-        let currentJoinedRoom = null;
-        let localStream = null;
         let selectedAvatarData = null;
 
-        // Banned & Muted lists for local admin logic
+        let activeRealRooms = [
+            { id: 1, name: "🔥 BREZERS Genel Sohbet", users: [{ uid: "100000", name: "ROX (Kurucu)", avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=RoxAdmin" }] },
+            { id: 2, name: "🎮 Oyun & Muhabbet", users: [] },
+            { id: 3, name: "🎵 Müzik Dinleme Odası", users: [] }
+        ];
+
+        let currentJoinedRoom = null;
         let bannedUsers = [];
         let mutedUsers = [];
 
-        function generateUID() { return Math.floor(100000 + Math.random() * 900000); }
+        function generateUID() { 
+            return Math.floor(100000 + Math.random() * 900000); 
+        }
 
         function switchTab(tab) {
             if(tab === 'login') {
@@ -307,7 +677,7 @@
         function handleLogin() {
             const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value.trim();
-            if(!email || !password) return alert("Lütfen Gmail ve şifre girin!");
+            if(!email || !password) return alert("Lütfen email ve şifre girin!");
             processAuth(email, password);
         }
 
@@ -316,7 +686,7 @@
             const password = document.getElementById('regPassword').value.trim();
             const passwordRepeat = document.getElementById('regPasswordRepeat').value.trim();
             if(!email || !password || !passwordRepeat) return alert("Tüm alanları doldurun!");
-            if(password !== passwordRepeat) return alert("Şifreler uyuşmuyor!");
+            if(password !== passwordRepeat) return alert("Şifreler eşleşmiyor!");
             processAuth(email, password);
         }
 
@@ -340,28 +710,28 @@
             document.getElementById('displayUsername').querySelector('span').innerText = currentUsername;
             document.getElementById('displayUID').innerText = "UID: #" + currentUID;
             
-            const avatarSeed = isAdmin ? "RoxAdmin" : currentUsername;
-            document.getElementById('userAvatar').src = `https://api.dicebear.com/7.x/bottts/svg?seed=${avatarSeed}`;
-            document.getElementById('authModal').style.display = 'none';
+            if(!selectedAvatarData) {
+                const avatarSeed = isAdmin ? "RoxAdmin" : currentUsername;
+                document.getElementById('userAvatar').src = `https://api.dicebear.com/7.x/bottts/svg?seed=${avatarSeed}`;
+            }
 
+            document.getElementById('authModal').style.display = 'none';
             renderLobbyRooms();
         }
 
-        /* GERÇEK ODA MANTIĞI */
         function createNewRealRoom() {
-            const roomName = prompt("Oluşturulacak Canlı Oda İsmi:");
+            const roomName = prompt("Oluşturulacak Canlı Oda Adı:");
             if(!roomName) return;
 
-            const roomObj = {
+            const newRoom = {
                 id: Date.now(),
                 name: roomName,
-                creator: currentUsername,
                 users: []
             };
 
-            activeRealRooms.push(roomObj);
+            activeRealRooms.push(newRoom);
             renderLobbyRooms();
-            joinRoom(roomObj.id);
+            joinRoom(newRoom.id);
         }
 
         function renderLobbyRooms() {
@@ -369,7 +739,7 @@
             container.innerHTML = '';
 
             if(activeRealRooms.length === 0) {
-                container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.9rem;">Şu an aktif canlı oda yok. Yeni bir tane sen oluştur!</p>';
+                container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.9rem;">Henüz açık oda yok. İlk odayı sen oluştur!</p>';
                 return;
             }
 
@@ -379,20 +749,20 @@
                 card.onclick = () => joinRoom(room.id);
                 card.innerHTML = `
                     <div class="room-title">
-                        <span>🎙️ ${room.name}</span>
+                        <span>${room.name}</span>
                         <span class="room-badge">Canlı Ses</span>
                     </div>
                     <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 10px;">
-                        <i class="fa-solid fa-users" style="color: var(--accent);"></i> ${room.users.length} Kullanıcı İçi
+                        <i class="fa-solid fa-users" style="color: var(--accent);"></i> ${room.users.length} Katılımcı
                     </p>
                 `;
                 container.appendChild(card);
             });
         }
 
-        async function joinRoom(roomId) {
+        function joinRoom(roomId) {
             if(bannedUsers.includes(currentUID)) {
-                return alert("⛔ Yönetici tarafından bu platformdan engellendiniz!");
+                return alert("⛔ Yönetici tarafından bu platformdan banlandınız!");
             }
 
             const room = activeRealRooms.find(r => r.id === roomId);
@@ -400,37 +770,26 @@
 
             currentJoinedRoom = room;
 
-            // Mikrofon İzni İsteme (Gerçek WebRTC Bağlantısı için)
-            try {
-                localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            } catch(e) {
-                console.log("Mikrofon izni verilmedi veya cihazda mikrofon bulunamadı.");
-            }
-
             if(!room.users.find(u => u.uid === currentUID)) {
-                room.users.push({ uid: currentUID, name: currentUsername, avatar: document.getElementById('userAvatar').src });
+                room.users.push({ 
+                    uid: currentUID, 
+                    name: currentUsername, 
+                    avatar: document.getElementById('userAvatar').src 
+                });
             }
 
             document.getElementById('lobbyView').style.display = 'none';
             document.getElementById('activeRoomView').style.display = 'flex';
-            document.getElementById('currentRoomTitle').innerText = "🎙️ " + room.name;
+            document.getElementById('currentRoomTitle').innerText = room.name;
             
             updateRoomParticipants();
             renderLobbyRooms();
         }
 
         function leaveRoom() {
-            if(localStream) {
-                localStream.getTracks().forEach(track => track.stop());
-            }
-
             if(currentJoinedRoom) {
                 currentJoinedRoom.users = currentJoinedRoom.users.filter(u => u.uid !== currentUID);
-                if(currentJoinedRoom.users.length === 0) {
-                    activeRealRooms = activeRealRooms.filter(r => r.id !== currentJoinedRoom.id);
-                }
             }
-
             currentJoinedRoom = null;
             document.getElementById('activeRoomView').style.display = 'none';
             document.getElementById('lobbyView').style.display = 'flex';
@@ -442,7 +801,7 @@
             const container = document.getElementById('participantsContainer');
             container.innerHTML = '';
 
-            document.getElementById('currentRoomUsersCount').innerText = `${currentJoinedRoom.users.length} Kullanıcı Odada`;
+            document.getElementById('currentRoomUsersCount').innerText = `${currentJoinedRoom.users.length} Katılımcı Odada`;
 
             currentJoinedRoom.users.forEach(u => {
                 const card = document.createElement('div');
@@ -450,13 +809,14 @@
                 card.innerHTML = `
                     <img src="${u.avatar}" class="avatar ${u.uid === currentUID && !isMuted ? 'speaking' : ''}">
                     <span style="font-size:0.8rem; font-weight:700;">${u.name}</span>
-                    <span style="font-size:0.65rem; color:var(--text-muted);">${u.uid === currentUID && isMuted ? 'Muted' : 'Aktif'}</span>
+                    <span style="font-size:0.65rem; color:var(--text-muted); margin-top:4px;">
+                        ${u.uid === currentUID && isMuted ? 'Muted' : 'Aktif'}
+                    </span>
                 `;
                 container.appendChild(card);
             });
         }
 
-        /* SES & MUTE KONTROLLERİ */
         function toggleMic() {
             if(mutedUsers.includes(currentUID)) {
                 return alert("⚠️ Yönetici tarafından susturuldunuz (Muted)!");
@@ -465,10 +825,6 @@
             const btn = document.getElementById('micBtn');
             btn.classList.toggle('active', isMuted);
             btn.innerHTML = isMuted ? '<i class="fa-solid fa-microphone-slash"></i>' : '<i class="fa-solid fa-microphone"></i>';
-            
-            if(localStream) {
-                localStream.getAudioTracks()[0].enabled = !isMuted;
-            }
             updateRoomParticipants();
         }
 
@@ -479,7 +835,6 @@
             btn.innerHTML = isDeafened ? '<i class="fa-solid fa-volume-xmark"></i>' : '<i class="fa-solid fa-volume-high"></i>';
         }
 
-        /* CHAT SİSTEMİ */
         function sendChatMessage() {
             if(mutedUsers.includes(currentUID)) return alert("⚠️ Susturulduğunuz için mesaj gönderemezsiniz.");
             const input = document.getElementById('chatInput');
@@ -500,7 +855,6 @@
             if(e.key === 'Enter') sendChatMessage();
         }
 
-        /* ADMIN YÖNETİM PANELDEN KISITLAMA & BANLAMA */
         function openAdminModal() {
             if(!isAdmin) return;
             const listContainer = document.getElementById('adminUserList');
@@ -510,7 +864,7 @@
             activeRealRooms.forEach(r => allUsers.push(...r.users));
 
             if(allUsers.length === 0) {
-                listContainer.innerHTML = '<p style="color:var(--text-muted);">Şu an odalarda kullanıcı yok.</p>';
+                listContainer.innerHTML = '<p style="color:var(--text-muted);">Şu an odalarda kimse yok.</p>';
             } else {
                 allUsers.forEach(u => {
                     if(u.uid === currentUID) return;
@@ -533,7 +887,9 @@
             document.getElementById('adminModal').style.display = 'flex';
         }
 
-        function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
+        function closeAdminModal() { 
+            document.getElementById('adminModal').style.display = 'none'; 
+        }
 
         function adminMuteUser(uid) {
             if(mutedUsers.includes(uid)) {
@@ -541,16 +897,14 @@
                 alert("Kullanıcının susturması kaldırıldı.");
             } else {
                 mutedUsers.push(uid);
-                alert("Kullanıcı susturuldu (Mikrofon & Chat kısıtlandı).");
+                alert("Kullanıcı susturuldu.");
             }
             openAdminModal();
         }
 
         function adminBanUser(uid) {
             bannedUsers.push(uid);
-            alert("Kullanıcı siteden banlandı ve odadan atıldı!");
-            
-            // Eğer banlanan kullanıcı o an odaya bağlıysa çıkartalım
+            alert("Kullanıcı banlandı!");
             activeRealRooms.forEach(r => {
                 r.users = r.users.filter(u => u.uid !== uid);
             });
@@ -558,18 +912,24 @@
             openAdminModal();
         }
 
-        /* AYARLAR & PROFİL FOTOĞRAFI */
         function previewAvatar(e) {
             const file = e.target.files[0];
             if(file) {
                 const reader = new FileReader();
-                reader.onload = (evt) => selectedAvatarData = evt.target.result;
+                reader.onload = (evt) => {
+                    selectedAvatarData = evt.target.result;
+                };
                 reader.readAsDataURL(file);
             }
         }
 
-        function openSettings() { document.getElementById('settingsModal').style.display = 'flex'; }
-        function closeSettings() { document.getElementById('settingsModal').style.display = 'none'; }
+        function openSettings() { 
+            document.getElementById('settingsModal').style.display = 'flex'; 
+        }
+
+        function closeSettings() { 
+            document.getElementById('settingsModal').style.display = 'none'; 
+        }
 
         function saveProfileSettings() {
             const newName = document.getElementById('editUsernameInput').value.trim();
@@ -583,7 +943,9 @@
             closeSettings();
         }
 
-        function logout() { location.reload(); }
+        function logout() { 
+            location.reload(); 
+        }
     </script>
 </body>
 </html>
