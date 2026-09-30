@@ -305,7 +305,6 @@
             align-items: center;
         }
 
-        /* Yükleme Butonu Özelleştirmesi */
         .file-upload-btn {
             display: inline-block;
             width: 100%;
@@ -460,7 +459,6 @@
         let isAdmin = false;
         let selectedAvatarData = null;
 
-        // Varsayılan Aktif Sohbet Odaları
         const activeRooms = [
             { id: 1, name: "🔥 BREZERS Genel Sohbet", activeUsers: 14, badge: "Canlı" },
             { id: 2, name: "🎮 Oyun & Muhabbet", activeUsers: 8, badge: "Canlı" },
@@ -544,7 +542,6 @@
             renderActiveRooms();
         }
 
-        // Aktif sohbet odalarını ekrana basma
         function renderActiveRooms() {
             const container = document.getElementById('roomsContainer');
             container.innerHTML = '';
@@ -552,7 +549,7 @@
             activeRooms.forEach(room => {
                 const roomElement = document.createElement('div');
                 roomElement.className = 'room-card';
-                roomElement.onclick = () => alert(`"${room.name}" odasına katınılıyor...`);
+                roomElement.onclick = () => alert(`"${room.name}" odasına katılıyorsunuz...`);
                 roomElement.innerHTML = `
                     <div class="room-title">
                         <span>${room.name}</span>
@@ -566,7 +563,6 @@
             });
         }
 
-        // Cihazdan resim seçildiğinde önizleme yapma
         function previewAvatar(event) {
             const file = event.target.files[0];
             if(file) {
