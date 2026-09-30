@@ -237,7 +237,7 @@
 
         .xp-bar-fill {
             height: 100%;
-            width: 45%;
+            width: 55%;
             background: linear-gradient(90deg, var(--accent), var(--primary));
             border-radius: 10px;
         }
@@ -460,9 +460,26 @@
             border: 1px solid var(--admin-red); 
             padding: 25px; 
             border-radius: 20px; 
-            width: 550px; 
-            max-height: 80vh; 
+            width: 580px; 
+            max-height: 85vh; 
             overflow-y: auto; 
+        }
+
+        .admin-section {
+            background: rgba(0,0,0,0.25);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .admin-section h4 {
+            font-size: 0.9rem;
+            color: var(--accent);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .user-manage-item { 
@@ -492,6 +509,11 @@
             color: #fff; 
         }
 
+        .btn-admin-add {
+            background: var(--primary);
+            color: #fff;
+        }
+
         .file-upload-btn { 
             display: inline-block; 
             width: 100%; 
@@ -505,7 +527,6 @@
             font-size: 0.8rem; 
         }
 
-        /* UID Readonly Field */
         .uid-display-box {
             display: flex;
             align-items: center;
@@ -528,6 +549,23 @@
             cursor: pointer;
             font-size: 0.75rem;
             font-weight: 700;
+        }
+
+        .admin-action-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .admin-action-row input {
+            flex: 1;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            outline: none;
+            font-size: 0.85rem;
         }
     </style>
 </head>
@@ -574,25 +612,47 @@
         </div>
     </div>
 
-    <!-- Admin Panel Modal -->
+    <!-- Admin Panel Modal (GÜNCELLENDİ: Manuel UID Ban/Susturma ve Admin Ekleme Entegre Edildi) -->
     <div class="modal-overlay" id="adminModal">
         <div class="admin-modal">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                 <h3 style="color: var(--admin-red);"><i class="fa-solid fa-user-shield"></i> Admin Yönetim Paneli</h3>
                 <button onclick="closeAdminModal()" style="background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">Aktif kullanıcıları susturun veya siteden banlayın.</p>
-            <div id="adminUserList"></div>
+
+            <!-- 1. Manuel UID İşlemleri -->
+            <div class="admin-section">
+                <h4><i class="fa-solid fa-gavel"></i> Manuel UID ile İşlem Yap</h4>
+                <div class="admin-action-row">
+                    <input type="text" id="manualUIDInput" placeholder="Kullanıcı UID Girin (Örn: 123456)">
+                    <button class="action-btn btn-ban" onclick="manualBanByUID()"><i class="fa-solid fa-ban"></i> Banla</button>
+                    <button class="action-btn btn-mute" onclick="manualMuteByUID()"><i class="fa-solid fa-microphone-slash"></i> Muteat</button>
+                </div>
+            </div>
+
+            <!-- 2. Yeni Admin Ekleme -->
+            <div class="admin-section">
+                <h4><i class="fa-solid fa-user-plus"></i> Yeni Admin / Yönetici Ekle</h4>
+                <div class="admin-action-row">
+                    <input type="text" id="addAdminUIDInput" placeholder="Admin yapılacak UID Girin">
+                    <button class="action-btn btn-admin-add" onclick="addAdminByUID()"><i class="fa-solid fa-crown"></i> Admin Yap</button>
+                </div>
+            </div>
+
+            <!-- 3. Odalardaki Aktif Kullanıcılar -->
+            <div class="admin-section">
+                <h4><i class="fa-solid fa-users"></i> Odadaki Aktif Kullanıcılar</h4>
+                <div id="adminUserList"></div>
+            </div>
         </div>
     </div>
 
-    <!-- Profile Settings Modal (EKLEME YAPILDI: UID ALANI) -->
+    <!-- Profile Settings Modal -->
     <div class="modal-overlay" id="settingsModal">
         <div class="auth-card" style="position: relative;">
             <button onclick="closeSettings()" style="position: absolute; right: 20px; top: 20px; background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
             <h3 style="margin-bottom: 20px; color: var(--accent);"><i class="fa-solid fa-gear"></i> Profil Ayarları</h3>
             
-            <!-- Benzersiz UID Göstergesi -->
             <div class="input-group">
                 <label><i class="fa-solid fa-id-card"></i> Benzersiz Kimliğin (UID)</label>
                 <div class="uid-display-box">
@@ -650,7 +710,6 @@
                         <span id="adminBadge" class="admin-badge" style="display: none;">👑 ADMIN</span>
                     </h4>
                     <p id="displayUID">UID: #------</p>
-                    <!-- XP / Seviye Barı -->
                     <div class="xp-bar-container" title="Seviye XP İlerlemeniz">
                         <div class="xp-bar-fill"></div>
                     </div>
@@ -746,12 +805,13 @@
             { id: 3, name: "🎵 Müzik Dinleme Odası", users: [] }
         ];
 
+        let adminUIDs = ["100000"];
         let currentJoinedRoom = null;
         let bannedUsers = [];
         let mutedUsers = [];
 
         function generateUID() { 
-            return Math.floor(100000 + Math.random() * 900000); 
+            return Math.floor(100000 + Math.random() * 900000).toString(); 
         }
 
         function switchTab(tab) {
@@ -789,13 +849,17 @@
                 isAdmin = true;
                 currentUID = "100000";
                 currentUsername = "ROX (Kurucu)";
+            } else {
+                currentUID = generateUID();
+                currentUsername = email.split('@')[0];
+                isAdmin = adminUIDs.includes(currentUID);
+            }
+
+            if(isAdmin) {
                 document.getElementById('adminBadge').style.display = "inline-block";
                 document.getElementById('adminPanelBtn').style.display = "block";
                 document.getElementById('userAvatar').classList.add("admin-avatar");
             } else {
-                isAdmin = false;
-                currentUID = generateUID().toString();
-                currentUsername = email.split('@')[0];
                 document.getElementById('adminBadge').style.display = "none";
                 document.getElementById('adminPanelBtn').style.display = "none";
                 document.getElementById('userAvatar').classList.remove("admin-avatar");
@@ -918,7 +982,7 @@
 
         function toggleMic() {
             if(mutedUsers.includes(currentUID)) {
-                return alert("⚠️️ Yönetici tarafından susturuldunuz (Muted)!");
+                return alert("⚠️ Yönetici tarafından susturuldunuz (Muted)!");
             }
             isMuted = !isMuted;
             const btn = document.getElementById('micBtn');
@@ -961,6 +1025,7 @@
             if(e.key === 'Enter') sendChatMessage();
         }
 
+        /* ----- ADMIN FONKSİYONLARI ----- */
         function openAdminModal() {
             if(!isAdmin) return;
             const listContainer = document.getElementById('adminUserList');
@@ -970,7 +1035,7 @@
             activeRealRooms.forEach(r => allUsers.push(...r.users));
 
             if(allUsers.length === 0) {
-                listContainer.innerHTML = '<p style="color:var(--text-muted);">Şu an odalarda kimse yok.</p>';
+                listContainer.innerHTML = '<p style="color:var(--text-muted); font-size:0.85rem;">Şu an odalarda kimse yok.</p>';
             } else {
                 allUsers.forEach(u => {
                     if(u.uid === currentUID) return;
@@ -995,6 +1060,47 @@
 
         function closeAdminModal() { 
             document.getElementById('adminModal').style.display = 'none'; 
+        }
+
+        function manualBanByUID() {
+            const uidInput = document.getElementById('manualUIDInput').value.trim();
+            if(!uidInput) return alert("Lütfen banlanacak bir UID girin!");
+            if(uidInput === "100000") return alert("Kurucuyu banlayamazsınız!");
+            
+            if(!bannedUsers.includes(uidInput)) {
+                bannedUsers.push(uidInput);
+                alert(`UID: #${uidInput} başarıyla banlandı!`);
+            } else {
+                alert("Bu UID zaten banlı!");
+            }
+            document.getElementById('manualUIDInput').value = '';
+        }
+
+        function manualMuteByUID() {
+            const uidInput = document.getElementById('manualUIDInput').value.trim();
+            if(!uidInput) return alert("Lütfen susturulacak bir UID girin!");
+            
+            if(!mutedUsers.includes(uidInput)) {
+                mutedUsers.push(uidInput);
+                alert(`UID: #${uidInput} başarıyla susturuldu!`);
+            } else {
+                mutedUsers = mutedUsers.filter(id => id !== uidInput);
+                alert(`UID: #${uidInput} susturması kaldırıldı!`);
+            }
+            document.getElementById('manualUIDInput').value = '';
+        }
+
+        function addAdminByUID() {
+            const uidInput = document.getElementById('addAdminUIDInput').value.trim();
+            if(!uidInput) return alert("Lütfen admin yapılacak bir UID girin!");
+            
+            if(!adminUIDs.includes(uidInput)) {
+                adminUIDs.push(uidInput);
+                alert(`UID: #${uidInput} kullanıcısına Admin yetkisi verildi!`);
+            } else {
+                alert("Bu kullanıcı zaten Admin!");
+            }
+            document.getElementById('addAdminUIDInput').value = '';
         }
 
         function adminMuteUser(uid) {
