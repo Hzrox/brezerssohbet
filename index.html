@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BREZERS SOHBET | Ultra Topluluk Platformu</title>
+    <title>BREZERS SOHBET | Ultra Sosyal Platform</title>
     <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -17,31 +17,12 @@
             --primary-glow: rgba(99, 102, 241, 0.35);
             --accent: #38bdf8;
             --admin-red: #ef4444;
-            --admin-glow: rgba(239, 68, 68, 0.4);
             --text: #f3f4f6;
             --text-muted: #94a3b8;
             --green: #22c55e;
             --gold: #f59e0b;
             --purple: #a855f7;
             --like-red: #f43f5e;
-        }
-
-        body.theme-cyberpunk {
-            --bg-main: #050515;
-            --bg-card: rgba(20, 10, 35, 0.85);
-            --primary: #ff007f;
-            --primary-glow: rgba(255, 0, 127, 0.5);
-            --accent: #00f0ff;
-            --border-color: rgba(0, 240, 255, 0.2);
-        }
-
-        body.theme-gold {
-            --bg-main: #110d05;
-            --bg-card: rgba(35, 25, 10, 0.85);
-            --primary: #f59e0b;
-            --primary-glow: rgba(245, 158, 11, 0.4);
-            --accent: #fbbf24;
-            --border-color: rgba(245, 158, 11, 0.2);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -81,7 +62,6 @@
             width: 100%; padding: 12px 16px; border-radius: 12px; background: rgba(255,255,255,0.04); 
             border: 1px solid var(--border-color); color: #fff; outline: none; transition: all 0.3s; 
         }
-        .input-group select option { background: #0f172a; color: #fff; }
 
         .btn-primary { 
             width: 100%; padding: 12px; border-radius: 12px; border: none; 
@@ -96,26 +76,33 @@
         }
 
         .app-container { display: flex; width: 100vw; height: 100vh; }
-        .sidebar { width: 320px; background: rgba(15, 23, 42, 0.8); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 20px; gap: 10px; overflow-y: auto;}
+        .sidebar { width: 320px; background: rgba(15, 23, 42, 0.8); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 20px; gap: 12px; overflow-y: auto;}
 
         .user-profile-box { display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 16px; cursor: pointer; transition: all 0.3s; }
         .user-profile-box:hover { border-color: var(--primary); }
         .avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); }
-        .avatar.speaking { border-color: var(--green) !important; box-shadow: 0 0 15px rgba(34, 197, 94, 0.6); }
 
         .role-badge { font-size: 0.65rem; padding: 2px 8px; border-radius: 6px; font-weight: 800; text-transform: uppercase; margin-left: 4px; }
         .role-admin { background: var(--admin-red); color: #fff; }
         .role-vip { background: var(--gold); color: #000; }
-        .role-streamer { background: var(--purple); color: #fff; }
         .role-member { background: rgba(255,255,255,0.1); color: var(--text-muted); }
 
-        .xp-bar-container { width: 100%; background: rgba(255, 255, 255, 0.05); border-radius: 10px; height: 8px; overflow: hidden; margin-top: 6px; }
-        .xp-bar-fill { height: 100%; width: 35%; background: linear-gradient(90deg, var(--accent), var(--primary)); border-radius: 10px; transition: width 0.4s; }
+        .coin-badge { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; padding: 4px 10px; border-radius: 20px; font-weight: 800; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 0 10px rgba(245, 158, 11, 0.3); }
+
+        .rewards-box { background: rgba(245, 158, 11, 0.1); border: 1px dashed var(--gold); border-radius: 14px; padding: 12px; text-align: center; }
+        .rewards-btn { background: var(--gold); color: #000; border: none; font-weight: 800; font-size: 0.75rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; transition: transform 0.2s; }
+        .rewards-btn:hover { transform: scale(1.05); }
 
         .main-content { flex: 1; display: flex; flex-direction: column; background: var(--bg-main); position: relative; }
+        
+        /* Stories Bar */
+        .stories-container { display: flex; gap: 15px; padding: 15px 30px; border-bottom: 1px solid var(--border-color); overflow-x: auto; background: rgba(15,23,42,0.4); }
+        .story-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; font-size: 0.75rem; gap: 4px; }
+        .story-ring { width: 56px; height: 56px; border-radius: 50%; padding: 2px; background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+        .story-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid var(--bg-main); }
+
         .rooms-header { padding: 20px 30px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
         .rooms-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; padding: 30px; overflow-y: auto; } 
-        
         .room-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 20px; transition: all 0.3s; cursor: pointer; }
         .room-card:hover { border-color: var(--primary); box-shadow: 0 10px 30px var(--primary-glow); transform: translateY(-4px); }
 
@@ -123,14 +110,10 @@
         .room-nav { padding: 15px 25px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background: rgba(15, 23, 42, 0.9); }
         .room-body { display: flex; flex: 1; overflow: hidden; }
 
-        .screen-share-display { display: none; width: 100%; height: 260px; background: #000; border-bottom: 1px solid var(--border-color); position: relative; justify-content: center; align-items: center; }
-        .screen-share-display video { height: 100%; max-width: 100%; object-fit: contain; }
-
         .voice-participants { flex: 1; padding: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 15px; align-content: start; overflow-y: auto; }
-        .participant-card { display: flex; flex-direction: column; align-items: center; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); padding: 15px; border-radius: 16px; text-align: center; cursor: pointer; transition: transform 0.2s; }
+        .participant-card { display: flex; flex-direction: column; align-items: center; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); padding: 15px; border-radius: 16px; text-align: center; cursor: pointer; transition: transform 0.2s; position: relative; }
         .participant-card:hover { transform: scale(1.04); border-color: var(--primary); }
 
-        /* Instagram Akışı & Gönderi Kartları */
         .feed-container { max-width: 600px; margin: 0 auto; width: 100%; padding: 20px; overflow-y: auto; height: 100%; display: flex; flex-direction: column; gap: 25px; }
         .post-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; overflow: hidden; }
         .post-header { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--border-color); }
@@ -139,51 +122,32 @@
         .post-actions { padding: 12px 18px; display: flex; gap: 16px; font-size: 1.3rem; }
         .post-action-btn { cursor: pointer; transition: transform 0.2s; color: var(--text-muted); }
         .post-action-btn:hover { transform: scale(1.15); }
-        .post-action-btn.liked { color: var(--like-red); }
-        .post-body { padding: 0 18px 16px; font-size: 0.88rem; }
-        .post-body b { color: var(--accent); }
-        .post-comments { max-height: 120px; overflow-y: auto; padding: 8px 18px; border-top: 1px solid var(--border-color); background: rgba(0,0,0,0.2); font-size: 0.8rem; display: flex; flex-direction: column; gap: 6px; }
-
-        /* Instagram Stili Profil Modalı */
-        .insta-profile-modal { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 24px; width: 620px; max-height: 88vh; overflow-y: auto; padding: 25px; }
-        .insta-profile-header { display: flex; gap: 25px; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; margin-bottom: 20px; }
-        .insta-profile-pp { width: 95px; height: 95px; border-radius: 50%; border: 3px solid var(--primary); object-fit: cover; }
-        .insta-stats { display: flex; gap: 20px; text-align: center; margin: 12px 0; }
-        .insta-stat-item b { display: block; font-size: 1.1rem; color: #fff; }
-        .insta-stat-item span { font-size: 0.75rem; color: var(--text-muted); }
-        .insta-posts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .insta-grid-item { aspect-ratio: 1/1; border-radius: 12px; overflow: hidden; position: relative; cursor: pointer; }
-        .insta-grid-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
-        .insta-grid-item:hover img { transform: scale(1.08); }
 
         .chat-panel { width: 330px; background: rgba(15, 23, 42, 0.7); border-left: 1px solid var(--border-color); display: flex; flex-direction: column; }
         .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
         .chat-msg { background: rgba(255,255,255,0.04); padding: 10px 12px; border-radius: 10px; font-size: 0.85rem; word-break: break-word; }
-        .chat-msg b { color: var(--accent); display: block; font-size: 0.75rem; margin-bottom: 2px; }
-
-        .chat-tools { display: flex; gap: 6px; padding: 6px 12px; background: rgba(0,0,0,0.2); border-top: 1px solid var(--border-color); }
-        .chat-tool-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: var(--text-muted); padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; }
+        .chat-msg.gift-msg { background: rgba(245, 158, 11, 0.15); border: 1px solid var(--gold); }
 
         .chat-input-box { padding: 12px; border-top: 1px solid var(--border-color); display: flex; gap: 8px; }
         .chat-input-box input { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid var(--border-color); background: rgba(0,0,0,0.2); color: #fff; outline: none; }
 
-        .soundboard-box { display: flex; gap: 8px; overflow-x: auto; padding: 10px 20px; background: rgba(0,0,0,0.3); border-top: 1px solid var(--border-color); }
-        .sb-btn { background: rgba(255,255,255,0.08); border: 1px solid var(--border-color); color: var(--text); padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
-        .sb-btn:hover { background: var(--primary); color: #fff; }
-
         .room-controls { padding: 15px 30px; border-top: 1px solid var(--border-color); background: rgba(15, 23, 42, 0.9); display: flex; justify-content: center; gap: 15px; }
         .control-btn { width: 48px; height: 48px; border-radius: 50%; border: none; background: rgba(255,255,255,0.1); color: #fff; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; }
-        .control-btn.active { background: var(--admin-red); }
-        .control-btn.screen-active { background: var(--green); }
+        .control-btn.active-off { background: var(--admin-red); }
 
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 9998; display: none; justify-content: center; align-items: center; }
         .modal-box { background: var(--bg-card); border: 1px solid var(--border-color); padding: 25px; border-radius: 20px; width: 580px; max-height: 85vh; overflow-y: auto; }
-        .admin-section { background: rgba(0,0,0,0.25); border: 1px solid var(--border-color); border-radius: 14px; padding: 15px; margin-bottom: 15px; }
-        .admin-section h4 { font-size: 0.9rem; color: var(--accent); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+        
+        .gift-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 15px 0; }
+        .gift-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 14px; padding: 12px; text-align: center; cursor: pointer; transition: all 0.2s; }
+        .gift-card:hover { border-color: var(--gold); background: rgba(245, 158, 11, 0.1); transform: translateY(-3px); }
+        .gift-icon { font-size: 1.8rem; margin-bottom: 6px; display: block; }
+        .gift-price { font-size: 0.75rem; font-weight: 800; color: var(--gold); }
 
-        .action-btn { padding: 6px 12px; border-radius: 8px; border: none; font-size: 0.75rem; cursor: pointer; font-weight: 700; }
-        .btn-ban { background: var(--admin-red); color: #fff; }
-        .btn-mute { background: #f59e0b; color: #fff; }
+        .insta-profile-modal { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 24px; width: 620px; max-height: 88vh; overflow-y: auto; padding: 25px; }
+        .insta-profile-header { display: flex; gap: 25px; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; margin-bottom: 20px; }
+        .insta-profile-pp { width: 95px; height: 95px; border-radius: 50%; border: 3px solid var(--primary); object-fit: cover; }
+        .received-gifts-box { background: rgba(0,0,0,0.25); border: 1px solid var(--border-color); border-radius: 14px; padding: 12px; margin-bottom: 15px; }
 
         .nav-tab-btn { padding: 8px 16px; border-radius: 12px; border: 1px solid var(--border-color); background: rgba(255,255,255,0.05); color: var(--text); font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; }
         .nav-tab-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
@@ -191,13 +155,13 @@
 </head>
 <body>
 
-    <!-- Top Duyuru Barı -->
+    <!-- Üst Duyuru BARI -->
     <div class="announcement-bar" id="announcementBar">
-        <span id="announcementText"><i class="fa-solid fa-bullhorn"></i> Duyuru metni...</span>
+        <span id="announcementText"><i class="fa-solid fa-bullhorn"></i> Hoşgeldiniz!</span>
         <button onclick="closeAnnouncement()" style="background:none; border:none; color:#fff; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
     </div>
 
-    <!-- Auth Modal -->
+    <!-- Auth Giriş/Kayıt Modalı -->
     <div class="auth-overlay" id="authModal">
         <div class="auth-card">
             <h2>BREZERS SOHBET</h2>
@@ -242,11 +206,11 @@
         </div>
     </div>
 
-    <!-- Instagram Stili Detaylı Profil Modalı -->
+    <!-- Instagram Stili Profil Modalı -->
     <div class="modal-overlay" id="instaProfileModal">
         <div class="insta-profile-modal">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3 id="profileModalTitle"><i class="fa-solid fa-user"></i> Kullanıcı Profili</h3>
+                <h3><i class="fa-solid fa-user"></i> Kullanıcı Profili</h3>
                 <button onclick="closeInstaProfileModal()" style="background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
@@ -257,52 +221,71 @@
                         <span>Kullanıcı</span>
                         <span id="profileModalRole" class="role-badge role-member">ÜYE</span>
                     </h3>
-                    <p id="profileModalBio" style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">"Sanal Harekat Başladı..."</p>
-                    
-                    <div class="insta-stats">
-                        <div class="insta-stat-item"><b id="statPostsCount">0</b><span>Gönderi</span></div>
-                        <div class="insta-stat-item"><b id="statFollowersCount">0</b><span>Takipçi</span></div>
-                        <div class="insta-stat-item"><b id="statFollowingCount">0</b><span>Takip Edilen</span></div>
+                    <p style="font-size:0.75rem; color:var(--accent);" id="profileModalUID">UID: #------</p>
+
+                    <!-- Profilde Alınan Hediyeler Listesi -->
+                    <div class="received-gifts-box" style="margin-top: 10px;">
+                        <p style="font-size:0.75rem; font-weight:700; color:var(--gold); margin-bottom:6px;"><i class="fa-solid fa-gift"></i> Hesaptaki Hediyeler</p>
+                        <div id="profileReceivedGifts" style="display:flex; gap:10px; overflow-x:auto; font-size:1.3rem;">
+                            <!-- Dinamik yüklenir -->
+                        </div>
                     </div>
 
-                    <div style="display:flex; gap:10px;">
-                        <button id="followToggleBtn" class="btn-primary" style="padding: 6px 14px; font-size: 0.8rem;" onclick="toggleFollow()">Takip Et</button>
-                        <button class="btn-primary" style="padding: 6px 14px; font-size: 0.8rem; background:rgba(255,255,255,0.1); border:1px solid var(--border-color);" onclick="openDMFromProfile()">Mesaj Gönder</button>
+                    <div style="display:flex; gap:10px; margin-top:10px;">
+                        <button id="profileGiftBtn" class="btn-primary" style="padding: 6px 14px; font-size: 0.8rem; background: var(--gold); color:#000;" onclick="openSendGiftModalFromProfile()">
+                            <i class="fa-solid fa-gift"></i> Hediye Gönder
+                        </button>
                     </div>
                 </div>
-            </div>
-
-            <h4 style="margin-bottom: 12px; font-size: 0.9rem; color: var(--accent);"><i class="fa-solid fa-camera"></i> Paylaştığı Fotoğraflar</h4>
-            <div class="insta-posts-grid" id="profilePostsGrid">
-                <!-- Fotoğraflar Buraya Yüklenecek -->
             </div>
         </div>
     </div>
 
-    <!-- Fotoğraf / Gönderi Paylaşma Modalı -->
-    <div class="modal-overlay" id="createPostModal">
-        <div class="modal-box" style="max-width:440px;">
+    <!-- Hediye Gönderme Modalı -->
+    <div class="modal-overlay" id="sendGiftModal">
+        <div class="modal-box" style="max-width:460px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3><i class="fa-solid fa-square-plus"></i> Fotoğraf Paylaş</h3>
-                <button onclick="closeCreatePostModal()" style="background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
+                <h3><i class="fa-solid fa-gift" style="color:var(--gold);"></i> Hediye Gönder</h3>
+                <button onclick="closeGiftModal()" style="background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
             </div>
+            
+            <p style="font-size:0.85rem; color:var(--text-muted);">Alıcı: <b id="giftTargetName" style="color:#fff;">...</b></p>
+            <p style="font-size:0.85rem; color:var(--gold); font-weight:700; margin-top:4px;">Mevcut Bakiyeniz: <span id="giftModalUserCoins">0</span> Coin 🪙</p>
 
-            <div class="input-group">
-                <label><i class="fa-solid fa-link"></i> Fotoğraf Bağlantısı (URL)</label>
-                <input type="text" id="postImgUrlInput" placeholder="https://ornek.com/resim.jpg">
+            <div class="gift-grid">
+                <div class="gift-card" onclick="sendGift('🌹 Gül', 10, '🌹')">
+                    <span class="gift-icon">🌹</span>
+                    <span class="gift-price">10 Coin</span>
+                </div>
+                <div class="gift-card" onclick="sendGift('☕ Kahve', 25, '☕')">
+                    <span class="gift-icon">☕</span>
+                    <span class="gift-price">25 Coin</span>
+                </div>
+                <div class="gift-card" onclick="sendGift('🍰 Pasta', 50, '🍰')">
+                    <span class="gift-icon">🍰</span>
+                    <span class="gift-price">50 Coin</span>
+                </div>
+                <div class="gift-card" onclick="sendGift('👑 Kral Tacı', 100, '👑')">
+                    <span class="gift-icon">👑</span>
+                    <span class="gift-price">100 Coin</span>
+                </div>
+                <div class="gift-card" onclick="sendGift('🚀 Roket', 250, '🚀')">
+                    <span class="gift-icon">🚀</span>
+                    <span class="gift-price">250 Coin</span>
+                </div>
+                <div class="gift-card" onclick="sendGift('💎 Elmas', 500, '💎')">
+                    <span class="gift-icon">💎</span>
+                    <span class="gift-price">500 Coin</span>
+                </div>
+                <div class="gift-card" onclick="sendGift('🏎 Spor Araba', 1000, '🏎')">
+                    <span class="gift-icon">🏎</span>
+                    <span class="gift-price">1000 Coin</span>
+                </div>
+                <div class="gift-card" onclick="sendGift('🏰 Şato', 2500, '🏰')">
+                    <span class="gift-icon">🏰</span>
+                    <span class="gift-price">2500 Coin</span>
+                </div>
             </div>
-
-            <div class="input-group">
-                <label><i class="fa-solid fa-upload"></i> Dosyadan Seç / Yükle</label>
-                <input type="file" id="postFileInput" accept="image/*" onchange="previewPostFile(event)">
-            </div>
-
-            <div class="input-group">
-                <label><i class="fa-solid fa-pen"></i> Gönderi Açıklaması</label>
-                <textarea id="postCaptionInput" rows="3" placeholder="Açıklama yazın..."></textarea>
-            </div>
-
-            <button class="btn-primary" onclick="submitNewPost()">Paylaş</button>
         </div>
     </div>
 
@@ -314,62 +297,27 @@
                 <button onclick="closeAdminModal()" style="background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
-            <div class="admin-section">
-                <h4><i class="fa-solid fa-bullhorn"></i> Toplu Duyuru Yayınla</h4>
+            <!-- Kullanıcıya Coin Gönderme / Yükleme -->
+            <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid var(--gold); border-radius: 14px; padding: 15px; margin-bottom: 15px;">
+                <h4 style="color: var(--gold); margin-bottom: 10px;"><i class="fa-solid fa-coins"></i> Kullanıcı Hesabına Coin Yükle</h4>
+                <div style="display:flex; gap:8px; margin-bottom:8px;">
+                    <input type="text" id="adminTargetUID" placeholder="Hedef UID (Örn: 100000)" style="flex:1; padding:8px; border-radius:8px; border:1px solid var(--border-color); background:rgba(0,0,0,0.3); color:#fff;">
+                    <input type="number" id="adminCoinAmount" placeholder="Miktar" style="width:110px; padding:8px; border-radius:8px; border:1px solid var(--border-color); background:rgba(0,0,0,0.3); color:#fff;">
+                </div>
+                <button class="btn-primary" style="background: var(--gold); color: #000;" onclick="adminAddCoins()">Coin Gönder</button>
+            </div>
+
+            <div style="background: rgba(0,0,0,0.25); border: 1px solid var(--border-color); border-radius: 14px; padding: 15px;">
+                <h4 style="color: var(--accent); margin-bottom: 10px;"><i class="fa-solid fa-bullhorn"></i> Platform Geneli Duyuru Yayınla</h4>
                 <div style="display:flex; gap:8px;">
                     <input type="text" id="announcementInput" placeholder="Tüm kullanıcılara duyuru..." style="flex:1; padding:8px; border-radius:8px; border:1px solid var(--border-color); background:rgba(255,255,255,0.05); color:#fff;">
-                    <button class="action-btn" style="background:var(--primary); color:#fff;" onclick="publishAnnouncement()">Yayınla</button>
+                    <button class="btn-primary" style="width:auto; padding:0 15px;" onclick="publishAnnouncement()">Yayınla</button>
                 </div>
-            </div>
-
-            <div class="admin-section">
-                <h4><i class="fa-solid fa-gavel"></i> Manuel UID Ban & Mute</h4>
-                <div style="display:flex; gap:8px; margin-bottom:8px;">
-                    <input type="text" id="manualUIDInput" placeholder="Kullanıcı UID Girin" style="flex:1; padding:8px; border-radius:8px; border:1px solid var(--border-color); background:rgba(255,255,255,0.05); color:#fff;">
-                </div>
-                <div style="display:flex; gap:8px;">
-                    <button class="action-btn btn-ban" style="flex:1;" onclick="manualBanByUID()">Banla</button>
-                    <button class="action-btn btn-mute" style="flex:1;" onclick="manualMuteByUID()">Sustur</button>
-                </div>
-            </div>
-
-            <div class="admin-section">
-                <h4><i class="fa-solid fa-users"></i> Aktif Odadaki Kullanıcılar</h4>
-                <div id="adminUserList"></div>
             </div>
         </div>
     </div>
 
-    <!-- Settings Modal -->
-    <div class="modal-overlay" id="settingsModal">
-        <div class="auth-card" style="position: relative;">
-            <button onclick="closeSettings()" style="position: absolute; right: 20px; top: 20px; background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
-            <h3 style="margin-bottom: 20px; color: var(--accent);"><i class="fa-solid fa-gear"></i> Profil & Tema Ayarları</h3>
-            
-            <div class="input-group">
-                <label><i class="fa-solid fa-palette"></i> Arayüz Teması</label>
-                <select id="themeSelect" onchange="changeTheme(this.value)">
-                    <option value="default">Varsayılan (Dark Blue)</option>
-                    <option value="cyberpunk">Cyberpunk Neon</option>
-                    <option value="gold">Luxury Gold</option>
-                </select>
-            </div>
-
-            <div class="input-group">
-                <label><i class="fa-solid fa-user"></i> Kullanıcı Adı</label>
-                <input type="text" id="editUsernameInput">
-            </div>
-
-            <div class="input-group">
-                <label><i class="fa-solid fa-pen"></i> Durum Yazısı</label>
-                <input type="text" id="editStatusInput">
-            </div>
-            
-            <button class="btn-primary" onclick="saveProfileSettings()">Kaydet</button>
-        </div>
-    </div>
-
-    <!-- App Main Container -->
+    <!-- Uygulama Ana Ekranı -->
     <div class="app-container">
         <!-- Sidebar -->
         <div class="sidebar">
@@ -381,27 +329,19 @@
                         <span id="userRoleBadge" class="role-badge role-member">Üye</span>
                     </h4>
                     <p id="displayUID" style="font-size:0.75rem; color:var(--accent);">UID: #------</p>
-                    <div style="display:flex; justify-content:space-between; font-size:0.65rem; color:var(--text-muted); margin-top:4px;">
-                        <span>Level <b id="userLevelText">1</b></span>
-                        <span id="userXPText">35/100 XP</span>
-                    </div>
-                    <div class="xp-bar-container">
-                        <div class="xp-bar-fill" id="xpBarFill"></div>
+                    <div style="margin-top: 6px;">
+                        <span class="coin-badge"><i class="fa-solid fa-coins"></i> <span id="userCoinBalance">0</span> Coin</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Fotoğraf Paylaşım Butonu -->
-            <button class="btn-primary" style="background: linear-gradient(135deg, #a855f7, #ec4899);" onclick="openCreatePostModal()">
-                <i class="fa-solid fa-camera-retro"></i> Fotoğraf Paylaş
-            </button>
-
-            <!-- Canlı Radyo Widget -->
-            <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-color); padding:10px; border-radius:14px;">
-                <p style="font-size:0.75rem; font-weight:700; color:var(--accent); margin-bottom:6px;"><i class="fa-solid fa-music"></i> Canlı Radyo</p>
-                <audio id="radioPlayer" controls style="width:100%; height:30px;">
-                    <source src="https://stream.zeno.fm/f3wvbbqmdg8uv" type="audio/mpeg">
-                </audio>
+            <!-- Ücretsiz Günlük & Haftalık Hediye Kutusu -->
+            <div class="rewards-box">
+                <p style="font-size:0.8rem; font-weight:700; color:var(--gold);"><i class="fa-solid fa-gift"></i> Ücretsiz Ödüller</p>
+                <div style="display:flex; gap:6px; margin-top:8px;">
+                    <button class="rewards-btn" style="flex:1;" onclick="claimDailyReward()">Günlük (10 🪙)</button>
+                    <button class="rewards-btn" style="flex:1; background:var(--purple); color:#fff;" onclick="claimWeeklyReward()">Haftalık (50 🪙)</button>
+                </div>
             </div>
 
             <a href="https://t.me/Hzrox" target="_blank" class="btn-telegram">
@@ -412,10 +352,6 @@
                 <i class="fa-solid fa-shield-halved"></i> Admin Paneli
             </button>
 
-            <button class="btn-primary" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: var(--text);" onclick="openSettings()">
-                <i class="fa-solid fa-sliders"></i> Profil & Tema
-            </button>
-
             <div style="margin-top: auto;">
                 <button class="btn-primary" style="background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); color: #ef4444;" onclick="logout()">
                     <i class="fa-solid fa-right-from-bracket"></i> Çıkış Yap
@@ -423,63 +359,65 @@
             </div>
         </div>
 
-        <!-- Main Content Area -->
+        <!-- Ana İçerik Alanı -->
         <div class="main-content">
             
-            <!-- Üst Navigasyon Tabları -->
-            <div style="padding:15px 30px; border-bottom:1px solid var(--border-color); display:flex; gap:12px; background:rgba(15,23,42,0.6);">
-                <button class="nav-tab-btn active" id="tabVoiceBtn" onclick="switchMainTab('voice')"><i class="fa-solid fa-microphone"></i> Sesli Odalar</button>
-                <button class="nav-tab-btn" id="tabFeedBtn" onclick="switchMainTab('feed')"><i class="fa-solid fa-images"></i> Topluluk Fotoğraf Akışı</button>
+            <!-- Instagram Story Akışı -->
+            <div class="stories-container">
+                <div class="story-item" onclick="alert('Story ekleme özelliği hazırlanıyor!')">
+                    <div class="story-ring" style="background:var(--border-color);">
+                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=user" class="story-img">
+                    </div>
+                    <span>Hikayen</span>
+                </div>
+                <div class="story-item" onclick="openUserProfile('100000', 'ROX (Kurucu)', 'https://api.dicebear.com/7.x/bottts/svg?seed=RoxAdmin')">
+                    <div class="story-ring"><img src="https://api.dicebear.com/7.x/bottts/svg?seed=RoxAdmin" class="story-img"></div>
+                    <span>ROX</span>
+                </div>
             </div>
 
-            <!-- 1. Lobi View (Sesli Odalar) -->
+            <!-- Sekme Gezinme Barı -->
+            <div style="padding:15px 30px; border-bottom:1px solid var(--border-color); display:flex; gap:12px; background:rgba(15,23,42,0.6);">
+                <button class="nav-tab-btn active" id="tabVoiceBtn" onclick="switchMainTab('voice')"><i class="fa-solid fa-microphone"></i> Sesli Odalar</button>
+                <button class="nav-tab-btn" id="tabFeedBtn" onclick="switchMainTab('feed')"><i class="fa-solid fa-images"></i> Akış</button>
+            </div>
+
+            <!-- Sesli Odalar Lobi Görünümü -->
             <div id="lobbyView" style="display: flex; flex-direction: column; height: 100%;">
                 <div class="rooms-header">
                     <h2><i class="fa-solid fa-headset"></i> Aktif Odalar</h2>
-                    <div style="display:flex; gap:10px;">
-                        <button class="btn-primary" style="width: auto; padding: 10px 16px; background:rgba(56, 189, 248, 0.2); border:1px solid var(--accent); color:var(--accent);" onclick="createTempRoom()">+ Geçici Oda Aç</button>
-                        <button class="btn-primary" style="width: auto; padding: 10px 16px;" onclick="createNewRealRoom()">+ Oda Oluştur</button>
-                    </div>
+                    <button class="btn-primary" style="width: auto; padding: 10px 16px;" onclick="createNewRealRoom()">+ Oda Oluştur</button>
                 </div>
                 <div class="rooms-grid" id="roomsContainer"></div>
             </div>
 
-            <!-- 2. Instagram Akışı View -->
+            <!-- Instagram Akış Görünümü -->
             <div id="feedView" style="display: none; height: 100%; overflow: hidden;">
-                <div class="feed-container" id="feedPostsContainer">
-                    <!-- Paylaşılan Fotoğraflar Buraya Yüklenecek -->
-                </div>
+                <div class="feed-container" id="feedPostsContainer"></div>
             </div>
 
-            <!-- 3. Active Voice Room View -->
+            <!-- Aktif Odadaki Canlı Görünüm -->
             <div class="active-room-view" id="activeRoomView">
                 <div class="room-nav">
                     <div>
                         <h3 id="currentRoomTitle">🎙 Genel Sohbet</h3>
-                        <p style="font-size: 0.75rem; color: var(--accent);" id="currentRoomUsersCount">0 Katılımcı</p>
+                        <p style="font-size: 0.75rem; color: var(--accent);" id="currentRoomUsersCount">1 Katılımcı</p>
                     </div>
                     <button class="btn-primary" style="width: auto; background: var(--admin-red); padding: 8px 16px;" onclick="leaveRoom()">
                         <i class="fa-solid fa-phone-slash"></i> Ayrıl
                     </button>
                 </div>
 
-                <div class="screen-share-display" id="screenShareDisplay">
-                    <video id="screenVideo" autoplay playsinline muted></video>
-                </div>
-
                 <div class="room-body">
+                    <!-- Odadaki Katılımcılar -->
                     <div class="voice-participants" id="participantsContainer"></div>
 
+                    <!-- Oda İçi Chat Panel -->
                     <div class="chat-panel">
                         <div style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: 700; font-size: 0.85rem;">
                             <i class="fa-solid fa-comments"></i> Oda Chat
                         </div>
                         <div class="chat-messages" id="chatMessages"></div>
-                        
-                        <div class="chat-tools">
-                            <button class="chat-tool-btn" onclick="triggerMiniGame('zar')">🎲 Zar At</button>
-                            <button class="chat-tool-btn" onclick="triggerMiniGame('yazitura')">🪙 Yazı-Tura</button>
-                        </div>
 
                         <div class="chat-input-box">
                             <input type="text" id="chatInput" placeholder="Mesaj yazın..." onkeypress="handleChatKeyPress(event)">
@@ -488,17 +426,9 @@
                     </div>
                 </div>
 
-                <div class="soundboard-box">
-                    <span style="font-size:0.75rem; font-weight:700; color:var(--text-muted); align-self:center;">EFEKTLER:</span>
-                    <button class="sb-btn" onclick="playSoundEffect('gulte')">😂 Gülme</button>
-                    <button class="sb-btn" onclick="playSoundEffect('alkis')">👏 Alkış</button>
-                    <button class="sb-btn" onclick="playSoundEffect('fark')">🔥 Wow</button>
-                </div>
-
                 <div class="room-controls">
                     <button class="control-btn" id="micBtn" onclick="toggleMic()"><i class="fa-solid fa-microphone"></i></button>
                     <button class="control-btn" id="deafenBtn" onclick="toggleDeafen()"><i class="fa-solid fa-volume-high"></i></button>
-                    <button class="control-btn" id="screenBtn" onclick="toggleScreenShare()"><i class="fa-solid fa-desktop"></i></button>
                 </div>
             </div>
 
@@ -509,14 +439,18 @@
         let currentUID = "";
         let currentUsername = "";
         let userRole = "member";
-        let userStatus = "Sanal Harekat Başladı...";
-        let userLevel = 1;
-        let userXP = 35;
         let isAdmin = false;
+        let userCoins = 100;
+        let isMicOn = true;
+        let isDeafenOn = false;
+
+        // Kullanıcı Veritabanı Mantığı
+        let dbUsers = {
+            "100000": { uid: "100000", name: "ROX (Kurucu)", coins: 99999, gifts: ["👑", "💎", "🏎"], role: "admin" }
+        };
 
         let activeRealRooms = [
-            { id: 1, name: "🔥 BREZERS Genel Sohbet", isTemp: false, users: [{ uid: "100000", name: "ROX (Kurucu)", role: "admin", avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=RoxAdmin" }] },
-            { id: 2, name: "🎮 Oyun & Muhabbet", isTemp: false, users: [] }
+            { id: 1, name: "🔥 BREZERS Genel Sohbet", users: [{ uid: "100000", name: "ROX (Kurucu)", role: "admin", avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=RoxAdmin" }] }
         ];
 
         let allPosts = [
@@ -526,21 +460,22 @@
                 authorName: "ROX (Kurucu)",
                 authorAvatar: "https://api.dicebear.com/7.x/bottts/svg?seed=RoxAdmin",
                 imgUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&q=80",
-                caption: "Yeni arayüz ve sosyal sistem yayınlandı! 🔥 Bütün topluluğa hayırlı olsun.",
+                caption: "Hediye & Coin sistemi tamamlandı! Profilden veya sohbet odalarından arkadaşlarınıza hediye atabilirsiniz 👑",
                 likes: ["100000"],
-                comments: [{ author: "Ahmet", text: "Eline sağlık reis harika olmuş!" }]
+                comments: []
             }
         ];
 
-        let userFollowData = {
-            followers: [],
-            following: []
-        };
-
-        let activeViewingUID = null;
-        let uploadedPostImgBase64 = null;
+        let selectedGiftTargetUID = null;
+        let selectedGiftTargetName = null;
 
         function generateUID() { return Math.floor(100000 + Math.random() * 900000).toString(); }
+
+        function updateCoinDisplay() {
+            document.getElementById('userCoinBalance').innerText = userCoins;
+            document.getElementById('giftModalUserCoins').innerText = userCoins;
+            if(dbUsers[currentUID]) dbUsers[currentUID].coins = userCoins;
+        }
 
         function switchTab(tab) {
             if(tab === 'login') {
@@ -577,196 +512,148 @@
                 userRole = "admin";
                 currentUID = "100000";
                 currentUsername = "ROX (Kurucu)";
+                userCoins = 99999;
+                document.getElementById('adminPanelBtn').style.display = 'block';
             } else {
                 currentUID = generateUID();
                 currentUsername = email.split('@')[0];
                 userRole = selectedRole;
             }
 
+            dbUsers[currentUID] = { uid: currentUID, name: currentUsername, coins: userCoins, gifts: [], role: userRole };
+
             document.getElementById('displayUsername').querySelector('span').innerText = currentUsername;
             document.getElementById('displayUID').innerText = "UID: #" + currentUID;
             document.getElementById('userAvatar').src = `https://api.dicebear.com/7.x/bottts/svg?seed=${currentUsername}`;
 
+            updateCoinDisplay();
             document.getElementById('authModal').style.display = 'none';
             renderLobbyRooms();
             renderFeedPosts();
         }
 
-        function switchMainTab(tab) {
-            document.getElementById('tabVoiceBtn').classList.toggle('active', tab === 'voice');
-            document.getElementById('tabFeedBtn').classList.toggle('active', tab === 'feed');
+        /* ----- GÜNLÜK & HAFTALIK ÖDÜL SİSTEMİ ----- */
+        function claimDailyReward() {
+            const lastClaim = localStorage.getItem('dailyClaim_' + currentUID);
+            const now = Date.now();
+            if (lastClaim && now - parseInt(lastClaim) < 86400000) {
+                return alert("Günlük ödülünüzü zaten aldınız! 24 saat sonra tekrar alabilirsiniz.");
+            }
+            userCoins += 10;
+            localStorage.setItem('dailyClaim_' + currentUID, now.toString());
+            updateCoinDisplay();
+            alert("Tebrikler! 10 Coin günlük ödül hesabınıza eklendi. 🪙");
+        }
 
-            if(tab === 'voice') {
-                document.getElementById('lobbyView').style.display = 'flex';
-                document.getElementById('feedView').style.display = 'none';
+        function claimWeeklyReward() {
+            const lastClaim = localStorage.getItem('weeklyClaim_' + currentUID);
+            const now = Date.now();
+            if (lastClaim && now - parseInt(lastClaim) < 604800000) {
+                return alert("Haftalık ödülünüzü bu hafta zaten aldınız!");
+            }
+            userCoins += 50;
+            localStorage.setItem('weeklyClaim_' + currentUID, now.toString());
+            updateCoinDisplay();
+            alert("Tebrikler! 50 Coin haftalık bonus hesabınıza eklendi! 🎉");
+        }
+
+        /* ----- HEDİYE SİSTEMİ ----- */
+        function openGiftModalForUser(uid, name) {
+            selectedGiftTargetUID = uid;
+            selectedGiftTargetName = name;
+            document.getElementById('giftTargetName').innerText = name;
+            document.getElementById('sendGiftModal').style.display = 'flex';
+        }
+
+        function closeGiftModal() { document.getElementById('sendGiftModal').style.display = 'none'; }
+
+        function sendGift(giftName, price, icon) {
+            if (userCoins < price) {
+                return alert("Yetersiz Coin! Günlük/haftalık hediyeleri alabilir veya adminden destek isteyebilirsiniz.");
+            }
+
+            userCoins -= price;
+            updateCoinDisplay();
+
+            if (dbUsers[selectedGiftTargetUID]) {
+                dbUsers[selectedGiftTargetUID].gifts.push(icon);
+            }
+
+            const chatBox = document.getElementById('chatMessages');
+            if (chatBox) {
+                const msg = document.createElement('div');
+                msg.className = 'chat-msg gift-msg';
+                msg.innerHTML = `<b>🎁 HEDİYE!</b> <span>${currentUsername}</span>, <b>${selectedGiftTargetName}</b> kişisine ${icon} <b>${giftName}</b> gönderdi!`;
+                chatBox.appendChild(msg);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+
+            alert(`${selectedGiftTargetName} kullanıcısına ${giftName} gönderildi! 🎉`);
+            closeGiftModal();
+            closeInstaProfileModal();
+        }
+
+        /* ----- ADMİN COİN YÜKLEME & DUYURU ----- */
+        function adminAddCoins() {
+            const targetUID = document.getElementById('adminTargetUID').value.trim();
+            const amount = parseInt(document.getElementById('adminCoinAmount').value);
+
+            if(!targetUID || isNaN(amount)) return alert("Geçerli UID ve miktar giriniz!");
+
+            if(targetUID === currentUID) {
+                userCoins += amount;
+                updateCoinDisplay();
+            } else if(dbUsers[targetUID]) {
+                dbUsers[targetUID].coins += amount;
             } else {
-                document.getElementById('lobbyView').style.display = 'none';
-                document.getElementById('feedView').style.display = 'block';
-                renderFeedPosts();
+                dbUsers[targetUID] = { uid: targetUID, name: "Kullanıcı", coins: amount, gifts: [], role: "member" };
             }
+
+            alert(`#${targetUID} UID'li kullanıcıya ${amount} Coin yüklendi! 🪙`);
         }
 
-        /* ----- INSTAGRAM GÖNDERİ & FOTO YÖNETİMİ ----- */
-        function renderFeedPosts() {
-            const container = document.getElementById('feedPostsContainer');
-            container.innerHTML = '';
-
-            allPosts.forEach(post => {
-                const isLiked = post.likes.includes(currentUID);
-                const card = document.createElement('div');
-                card.className = 'post-card';
-                card.innerHTML = `
-                    <div class="post-header">
-                        <img src="${post.authorAvatar}" onclick="openUserProfile('${post.authorUID}', '${post.authorName}', '${post.authorAvatar}')">
-                        <div>
-                            <b style="font-size:0.9rem; cursor:pointer;" onclick="openUserProfile('${post.authorUID}', '${post.authorName}', '${post.authorAvatar}')">${post.authorName}</b>
-                            <p style="font-size:0.7rem; color:var(--text-muted);">UID: #${post.authorUID}</p>
-                        </div>
-                    </div>
-                    <img src="${post.imgUrl}" class="post-img" alt="Foto">
-                    <div class="post-actions">
-                        <i class="fa-solid fa-heart post-action-btn ${isLiked ? 'liked' : ''}" onclick="toggleLikePost(${post.id})"></i>
-                        <i class="fa-solid fa-comment post-action-btn" onclick="focusCommentInput(${post.id})"></i>
-                    </div>
-                    <div class="post-body">
-                        <p style="font-weight:700; margin-bottom:4px;">${post.likes.length} beğeni</p>
-                        <p><b>${post.authorName}</b> ${post.caption}</p>
-                    </div>
-                    <div class="post-comments" id="commentsBox_${post.id}">
-                        ${post.comments.map(c => `<p><b>${c.author}:</b>${c.text}</p>`).join('')}
-                    </div>
-                    <div style="display:flex; padding:10px 18px; border-top:1px solid var(--border-color); gap:8px;">
-                        <input type="text" id="commentInput_${post.id}" placeholder="Yorum ekle..." style="flex:1; border:none; background:transparent; color:#fff; outline:none; font-size:0.85rem;">
-                        <button style="background:none; border:none; color:var(--accent); font-weight:700; cursor:pointer;" onclick="addCommentToPost(${post.id})">Paylaş</button>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
+        function publishAnnouncement() {
+            const txt = document.getElementById('announcementInput').value.trim();
+            if(!txt) return;
+            document.getElementById('announcementText').innerHTML = `<i class="fa-solid fa-bullhorn"></i> ${txt}`;
+            document.getElementById('announcementBar').style.display = 'flex';
+            closeAdminModal();
         }
 
-        function toggleLikePost(postId) {
-            const post = allPosts.find(p => p.id === postId);
-            if(!post) return;
-
-            const idx = post.likes.indexOf(currentUID);
-            if(idx > -1) {
-                post.likes.splice(idx, 1);
-            } else {
-                post.likes.push(currentUID);
-            }
-            renderFeedPosts();
+        function closeAnnouncement() {
+            document.getElementById('announcementBar').style.display = 'none';
         }
 
-        function addCommentToPost(postId) {
-            const input = document.getElementById(`commentInput_${postId}`);
-            const text = input.value.trim();
-            if(!text) return;
-
-            const post = allPosts.find(p => p.id === postId);
-            if(post) {
-                post.comments.push({ author: currentUsername, text: text });
-                renderFeedPosts();
-            }
-        }
-
-        function openCreatePostModal() {
-            document.getElementById('createPostModal').style.display = 'flex';
-        }
-
-        function closeCreatePostModal() {
-            document.getElementById('createPostModal').style.display = 'none';
-        }
-
-        function previewPostFile(e) {
-            const file = e.target.files[0];
-            if(file) {
-                const reader = new FileReader();
-                reader.onload = (evt) => {
-                    uploadedPostImgBase64 = evt.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function submitNewPost() {
-            const urlInput = document.getElementById('postImgUrlInput').value.trim();
-            const caption = document.getElementById('postCaptionInput').value.trim();
-            const finalImg = uploadedPostImgBase64 || urlInput;
-
-            if(!finalImg) return alert("Lütfen resim URL'si girin veya dosya seçin!");
-
-            const newPost = {
-                id: Date.now(),
-                authorUID: currentUID,
-                authorName: currentUsername,
-                authorAvatar: document.getElementById('userAvatar').src,
-                imgUrl: finalImg,
-                caption: caption || "Fotoğraf paylaşımı",
-                likes: [],
-                comments: []
-            };
-
-            allPosts.unshift(newPost);
-            closeCreatePostModal();
-            switchMainTab('feed');
-            uploadedPostImgBase64 = null;
-        }
-
-        /* ----- DETAYLI PROFiL & TAKİP SİSTEMİ ----- */
-        function openMyOwnProfile() {
-            openUserProfile(currentUID, currentUsername, document.getElementById('userAvatar').src);
-        }
+        /* ----- PROFİL MODALI ----- */
+        function openMyOwnProfile() { openUserProfile(currentUID, currentUsername, document.getElementById('userAvatar').src); }
 
         function openUserProfile(uid, name, avatar) {
-            activeViewingUID = uid;
-            document.getElementById('profileModalPP').src = avatar;
-            document.getElementById('profileModalUsername').querySelector('span').innerText = name;
-            
-            const userPosts = allPosts.filter(p => p.authorUID === uid);
-            document.getElementById('statPostsCount').innerText = userPosts.length;
-            document.getElementById('statFollowersCount').innerText = userFollowData.followers.length;
-            document.getElementById('statFollowingCount').innerText = userFollowData.following.length;
+            selectedGiftTargetUID = uid;
+            selectedGiftTargetName = name || currentUsername;
 
-            const followBtn = document.getElementById('followToggleBtn');
-            if(uid === currentUID) {
-                followBtn.style.display = 'none';
-            } else {
-                followBtn.style.display = 'block';
-                followBtn.innerText = userFollowData.following.includes(uid) ? "Takibi Bırak" : "Takip Et";
-            }
+            const userData = dbUsers[uid] || { gifts: [] };
+            document.getElementById('profileModalPP').src = avatar || `https://api.dicebear.com/7.x/bottts/svg?seed=${name}`;
+            document.getElementById('profileModalUsername').querySelector('span').innerText = name || currentUsername;
+            document.getElementById('profileModalUID').innerText = "UID: #" + uid;
 
-            const grid = document.getElementById('profilePostsGrid');
-            grid.innerHTML = '';
-            userPosts.forEach(p => {
-                const item = document.createElement('div');
-                item.className = 'insta-grid-item';
-                item.innerHTML = `<img src="${p.imgUrl}">`;
-                grid.appendChild(item);
-            });
+            const giftsContainer = document.getElementById('profileReceivedGifts');
+            giftsContainer.innerHTML = userData.gifts.length > 0 
+                ? userData.gifts.map(g => `<span>${g}</span>`).join(' ') 
+                : '<span style="font-size:0.75rem; color:var(--text-muted);">Henüz hediye alınmadı.</span>';
 
             document.getElementById('instaProfileModal').style.display = 'flex';
         }
 
-        function closeInstaProfileModal() {
-            document.getElementById('instaProfileModal').style.display = 'none';
+        function openSendGiftModalFromProfile() {
+            openGiftModalForUser(selectedGiftTargetUID, selectedGiftTargetName);
         }
 
-        function toggleFollow() {
-            if(!activeViewingUID) return;
-            const idx = userFollowData.following.indexOf(activeViewingUID);
-            if(idx > -1) {
-                userFollowData.following.splice(idx, 1);
-            } else {
-                userFollowData.following.push(activeViewingUID);
-            }
-            openUserProfile(activeViewingUID, "", document.getElementById('profileModalPP').src);
-        }
+        function closeInstaProfileModal() { document.getElementById('instaProfileModal').style.display = 'none'; }
 
-        /* ----- LOBİ & SESLİ ODA FONKSİYONLARI ----- */
+        /* ----- ODA VE SOHBET MANTIĞI ----- */
         function renderLobbyRooms() {
             const container = document.getElementById('roomsContainer');
             container.innerHTML = '';
-
             activeRealRooms.forEach(room => {
                 const card = document.createElement('div');
                 card.className = 'room-card';
@@ -783,6 +670,15 @@
             });
         }
 
+        function createNewRealRoom() {
+            const name = prompt("Oda Adı:");
+            if(!name) return;
+            const newRoom = { id: Date.now(), name: "🎙 " + name, users: [{ uid: currentUID, name: currentUsername, avatar: document.getElementById('userAvatar').src }] };
+            activeRealRooms.push(newRoom);
+            renderLobbyRooms();
+            joinRoom(newRoom.id);
+        }
+
         function joinRoom(roomId) {
             const room = activeRealRooms.find(r => r.id === roomId);
             if(!room) return;
@@ -790,6 +686,64 @@
             document.getElementById('feedView').style.display = 'none';
             document.getElementById('activeRoomView').style.display = 'flex';
             document.getElementById('currentRoomTitle').innerText = room.name;
+
+            renderParticipants(room);
+        }
+
+        function renderParticipants(room) {
+            const container = document.getElementById('participantsContainer');
+            container.innerHTML = '';
+            
+            // Kullanıcının kendisi
+            const selfCard = document.createElement('div');
+            selfCard.className = 'participant-card';
+            selfCard.onclick = () => openMyOwnProfile();
+            selfCard.innerHTML = `
+                <img src="${document.getElementById('userAvatar').src}" style="width:50px; height:50px; border-radius:50%; margin-bottom:8px;">
+                <b style="font-size:0.8rem;">${currentUsername} (Sen)</b>
+            `;
+            container.appendChild(selfCard);
+
+            // Diğer sabit kullanıcılar
+            const targetCard = document.createElement('div');
+            targetCard.className = 'participant-card';
+            targetCard.onclick = () => openGiftModalForUser('100000', 'ROX (Kurucu)');
+            targetCard.innerHTML = `
+                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=RoxAdmin" style="width:50px; height:50px; border-radius:50%; margin-bottom:8px;">
+                <b style="font-size:0.8rem;">ROX (Kurucu)</b>
+                <span style="font-size:0.65rem; color:var(--gold); margin-top:4px;"><i class="fa-solid fa-gift"></i> Hediye At</span>
+            `;
+            container.appendChild(targetCard);
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const txt = input.value.trim();
+            if(!txt) return;
+
+            const chatBox = document.getElementById('chatMessages');
+            const msg = document.createElement('div');
+            msg.className = 'chat-msg';
+            msg.innerHTML = `<b>${currentUsername}:</b> ${txt}`;
+            chatBox.appendChild(msg);
+            chatBox.scrollTop = chatBox.scrollHeight;
+            input.value = '';
+        }
+
+        function handleChatKeyPress(e) { if(e.key === 'Enter') sendChatMessage(); }
+
+        function toggleMic() {
+            isMicOn = !isMicOn;
+            const btn = document.getElementById('micBtn');
+            btn.classList.toggle('active-off', !isMicOn);
+            btn.innerHTML = isMicOn ? '<i class="fa-solid fa-microphone"></i>' : '<i class="fa-solid fa-microphone-slash"></i>';
+        }
+
+        function toggleDeafen() {
+            isDeafenOn = !isDeafenOn;
+            const btn = document.getElementById('deafenBtn');
+            btn.classList.toggle('active-off', isDeafenOn);
+            btn.innerHTML = isDeafenOn ? '<i class="fa-solid fa-volume-xmark"></i>' : '<i class="fa-solid fa-volume-high"></i>';
         }
 
         function leaveRoom() {
@@ -797,11 +751,42 @@
             document.getElementById('lobbyView').style.display = 'flex';
         }
 
-        function openSettings() { document.getElementById('settingsModal').style.display = 'flex'; }
-        function closeSettings() { document.getElementById('settingsModal').style.display = 'none'; }
+        function switchMainTab(tab) {
+            document.getElementById('tabVoiceBtn').classList.toggle('active', tab === 'voice');
+            document.getElementById('tabFeedBtn').classList.toggle('active', tab === 'feed');
+            document.getElementById('lobbyView').style.display = tab === 'voice' ? 'flex' : 'none';
+            document.getElementById('feedView').style.display = tab === 'feed' ? 'block' : 'none';
+        }
+
+        function renderFeedPosts() {
+            const container = document.getElementById('feedPostsContainer');
+            container.innerHTML = '';
+            allPosts.forEach(post => {
+                const card = document.createElement('div');
+                card.className = 'post-card';
+                card.innerHTML = `
+                    <div class="post-header">
+                        <img src="${post.authorAvatar}" onclick="openUserProfile('${post.authorUID}', '${post.authorName}', '${post.authorAvatar}')">
+                        <div>
+                            <b style="font-size:0.9rem; cursor:pointer;" onclick="openUserProfile('${post.authorUID}', '${post.authorName}', '${post.authorAvatar}')">${post.authorName}</b>
+                            <p style="font-size:0.7rem; color:var(--text-muted);">UID: #${post.authorUID}</p>
+                        </div>
+                    </div>
+                    <img src="${post.imgUrl}" class="post-img">
+                    <div class="post-actions">
+                        <i class="fa-solid fa-heart post-action-btn" onclick="this.style.color='var(--like-red)'"></i>
+                        <i class="fa-solid fa-gift post-action-btn" style="color:var(--gold);" onclick="openGiftModalForUser('${post.authorUID}', '${post.authorName}')"></i>
+                    </div>
+                    <div style="padding: 0 18px 18px 18px;">
+                        <p style="font-size:0.85rem;"><b>${post.authorName}</b> ${post.caption}</p>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
         function openAdminModal() { document.getElementById('adminModal').style.display = 'flex'; }
         function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
-
         function logout() { location.reload(); }
     </script>
 </body>
