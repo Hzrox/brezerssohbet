@@ -162,13 +162,23 @@
 
         .user-select-item { display: flex; align-items: center; justify-content: space-between; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 10px; margin-bottom: 8px; border: 1px solid var(--border-color); cursor: pointer;}
         .user-select-item:hover { border-color: var(--gold); background: rgba(245, 158, 11, 0.08); }
+
+        /* Aile (Clan) Kartları */
+        .family-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 20px; display: flex; gap: 15px; align-items: center; transition: all 0.3s; }
+        .family-card:hover { border-color: var(--accent); box-shadow: 0 10px 25px rgba(56, 189, 248, 0.2); }
+        .family-pp { width: 70px; height: 70px; border-radius: 20px; object-fit: cover; border: 2px solid var(--accent); }
+
+        /* Arama Buton Stilleri */
+        .search-tab-btn { padding: 8px 16px; border-radius: 10px; border: 1px solid var(--border-color); background: rgba(255,255,255,0.04); color: var(--text-muted); font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .search-tab-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
     </style>
 </head>
 <body>
 
-    <!-- Gizli Dosya Seçiciler (Galeri Hikaye ve PP İçin) -->
+    <!-- Gizli Dosya Seçiciler (Galeri Hikaye, PP ve Aile PP İçin) -->
     <input type="file" id="storyFileInput" accept="image/*" style="display: none;" onchange="handleStoryUpload(event)">
     <input type="file" id="ppFileInput" accept="image/*" style="display: none;" onchange="handlePPChange(event)">
+    <input type="file" id="familyPPFileInput" accept="image/*" style="display: none;" onchange="handleFamilyPPSelect(event)">
 
     <!-- Üst Duyuru BARI -->
     <div class="announcement-bar" id="announcementBar">
@@ -221,6 +231,35 @@
         </div>
     </div>
 
+    <!-- Aile (Clan) Oluşturma Modalı -->
+    <div class="modal-overlay" id="createFamilyModal">
+        <div class="modal-box" style="max-width: 450px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h3 style="color: var(--accent);"><i class="fa-solid fa-users-rectangle"></i> Yeni Aile Oluştur</h3>
+                <button onclick="closeCreateFamilyModal()" style="background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 15px;">
+                <img src="https://api.dicebear.com/7.x/identicon/svg?seed=Family" id="familyPPPreview" style="width: 80px; height: 80px; border-radius: 20px; object-fit: cover; border: 2px solid var(--accent); margin-bottom: 8px;">
+                <div>
+                    <button class="btn-primary" style="width: auto; padding: 6px 14px; font-size: 0.75rem;" onclick="triggerFamilyPPSelect()"><i class="fa-solid fa-image"></i> Resim Seç</button>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Aile Adı</label>
+                <input type="text" id="familyNameInput" placeholder="Örn: Brezers Krallığı">
+            </div>
+
+            <div class="input-group">
+                <label>Aile Açıklaması</label>
+                <textarea id="familyDescInput" rows="3" placeholder="Ailenizin vizyonu ve kuralları..."></textarea>
+            </div>
+
+            <button class="btn-primary" style="background: linear-gradient(135deg, var(--accent), #0284c7);" onclick="saveNewFamily()"><i class="fa-solid fa-shield-halved"></i> Aileyi Kur</button>
+        </div>
+    </div>
+
     <!-- Instagram Stili Profil Modalı -->
     <div class="modal-overlay" id="instaProfileModal">
         <div class="insta-profile-modal">
@@ -238,12 +277,9 @@
                     </h3>
                     <p style="font-size:0.75rem; color:var(--accent);" id="profileModalUID">UID: #------</p>
 
-                    <!-- Profilde Alınan Hediyeler Listesi -->
                     <div class="received-gifts-box" style="margin-top: 10px;">
                         <p style="font-size:0.75rem; font-weight:700; color:var(--gold); margin-bottom:6px;"><i class="fa-solid fa-gift"></i> Hesaptaki Hediyeler</p>
-                        <div id="profileReceivedGifts" style="display:flex; gap:10px; overflow-x:auto; font-size:1.3rem;">
-                            <!-- Dinamik yüklenir -->
-                        </div>
+                        <div id="profileReceivedGifts" style="display:flex; gap:10px; overflow-x:auto; font-size:1.3rem;"></div>
                     </div>
 
                     <div style="display:flex; gap:10px; margin-top:10px;">
@@ -303,7 +339,7 @@
         </div>
     </div>
 
-    <!-- Admin Panel Modal (Gelişmiş Banlama Eklendi) -->
+    <!-- Admin Panel Modal -->
     <div class="modal-overlay" id="adminModal">
         <div class="modal-box" style="border-color: var(--admin-red);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
@@ -311,7 +347,6 @@
                 <button onclick="closeAdminModal()" style="background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
-            <!-- Kullanıcı Banlama / Unban (Geri Geldi) -->
             <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid var(--admin-red); border-radius: 14px; padding: 15px; margin-bottom: 15px;">
                 <h4 style="color: var(--admin-red); margin-bottom: 10px;"><i class="fa-solid fa-ban"></i> Kullanıcı Banla / Engelle</h4>
                 <div style="display:flex; gap:8px; margin-bottom:8px;">
@@ -321,7 +356,6 @@
                 </div>
             </div>
 
-            <!-- Coin Gönderme -->
             <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid var(--gold); border-radius: 14px; padding: 15px; margin-bottom: 15px;">
                 <h4 style="color: var(--gold); margin-bottom: 10px;"><i class="fa-solid fa-coins"></i> Kullanıcı Hesabına Coin Yükle</h4>
                 <div style="display:flex; gap:8px; margin-bottom:8px;">
@@ -331,7 +365,6 @@
                 <button class="btn-primary" style="background: var(--gold); color: #000;" onclick="adminAddCoins()">Coin Gönder</button>
             </div>
 
-            <!-- Duyuru Yayınla -->
             <div style="background: rgba(0,0,0,0.25); border: 1px solid var(--border-color); border-radius: 14px; padding: 15px;">
                 <h4 style="color: var(--accent); margin-bottom: 10px;"><i class="fa-solid fa-bullhorn"></i> Platform Geneli Duyuru Yayınla</h4>
                 <div style="display:flex; gap:8px;">
@@ -372,6 +405,11 @@
                 </div>
             </div>
 
+            <!-- Sol Menü Aileler / Klan Butonu -->
+            <button class="btn-primary" style="background: rgba(56, 189, 248, 0.15); border: 1px solid var(--accent); color: var(--accent); font-size: 0.9rem;" onclick="switchMainTab('families')">
+                <i class="fa-solid fa-users-rectangle"></i> Aileler & Arama
+            </button>
+
             <a href="https://t.me/Hzrox" target="_blank" class="btn-telegram">
                 <i class="fa-brands fa-telegram" style="font-size: 1.2rem;"></i> @Hzrox Telegram
             </a>
@@ -398,13 +436,13 @@
                     </div>
                     <span>Hikaye Ekle</span>
                 </div>
-                <!-- Yüklenen Hikayeler Buraya Eklenir -->
             </div>
 
             <!-- Sekme Gezinme Barı -->
             <div style="padding:15px 30px; border-bottom:1px solid var(--border-color); display:flex; gap:12px; background:rgba(15,23,42,0.6);">
                 <button class="nav-tab-btn active" id="tabVoiceBtn" onclick="switchMainTab('voice')"><i class="fa-solid fa-microphone"></i> Sesli Odalar</button>
                 <button class="nav-tab-btn" id="tabFeedBtn" onclick="switchMainTab('feed')"><i class="fa-solid fa-images"></i> Akış</button>
+                <button class="nav-tab-btn" id="tabFamilyBtn" onclick="switchMainTab('families')"><i class="fa-solid fa-users-rectangle"></i> Aileler & Arama</button>
             </div>
 
             <!-- Sesli Odalar Lobi Görünümü -->
@@ -421,6 +459,44 @@
                 <div class="feed-container" id="feedPostsContainer"></div>
             </div>
 
+            <!-- Aileler ve Arama Sekmesi Görünümü -->
+            <div id="familiesView" style="display: none; height: 100%; overflow-y: auto; padding: 30px;">
+                
+                <!-- Arama Seçenekleri ve Butonları -->
+                <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 20px; margin-bottom: 25px;">
+                    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                        <button class="search-tab-btn active" id="searchFamilyTabBtn" onclick="switchSearchMode('family')">
+                            <i class="fa-solid fa-users-rectangle"></i> Aile Ara
+                        </button>
+                        <button class="search-tab-btn" id="searchUserTabBtn" onclick="switchSearchMode('user')">
+                            <i class="fa-solid fa-user-group"></i> Dostlarımı Ara (UID)
+                        </button>
+                    </div>
+
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="searchInput" placeholder="Aile adı ara..." style="flex: 1; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border-color); background: rgba(0,0,0,0.25); color: #fff; outline: none;">
+                        <button class="btn-primary" style="width: auto; padding: 0 24px; background: var(--accent); color: #000;" onclick="executeSearch()">
+                            <i class="fa-solid fa-magnifying-glass"></i> Ara
+                        </button>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                    <div>
+                        <h2 id="sectionTitle"><i class="fa-solid fa-users-rectangle" style="color:var(--accent);"></i> Topluluk Aileleri</h2>
+                        <p style="font-size:0.85rem; color:var(--text-muted);">Arkadaşlarınla kendi Aileni kur veya mevcut ailelere katıl!</p>
+                    </div>
+                    <button class="btn-primary" style="width: auto; background: linear-gradient(135deg, var(--accent), #0284c7); padding: 10px 18px;" onclick="openCreateFamilyModal()">
+                        <i class="fa-solid fa-plus"></i> Aile Aç
+                    </button>
+                </div>
+
+                <!-- Aile ve Dostlar Arama Sonuç Grid'i -->
+                <div id="familiesListGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px;">
+                    <!-- Dinamik İçerik -->
+                </div>
+            </div>
+
             <!-- Aktif Odadaki Canlı Görünüm -->
             <div class="active-room-view" id="activeRoomView">
                 <div class="room-nav">
@@ -434,10 +510,8 @@
                 </div>
 
                 <div class="room-body">
-                    <!-- Odadaki Katılımcılar (Çift Olma Sorunu Düzeltildi) -->
                     <div class="voice-participants" id="participantsContainer"></div>
 
-                    <!-- Oda İçi Chat Panel -->
                     <div class="chat-panel">
                         <div style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: 700; font-size: 0.85rem;">
                             <i class="fa-solid fa-comments"></i> Oda Chat
@@ -451,7 +525,6 @@
                     </div>
                 </div>
 
-                <!-- Oda İçi Alt Kontrol Paneli (Hediye Kutusu Simgesi Eklendi) -->
                 <div class="room-controls">
                     <button class="control-btn" id="micBtn" onclick="toggleMic()" title="Mikrofon Aç/Kapat"><i class="fa-solid fa-microphone"></i></button>
                     <button class="control-btn" id="deafenBtn" onclick="toggleDeafen()" title="Kulaklık Sesi Aç/Kapat"><i class="fa-solid fa-volume-high"></i></button>
@@ -473,11 +546,26 @@
         let userAvatarUrl = "https://api.dicebear.com/7.x/bottts/svg?seed=user";
         let activeRoomId = null;
 
+        let activeSearchMode = 'family'; // 'family' veya 'user'
+
+        let selectedFamilyPP = "https://api.dicebear.com/7.x/identicon/svg?seed=Family";
         let bannedUIDs = [];
 
         let dbUsers = {
-            "100000": { uid: "100000", name: "ROX (Kurucu)", coins: 99999, gifts: ["👑", "💎", "🏎"], role: "admin", avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=RoxAdmin" }
+            "100000": { uid: "100000", name: "ROX (Kurucu)", coins: 99999, gifts: ["👑", "💎", "🏎"], role: "admin", avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=RoxAdmin" },
+            "202020": { uid: "202020", name: "Ahmet_TR", coins: 50, gifts: ["☕"], role: "member", avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=Ahmet" }
         };
+
+        let families = [
+            {
+                id: 1,
+                name: "BREZERS Ailesi",
+                desc: "Platformun kurucu ve resmi lider ailesi. Birlikte güçlü sohbetler!",
+                pp: "https://api.dicebear.com/7.x/identicon/svg?seed=BrezersFamily",
+                leader: "ROX (Kurucu)",
+                membersCount: 12
+            }
+        ];
 
         let stories = [
             { id: 1, uid: "100000", name: "ROX", avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=RoxAdmin", img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&q=80" }
@@ -500,7 +588,7 @@
                 authorName: "ROX (Kurucu)",
                 authorAvatar: "https://api.dicebear.com/7.x/bottts/svg?seed=RoxAdmin",
                 imgUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&q=80",
-                caption: "Platform güncellendi! Galeriden story ekleme, banlama ve sesli oda hediyeleri aktif 🚀",
+                caption: "Platforma Aileler (Clan) ve Arama sistemi eklendi! 🔥",
                 likes: ["100000"],
                 comments: []
             }
@@ -565,7 +653,7 @@
             }
 
             if (bannedUIDs.includes(uid)) {
-                return alert("Hesabınız admin tarafından engellenmiştir! Giriş yapamazsınız.");
+                return alert("Hesabınız engellenmiştir!");
             }
 
             currentUID = uid;
@@ -583,9 +671,141 @@
             renderStories();
             renderLobbyRooms();
             renderFeedPosts();
+            renderFamilies();
         }
 
-        /* ----- GALERİDEN PP VE HİKAYE (STORY) YÜKLEME ----- */
+        /* ----- ARAMA MODLARI DÜZENLEMESİ ----- */
+        function switchSearchMode(mode) {
+            activeSearchMode = mode;
+            document.getElementById('searchFamilyTabBtn').classList.toggle('active', mode === 'family');
+            document.getElementById('searchUserTabBtn').classList.toggle('active', mode === 'user');
+
+            const input = document.getElementById('searchInput');
+            if(mode === 'family') {
+                input.placeholder = "Aile adı veya lider adı yazın...";
+                document.getElementById('sectionTitle').innerHTML = '<i class="fa-solid fa-users-rectangle" style="color:var(--accent);"></i> Topluluk Aileleri';
+                renderFamilies();
+            } else {
+                input.placeholder = "Dostunun UID kodunu veya adını gir (Örn: 100000)...";
+                document.getElementById('sectionTitle').innerHTML = '<i class="fa-solid fa-user-group" style="color:var(--accent);"></i> Kayıtlı Dostlar / Kullanıcılar';
+                renderUserSearchResults(Object.values(dbUsers));
+            }
+        }
+
+        function executeSearch() {
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+
+            if (activeSearchMode === 'family') {
+                const filtered = families.filter(f => f.name.toLowerCase().includes(query) || f.leader.toLowerCase().includes(query));
+                renderFamilies(filtered);
+            } else {
+                const filtered = Object.values(dbUsers).filter(u => u.uid.includes(query) || u.name.toLowerCase().includes(query));
+                renderUserSearchResults(filtered);
+            }
+        }
+
+        function renderUserSearchResults(userList) {
+            const container = document.getElementById('familiesListGrid');
+            container.innerHTML = '';
+
+            if (userList.length === 0) {
+                container.innerHTML = '<p style="color:var(--text-muted); grid-column: 1/-1;">Aranan kriterde dost/kullanıcı bulunamadı.</p>';
+                return;
+            }
+
+            userList.forEach(u => {
+                const card = document.createElement('div');
+                card.className = 'family-card';
+                card.innerHTML = `
+                    <img src="${u.avatar || 'https://api.dicebear.com/7.x/bottts/svg?seed=' + u.name}" class="family-pp" style="border-radius:50%;">
+                    <div style="flex:1;">
+                        <h4 style="font-size:1.1rem; color:#fff;">${u.name}</h4>
+                        <p style="font-size:0.75rem; color:var(--accent); margin:4px 0;">UID: #${u.uid}</p>
+                        <div style="display:flex; gap:8px; margin-top:8px;">
+                            <button class="btn-primary" style="padding:4px 10px; font-size:0.75rem; width:auto;" onclick="openUserProfile('${u.uid}', '${u.name}', '${u.avatar}')">
+                                <i class="fa-solid fa-user"></i> Profili İncele
+                            </button>
+                            <button class="btn-primary" style="padding:4px 10px; font-size:0.75rem; width:auto; background:var(--gold); color:#000;" onclick="openGiftModalForUser('${u.uid}', '${u.name}')">
+                                <i class="fa-solid fa-gift"></i> Hediye At
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        /* ----- AİLE (CLAN) MODÜLÜ İŞLEMLERİ ----- */
+        function openCreateFamilyModal() { document.getElementById('createFamilyModal').style.display = 'flex'; }
+        function closeCreateFamilyModal() { document.getElementById('createFamilyModal').style.display = 'none'; }
+
+        function triggerFamilyPPSelect() { document.getElementById('familyPPFileInput').click(); }
+
+        function handleFamilyPPSelect(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                selectedFamilyPP = evt.target.result;
+                document.getElementById('familyPPPreview').src = selectedFamilyPP;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function saveNewFamily() {
+            const name = document.getElementById('familyNameInput').value.trim();
+            const desc = document.getElementById('familyDescInput').value.trim();
+
+            if(!name || !desc) return alert("Lütfen aile adı ve açıklamasını doldurun!");
+
+            const newFam = {
+                id: Date.now(),
+                name: name,
+                desc: desc,
+                pp: selectedFamilyPP,
+                leader: currentUsername,
+                membersCount: 1
+            };
+
+            families.unshift(newFam);
+            renderFamilies();
+            closeCreateFamilyModal();
+            alert(`"${name}" Ailesi başarıyla kuruldu! 🛡`);
+            
+            document.getElementById('familyNameInput').value = '';
+            document.getElementById('familyDescInput').value = '';
+            selectedFamilyPP = "https://api.dicebear.com/7.x/identicon/svg?seed=Family";
+            document.getElementById('familyPPPreview').src = selectedFamilyPP;
+        }
+
+        function renderFamilies(list = families) {
+            const container = document.getElementById('familiesListGrid');
+            container.innerHTML = '';
+
+            if (list.length === 0) {
+                container.innerHTML = '<p style="color:var(--text-muted); grid-column: 1/-1;">Aranan isimde bir Aile bulunamadı.</p>';
+                return;
+            }
+
+            list.forEach(fam => {
+                const card = document.createElement('div');
+                card.className = 'family-card';
+                card.innerHTML = `
+                    <img src="${fam.pp}" class="family-pp">
+                    <div style="flex:1;">
+                        <h4 style="font-size:1.1rem; color:#fff;">${fam.name}</h4>
+                        <p style="font-size:0.75rem; color:var(--text-muted); margin:4px 0;">${fam.desc}</p>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+                            <span style="font-size:0.7rem; color:var(--accent); font-weight:700;"><i class="fa-solid fa-crown"></i> Lider: ${fam.leader}</span>
+                            <span style="font-size:0.75rem; color:var(--gold); font-weight:800;"><i class="fa-solid fa-users"></i> ${fam.membersCount} Üye</span>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        /* ----- HİKAYE VE PP YÜKLEME ----- */
         function triggerStoryUpload() { document.getElementById('storyFileInput').click(); }
         
         function handleStoryUpload(e) {
@@ -593,16 +813,10 @@
             if (!file) return;
             const reader = new FileReader();
             reader.onload = function(evt) {
-                const newStory = {
-                    id: Date.now(),
-                    uid: currentUID,
-                    name: currentUsername,
-                    avatar: userAvatarUrl,
-                    img: evt.target.result
-                };
+                const newStory = { id: Date.now(), uid: currentUID, name: currentUsername, avatar: userAvatarUrl, img: evt.target.result };
                 stories.unshift(newStory);
                 renderStories();
-                alert("Hikayeniz başarıyla yayınlandı! 📸");
+                alert("Hikayeniz yayınlandı! 📸");
             };
             reader.readAsDataURL(file);
         }
@@ -617,10 +831,7 @@
                 const div = document.createElement('div');
                 div.className = 'story-item';
                 div.onclick = () => viewStory(st);
-                div.innerHTML = `
-                    <div class="story-ring"><img src="${st.avatar}" class="story-img"></div>
-                    <span>${st.name}</span>
-                `;
+                div.innerHTML = `<div class="story-ring"><img src="${st.avatar}" class="story-img"></div><span>${st.name}</span>`;
                 container.appendChild(div);
             });
         }
@@ -633,7 +844,6 @@
         }
 
         function closeStoryViewer() { document.getElementById('storyViewerModal').style.display = 'none'; }
-
         function triggerPPChange() { document.getElementById('ppFileInput').click(); }
 
         function handlePPChange(e) {
@@ -650,29 +860,25 @@
             reader.readAsDataURL(file);
         }
 
-        /* ----- GÜNLÜK & HAFTALIK ÖDÜL SİSTEMİ ----- */
+        /* ----- ÖDÜLLER ----- */
         function claimDailyReward() {
             const lastClaim = localStorage.getItem('dailyClaim_' + currentUID);
             const now = Date.now();
-            if (lastClaim && now - parseInt(lastClaim) < 86400000) {
-                return alert("Günlük ödülünüzü aldınız! 24 saat sonra tekrar gelebilirsiniz.");
-            }
+            if (lastClaim && now - parseInt(lastClaim) < 86400000) return alert("24 saat geçmeden tekrar alamazsınız!");
             userCoins += 10;
             localStorage.setItem('dailyClaim_' + currentUID, now.toString());
             updateCoinDisplay();
-            alert("Tebrikler! 10 Coin eklendi 🪙");
+            alert("10 Coin yüklendi 🪙");
         }
 
         function claimWeeklyReward() {
             const lastClaim = localStorage.getItem('weeklyClaim_' + currentUID);
             const now = Date.now();
-            if (lastClaim && now - parseInt(lastClaim) < 604800000) {
-                return alert("Haftalık ödülünüzü bu hafta zaten aldınız!");
-            }
+            if (lastClaim && now - parseInt(lastClaim) < 604800000) return alert("Bu hafta ödülünüzü zaten aldınız!");
             userCoins += 50;
             localStorage.setItem('weeklyClaim_' + currentUID, now.toString());
             updateCoinDisplay();
-            alert("Tebrikler! 50 Coin hesabınıza tanımlandı 🎉");
+            alert("50 Coin tanımlandı 🎉");
         }
 
         /* ----- HEDİYE VE MİKROFON / ODA SİSTEMİ ----- */
@@ -687,13 +893,10 @@
 
         function sendGift(giftName, price, icon) {
             if (userCoins < price) return alert("Yetersiz Coin!");
-
             userCoins -= price;
             updateCoinDisplay();
 
-            if (dbUsers[selectedGiftTargetUID]) {
-                dbUsers[selectedGiftTargetUID].gifts.push(icon);
-            }
+            if (dbUsers[selectedGiftTargetUID]) dbUsers[selectedGiftTargetUID].gifts.push(icon);
 
             const chatBox = document.getElementById('chatMessages');
             if (chatBox) {
@@ -704,7 +907,7 @@
                 chatBox.scrollTop = chatBox.scrollHeight;
             }
 
-            alert(`${selectedGiftTargetName} kullanıcısına ${giftName} atıldı! 🎉`);
+            alert(`${selectedGiftTargetName} kişisine ${giftName} atıldı! 🎉`);
             closeGiftModal();
             closeRoomUserSelectGiftModal();
             closeInstaProfileModal();
@@ -718,7 +921,7 @@
             list.innerHTML = '';
 
             room.users.forEach(u => {
-                if(u.uid === currentUID) return; // Kendine hediye atma gösterilmez
+                if(u.uid === currentUID) return;
                 const item = document.createElement('div');
                 item.className = 'user-select-item';
                 item.onclick = () => {
@@ -764,7 +967,6 @@
         function adminAddCoins() {
             const targetUID = document.getElementById('adminTargetUID').value.trim();
             const amount = parseInt(document.getElementById('adminCoinAmount').value);
-
             if(!targetUID || isNaN(amount)) return alert("Geçerli UID ve miktar giriniz!");
 
             if(targetUID === currentUID) {
@@ -775,7 +977,6 @@
             } else {
                 dbUsers[targetUID] = { uid: targetUID, name: "Kullanıcı", coins: amount, gifts: [], role: "member" };
             }
-
             alert(`#${targetUID} UID'li kullanıcıya ${amount} Coin yüklendi! 🪙`);
         }
 
@@ -812,7 +1013,7 @@
         function openSendGiftModalFromProfile() { openGiftModalForUser(selectedGiftTargetUID, selectedGiftTargetName); }
         function closeInstaProfileModal() { document.getElementById('instaProfileModal').style.display = 'none'; }
 
-        /* ----- ODA İŞLEMLERİ VE ÇİFT KATILIMCI DÜZELTMESİ ----- */
+        /* ----- ODA İŞLEMLERİ ----- */
         function renderLobbyRooms() {
             const container = document.getElementById('roomsContainer');
             container.innerHTML = '';
@@ -846,14 +1047,12 @@
             const room = activeRealRooms.find(r => r.id === roomId);
             if(!room) return;
 
-            // Kendimizi odaya mükerrer eklememek için kontrol
             const exists = room.users.some(u => u.uid === currentUID);
-            if (!exists) {
-                room.users.push({ uid: currentUID, name: currentUsername, avatar: userAvatarUrl, role: userRole });
-            }
+            if (!exists) room.users.push({ uid: currentUID, name: currentUsername, avatar: userAvatarUrl, role: userRole });
 
             document.getElementById('lobbyView').style.display = 'none';
             document.getElementById('feedView').style.display = 'none';
+            document.getElementById('familiesView').style.display = 'none';
             document.getElementById('activeRoomView').style.display = 'flex';
             document.getElementById('currentRoomTitle').innerText = room.name;
 
@@ -863,10 +1062,8 @@
         function renderParticipants(room) {
             const container = document.getElementById('participantsContainer');
             container.innerHTML = '';
-            
             document.getElementById('currentRoomUsersCount').innerText = `${room.users.length} Katılımcı`;
 
-            // Odaya dahil olan benzersiz kullanıcıları listele
             room.users.forEach(u => {
                 const isMe = u.uid === currentUID;
                 const card = document.createElement('div');
@@ -897,17 +1094,11 @@
 
         function handleChatKeyPress(e) { if(e.key === 'Enter') sendChatMessage(); }
 
-        /* ----- SES & MİKROFON MANTIK SİMÜLASYONU ----- */
         function toggleMic() {
             isMicOn = !isMicOn;
             const btn = document.getElementById('micBtn');
             btn.classList.toggle('active-off', !isMicOn);
             btn.innerHTML = isMicOn ? '<i class="fa-solid fa-microphone"></i>' : '<i class="fa-solid fa-microphone-slash"></i>';
-            
-            // WebRTC Ses Akışı Kontrolü Simülasyonu
-            navigator.mediaDevices?.getUserMedia({ audio: true }).then(stream => {
-                stream.getAudioTracks().forEach(track => track.enabled = isMicOn);
-            }).catch(() => {});
         }
 
         function toggleDeafen() {
@@ -920,9 +1111,7 @@
         function leaveRoom() {
             if(activeRoomId) {
                 const room = activeRealRooms.find(r => r.id === activeRoomId);
-                if(room) {
-                    room.users = room.users.filter(u => u.uid !== currentUID);
-                }
+                if(room) room.users = room.users.filter(u => u.uid !== currentUID);
             }
             activeRoomId = null;
             document.getElementById('activeRoomView').style.display = 'none';
@@ -933,8 +1122,11 @@
         function switchMainTab(tab) {
             document.getElementById('tabVoiceBtn').classList.toggle('active', tab === 'voice');
             document.getElementById('tabFeedBtn').classList.toggle('active', tab === 'feed');
+            document.getElementById('tabFamilyBtn').classList.toggle('active', tab === 'families');
+
             document.getElementById('lobbyView').style.display = tab === 'voice' ? 'flex' : 'none';
             document.getElementById('feedView').style.display = tab === 'feed' ? 'block' : 'none';
+            document.getElementById('familiesView').style.display = tab === 'families' ? 'block' : 'none';
         }
 
         function renderFeedPosts() {
