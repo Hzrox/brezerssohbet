@@ -11,7 +11,7 @@
     <style>
         :root {
             --bg-main: #090d16;
-            --bg-card: rgba(22, 30, 46, 0.75);
+            --bg-card: rgba(22, 30, 46, 0.85);
             --border-color: rgba(255, 255, 255, 0.08);
             --primary: #6366f1;
             --primary-glow: rgba(99, 102, 241, 0.35);
@@ -26,14 +26,16 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-        body { background-color: var(--bg-main); color: var(--text); min-height: 100vh; display: flex; overflow: hidden; transition: background 0.3s; }
+        body { background-color: var(--bg-main); color: var(--text); min-height: 100vh; display: flex; overflow: hidden; }
 
+        /* Duyuru Barı */
         .announcement-bar {
             position: fixed; top: 0; left: 0; width: 100%; background: linear-gradient(90deg, #ef4444, #a855f7);
             color: #fff; padding: 8px 16px; text-align: center; font-size: 0.85rem; font-weight: 700; z-index: 10000;
             display: none; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 
+        /* Modal & Popuplar */
         .auth-overlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(9, 13, 22, 0.95); backdrop-filter: blur(15px); 
@@ -75,12 +77,15 @@
             text-decoration: none; color: #fff; font-weight: 600; padding: 10px; border-radius: 12px; margin-bottom: 8px; 
         }
 
+        /* Ana Layout */
         .app-container { display: flex; width: 100vw; height: 100vh; }
         .sidebar { width: 320px; background: rgba(15, 23, 42, 0.8); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 20px; gap: 12px; overflow-y: auto;}
 
-        .user-profile-box { display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 16px; cursor: pointer; transition: all 0.3s; }
+        .user-profile-box { display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 16px; cursor: pointer; transition: all 0.3s; position: relative;}
         .user-profile-box:hover { border-color: var(--primary); }
-        .avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); }
+        .avatar-wrapper { position: relative; width: 52px; height: 52px; }
+        .avatar { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); }
+        .pp-upload-badge { position: absolute; bottom: 0; right: 0; background: var(--accent); color: #000; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; cursor: pointer;}
 
         .role-badge { font-size: 0.65rem; padding: 2px 8px; border-radius: 6px; font-weight: 800; text-transform: uppercase; margin-left: 4px; }
         .role-admin { background: var(--admin-red); color: #fff; }
@@ -95,10 +100,10 @@
 
         .main-content { flex: 1; display: flex; flex-direction: column; background: var(--bg-main); position: relative; }
         
-        /* Stories Bar */
-        .stories-container { display: flex; gap: 15px; padding: 15px 30px; border-bottom: 1px solid var(--border-color); overflow-x: auto; background: rgba(15,23,42,0.4); }
-        .story-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; font-size: 0.75rem; gap: 4px; }
-        .story-ring { width: 56px; height: 56px; border-radius: 50%; padding: 2px; background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+        /* Story Alanı */
+        .stories-container { display: flex; gap: 15px; padding: 15px 30px; border-bottom: 1px solid var(--border-color); overflow-x: auto; background: rgba(15,23,42,0.4); align-items: center; }
+        .story-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; font-size: 0.75rem; gap: 4px; flex-shrink: 0; }
+        .story-ring { width: 58px; height: 58px; border-radius: 50%; padding: 2px; background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
         .story-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid var(--bg-main); }
 
         .rooms-header { padding: 20px 30px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
@@ -117,7 +122,7 @@
         .feed-container { max-width: 600px; margin: 0 auto; width: 100%; padding: 20px; overflow-y: auto; height: 100%; display: flex; flex-direction: column; gap: 25px; }
         .post-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; overflow: hidden; }
         .post-header { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--border-color); }
-        .post-header img { width: 38px; height: 38px; border-radius: 50%; cursor: pointer; }
+        .post-header img { width: 38px; height: 38px; border-radius: 50%; cursor: pointer; object-fit: cover;}
         .post-img { width: 100%; max-height: 480px; object-fit: cover; display: block; }
         .post-actions { padding: 12px 18px; display: flex; gap: 16px; font-size: 1.3rem; }
         .post-action-btn { cursor: pointer; transition: transform 0.2s; color: var(--text-muted); }
@@ -131,9 +136,12 @@
         .chat-input-box { padding: 12px; border-top: 1px solid var(--border-color); display: flex; gap: 8px; }
         .chat-input-box input { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid var(--border-color); background: rgba(0,0,0,0.2); color: #fff; outline: none; }
 
-        .room-controls { padding: 15px 30px; border-top: 1px solid var(--border-color); background: rgba(15, 23, 42, 0.9); display: flex; justify-content: center; gap: 15px; }
-        .control-btn { width: 48px; height: 48px; border-radius: 50%; border: none; background: rgba(255,255,255,0.1); color: #fff; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; }
+        /* Oda Alt Kontrolleri */
+        .room-controls { padding: 15px 30px; border-top: 1px solid var(--border-color); background: rgba(15, 23, 42, 0.9); display: flex; justify-content: center; gap: 18px; }
+        .control-btn { width: 50px; height: 50px; border-radius: 50%; border: none; background: rgba(255,255,255,0.1); color: #fff; font-size: 1.2rem; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; }
+        .control-btn:hover { transform: scale(1.08); background: rgba(255,255,255,0.2); }
         .control-btn.active-off { background: var(--admin-red); }
+        .control-btn.gift-control { background: var(--gold); color: #000; box-shadow: 0 0 12px rgba(245, 158, 11, 0.4); }
 
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 9998; display: none; justify-content: center; align-items: center; }
         .modal-box { background: var(--bg-card); border: 1px solid var(--border-color); padding: 25px; border-radius: 20px; width: 580px; max-height: 85vh; overflow-y: auto; }
@@ -151,9 +159,16 @@
 
         .nav-tab-btn { padding: 8px 16px; border-radius: 12px; border: 1px solid var(--border-color); background: rgba(255,255,255,0.05); color: var(--text); font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; }
         .nav-tab-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+        .user-select-item { display: flex; align-items: center; justify-content: space-between; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 10px; margin-bottom: 8px; border: 1px solid var(--border-color); cursor: pointer;}
+        .user-select-item:hover { border-color: var(--gold); background: rgba(245, 158, 11, 0.08); }
     </style>
 </head>
 <body>
+
+    <!-- Gizli Dosya Seçiciler (Galeri Hikaye ve PP İçin) -->
+    <input type="file" id="storyFileInput" accept="image/*" style="display: none;" onchange="handleStoryUpload(event)">
+    <input type="file" id="ppFileInput" accept="image/*" style="display: none;" onchange="handlePPChange(event)">
 
     <!-- Üst Duyuru BARI -->
     <div class="announcement-bar" id="announcementBar">
@@ -253,43 +268,42 @@
             <p style="font-size:0.85rem; color:var(--gold); font-weight:700; margin-top:4px;">Mevcut Bakiyeniz: <span id="giftModalUserCoins">0</span> Coin 🪙</p>
 
             <div class="gift-grid">
-                <div class="gift-card" onclick="sendGift('🌹 Gül', 10, '🌹')">
-                    <span class="gift-icon">🌹</span>
-                    <span class="gift-price">10 Coin</span>
-                </div>
-                <div class="gift-card" onclick="sendGift('☕ Kahve', 25, '☕')">
-                    <span class="gift-icon">☕</span>
-                    <span class="gift-price">25 Coin</span>
-                </div>
-                <div class="gift-card" onclick="sendGift('🍰 Pasta', 50, '🍰')">
-                    <span class="gift-icon">🍰</span>
-                    <span class="gift-price">50 Coin</span>
-                </div>
-                <div class="gift-card" onclick="sendGift('👑 Kral Tacı', 100, '👑')">
-                    <span class="gift-icon">👑</span>
-                    <span class="gift-price">100 Coin</span>
-                </div>
-                <div class="gift-card" onclick="sendGift('🚀 Roket', 250, '🚀')">
-                    <span class="gift-icon">🚀</span>
-                    <span class="gift-price">250 Coin</span>
-                </div>
-                <div class="gift-card" onclick="sendGift('💎 Elmas', 500, '💎')">
-                    <span class="gift-icon">💎</span>
-                    <span class="gift-price">500 Coin</span>
-                </div>
-                <div class="gift-card" onclick="sendGift('🏎 Spor Araba', 1000, '🏎')">
-                    <span class="gift-icon">🏎</span>
-                    <span class="gift-price">1000 Coin</span>
-                </div>
-                <div class="gift-card" onclick="sendGift('🏰 Şato', 2500, '🏰')">
-                    <span class="gift-icon">🏰</span>
-                    <span class="gift-price">2500 Coin</span>
-                </div>
+                <div class="gift-card" onclick="sendGift('🌹 Gül', 10, '🌹')"><span class="gift-icon">🌹</span><span class="gift-price">10 Coin</span></div>
+                <div class="gift-card" onclick="sendGift('☕ Kahve', 25, '☕')"><span class="gift-icon">☕</span><span class="gift-price">25 Coin</span></div>
+                <div class="gift-card" onclick="sendGift('🍰 Pasta', 50, '🍰')"><span class="gift-icon">🍰</span><span class="gift-price">50 Coin</span></div>
+                <div class="gift-card" onclick="sendGift('👑 Kral Tacı', 100, '👑')"><span class="gift-icon">👑</span><span class="gift-price">100 Coin</span></div>
+                <div class="gift-card" onclick="sendGift('🚀 Roket', 250, '🚀')"><span class="gift-icon">🚀</span><span class="gift-price">250 Coin</span></div>
+                <div class="gift-card" onclick="sendGift('💎 Elmas', 500, '💎')"><span class="gift-icon">💎</span><span class="gift-price">500 Coin</span></div>
+                <div class="gift-card" onclick="sendGift('🏎 Spor Araba', 1000, '🏎')"><span class="gift-icon">🏎</span><span class="gift-price">1000 Coin</span></div>
+                <div class="gift-card" onclick="sendGift('🏰 Şato', 2500, '🏰')"><span class="gift-icon">🏰</span><span class="gift-price">2500 Coin</span></div>
             </div>
         </div>
     </div>
 
-    <!-- Admin Panel Modal -->
+    <!-- Odadaki Kullanıcıyı Seçip Hediye Gönderme Modalı -->
+    <div class="modal-overlay" id="roomUserSelectGiftModal">
+        <div class="modal-box" style="max-width:440px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h3><i class="fa-solid fa-gift" style="color:var(--gold);"></i> Kime Hediye Atacaksın?</h3>
+                <button onclick="closeRoomUserSelectGiftModal()" style="background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px;">Hediye göndermek istediğin odaya katılımcıyı seç:</p>
+            <div id="roomUsersSelectList"></div>
+        </div>
+    </div>
+
+    <!-- Hikaye Gösterici Modal -->
+    <div class="modal-overlay" id="storyViewerModal" onclick="closeStoryViewer()">
+        <div style="position:relative; max-width:400px; width:90%; border-radius:20px; overflow:hidden; border:2px solid var(--primary);">
+            <img src="" id="storyViewerImg" style="width:100%; height:auto; display:block; max-height:80vh; object-fit:contain; background:#000;">
+            <div style="position:absolute; top:15px; left:15px; display:flex; align-items:center; gap:10px; background:rgba(0,0,0,0.5); padding:6px 12px; border-radius:20px;">
+                <img id="storyViewerPP" src="" style="width:30px; height:30px; border-radius:50%;">
+                <span id="storyViewerName" style="font-weight:700; font-size:0.85rem;">...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel Modal (Gelişmiş Banlama Eklendi) -->
     <div class="modal-overlay" id="adminModal">
         <div class="modal-box" style="border-color: var(--admin-red);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
@@ -297,7 +311,17 @@
                 <button onclick="closeAdminModal()" style="background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
-            <!-- Kullanıcıya Coin Gönderme / Yükleme -->
+            <!-- Kullanıcı Banlama / Unban (Geri Geldi) -->
+            <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid var(--admin-red); border-radius: 14px; padding: 15px; margin-bottom: 15px;">
+                <h4 style="color: var(--admin-red); margin-bottom: 10px;"><i class="fa-solid fa-ban"></i> Kullanıcı Banla / Engelle</h4>
+                <div style="display:flex; gap:8px; margin-bottom:8px;">
+                    <input type="text" id="adminBanUID" placeholder="Banlanacak UID" style="flex:1; padding:8px; border-radius:8px; border:1px solid var(--border-color); background:rgba(0,0,0,0.3); color:#fff;">
+                    <button class="btn-primary" style="background: var(--admin-red); width:auto; padding:0 15px;" onclick="adminBanUser()">Banla</button>
+                    <button class="btn-primary" style="background: var(--green); width:auto; padding:0 15px;" onclick="adminUnbanUser()">Ban Kaldır</button>
+                </div>
+            </div>
+
+            <!-- Coin Gönderme -->
             <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid var(--gold); border-radius: 14px; padding: 15px; margin-bottom: 15px;">
                 <h4 style="color: var(--gold); margin-bottom: 10px;"><i class="fa-solid fa-coins"></i> Kullanıcı Hesabına Coin Yükle</h4>
                 <div style="display:flex; gap:8px; margin-bottom:8px;">
@@ -307,6 +331,7 @@
                 <button class="btn-primary" style="background: var(--gold); color: #000;" onclick="adminAddCoins()">Coin Gönder</button>
             </div>
 
+            <!-- Duyuru Yayınla -->
             <div style="background: rgba(0,0,0,0.25); border: 1px solid var(--border-color); border-radius: 14px; padding: 15px;">
                 <h4 style="color: var(--accent); margin-bottom: 10px;"><i class="fa-solid fa-bullhorn"></i> Platform Geneli Duyuru Yayınla</h4>
                 <div style="display:flex; gap:8px;">
@@ -321,8 +346,11 @@
     <div class="app-container">
         <!-- Sidebar -->
         <div class="sidebar">
-            <div class="user-profile-box" onclick="openMyOwnProfile()">
-                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=user" id="userAvatar" class="avatar" alt="PP">
+            <div class="user-profile-box" onclick="triggerPPChange()">
+                <div class="avatar-wrapper">
+                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=user" id="userAvatar" class="avatar" alt="PP">
+                    <div class="pp-upload-badge" title="Profil Resmini Değiştir"><i class="fa-solid fa-camera"></i></div>
+                </div>
                 <div class="user-info" style="flex: 1;">
                     <h4 id="displayUsername">
                         <span>Kullanıcı</span>
@@ -363,17 +391,14 @@
         <div class="main-content">
             
             <!-- Instagram Story Akışı -->
-            <div class="stories-container">
-                <div class="story-item" onclick="alert('Story ekleme özelliği hazırlanıyor!')">
+            <div class="stories-container" id="storiesContainer">
+                <div class="story-item" onclick="triggerStoryUpload()">
                     <div class="story-ring" style="background:var(--border-color);">
-                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=user" class="story-img">
+                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=user" id="storyUserPP" class="story-img">
                     </div>
-                    <span>Hikayen</span>
+                    <span>Hikaye Ekle</span>
                 </div>
-                <div class="story-item" onclick="openUserProfile('100000', 'ROX (Kurucu)', 'https://api.dicebear.com/7.x/bottts/svg?seed=RoxAdmin')">
-                    <div class="story-ring"><img src="https://api.dicebear.com/7.x/bottts/svg?seed=RoxAdmin" class="story-img"></div>
-                    <span>ROX</span>
-                </div>
+                <!-- Yüklenen Hikayeler Buraya Eklenir -->
             </div>
 
             <!-- Sekme Gezinme Barı -->
@@ -409,7 +434,7 @@
                 </div>
 
                 <div class="room-body">
-                    <!-- Odadaki Katılımcılar -->
+                    <!-- Odadaki Katılımcılar (Çift Olma Sorunu Düzeltildi) -->
                     <div class="voice-participants" id="participantsContainer"></div>
 
                     <!-- Oda İçi Chat Panel -->
@@ -426,9 +451,11 @@
                     </div>
                 </div>
 
+                <!-- Oda İçi Alt Kontrol Paneli (Hediye Kutusu Simgesi Eklendi) -->
                 <div class="room-controls">
-                    <button class="control-btn" id="micBtn" onclick="toggleMic()"><i class="fa-solid fa-microphone"></i></button>
-                    <button class="control-btn" id="deafenBtn" onclick="toggleDeafen()"><i class="fa-solid fa-volume-high"></i></button>
+                    <button class="control-btn" id="micBtn" onclick="toggleMic()" title="Mikrofon Aç/Kapat"><i class="fa-solid fa-microphone"></i></button>
+                    <button class="control-btn" id="deafenBtn" onclick="toggleDeafen()" title="Kulaklık Sesi Aç/Kapat"><i class="fa-solid fa-volume-high"></i></button>
+                    <button class="control-btn gift-control" onclick="openRoomUserSelectGiftModal()" title="Odadakilere Hediye Gönder"><i class="fa-solid fa-gift"></i></button>
                 </div>
             </div>
 
@@ -443,14 +470,27 @@
         let userCoins = 100;
         let isMicOn = true;
         let isDeafenOn = false;
+        let userAvatarUrl = "https://api.dicebear.com/7.x/bottts/svg?seed=user";
+        let activeRoomId = null;
 
-        // Kullanıcı Veritabanı Mantığı
+        let bannedUIDs = [];
+
         let dbUsers = {
-            "100000": { uid: "100000", name: "ROX (Kurucu)", coins: 99999, gifts: ["👑", "💎", "🏎"], role: "admin" }
+            "100000": { uid: "100000", name: "ROX (Kurucu)", coins: 99999, gifts: ["👑", "💎", "🏎"], role: "admin", avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=RoxAdmin" }
         };
 
+        let stories = [
+            { id: 1, uid: "100000", name: "ROX", avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=RoxAdmin", img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&q=80" }
+        ];
+
         let activeRealRooms = [
-            { id: 1, name: "🔥 BREZERS Genel Sohbet", users: [{ uid: "100000", name: "ROX (Kurucu)", role: "admin", avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=RoxAdmin" }] }
+            { 
+                id: 1, 
+                name: "🔥 BREZERS Genel Sohbet", 
+                users: [
+                    { uid: "100000", name: "ROX (Kurucu)", role: "admin", avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=RoxAdmin" }
+                ] 
+            }
         ];
 
         let allPosts = [
@@ -460,7 +500,7 @@
                 authorName: "ROX (Kurucu)",
                 authorAvatar: "https://api.dicebear.com/7.x/bottts/svg?seed=RoxAdmin",
                 imgUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&q=80",
-                caption: "Hediye & Coin sistemi tamamlandı! Profilden veya sohbet odalarından arkadaşlarınıza hediye atabilirsiniz 👑",
+                caption: "Platform güncellendi! Galeriden story ekleme, banlama ve sesli oda hediyeleri aktif 🚀",
                 likes: ["100000"],
                 comments: []
             }
@@ -507,29 +547,107 @@
         }
 
         function processAuth(email, password, selectedRole) {
+            let uid = "";
+            let name = email.split('@')[0];
+
             if (email === "roxhzr@gmail.com" && password === "hasan890") {
                 isAdmin = true;
                 userRole = "admin";
-                currentUID = "100000";
-                currentUsername = "ROX (Kurucu)";
+                uid = "100000";
+                name = "ROX (Kurucu)";
                 userCoins = 99999;
+                userAvatarUrl = "https://api.dicebear.com/7.x/bottts/svg?seed=RoxAdmin";
                 document.getElementById('adminPanelBtn').style.display = 'block';
             } else {
-                currentUID = generateUID();
-                currentUsername = email.split('@')[0];
+                uid = generateUID();
                 userRole = selectedRole;
+                userAvatarUrl = `https://api.dicebear.com/7.x/bottts/svg?seed=${name}`;
             }
 
-            dbUsers[currentUID] = { uid: currentUID, name: currentUsername, coins: userCoins, gifts: [], role: userRole };
+            if (bannedUIDs.includes(uid)) {
+                return alert("Hesabınız admin tarafından engellenmiştir! Giriş yapamazsınız.");
+            }
+
+            currentUID = uid;
+            currentUsername = name;
+
+            dbUsers[currentUID] = { uid: currentUID, name: currentUsername, coins: userCoins, gifts: [], role: userRole, avatar: userAvatarUrl };
 
             document.getElementById('displayUsername').querySelector('span').innerText = currentUsername;
             document.getElementById('displayUID').innerText = "UID: #" + currentUID;
-            document.getElementById('userAvatar').src = `https://api.dicebear.com/7.x/bottts/svg?seed=${currentUsername}`;
+            document.getElementById('userAvatar').src = userAvatarUrl;
+            document.getElementById('storyUserPP').src = userAvatarUrl;
 
             updateCoinDisplay();
             document.getElementById('authModal').style.display = 'none';
+            renderStories();
             renderLobbyRooms();
             renderFeedPosts();
+        }
+
+        /* ----- GALERİDEN PP VE HİKAYE (STORY) YÜKLEME ----- */
+        function triggerStoryUpload() { document.getElementById('storyFileInput').click(); }
+        
+        function handleStoryUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                const newStory = {
+                    id: Date.now(),
+                    uid: currentUID,
+                    name: currentUsername,
+                    avatar: userAvatarUrl,
+                    img: evt.target.result
+                };
+                stories.unshift(newStory);
+                renderStories();
+                alert("Hikayeniz başarıyla yayınlandı! 📸");
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function renderStories() {
+            const container = document.getElementById('storiesContainer');
+            const selfItem = container.firstElementChild;
+            container.innerHTML = '';
+            container.appendChild(selfItem);
+
+            stories.forEach(st => {
+                const div = document.createElement('div');
+                div.className = 'story-item';
+                div.onclick = () => viewStory(st);
+                div.innerHTML = `
+                    <div class="story-ring"><img src="${st.avatar}" class="story-img"></div>
+                    <span>${st.name}</span>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function viewStory(st) {
+            document.getElementById('storyViewerImg').src = st.img;
+            document.getElementById('storyViewerPP').src = st.avatar;
+            document.getElementById('storyViewerName').innerText = st.name;
+            document.getElementById('storyViewerModal').style.display = 'flex';
+        }
+
+        function closeStoryViewer() { document.getElementById('storyViewerModal').style.display = 'none'; }
+
+        function triggerPPChange() { document.getElementById('ppFileInput').click(); }
+
+        function handlePPChange(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                userAvatarUrl = evt.target.result;
+                document.getElementById('userAvatar').src = userAvatarUrl;
+                document.getElementById('storyUserPP').src = userAvatarUrl;
+                if(dbUsers[currentUID]) dbUsers[currentUID].avatar = userAvatarUrl;
+                alert("Profil resminiz güncellendi! ✨");
+            };
+            reader.readAsDataURL(file);
         }
 
         /* ----- GÜNLÜK & HAFTALIK ÖDÜL SİSTEMİ ----- */
@@ -537,12 +655,12 @@
             const lastClaim = localStorage.getItem('dailyClaim_' + currentUID);
             const now = Date.now();
             if (lastClaim && now - parseInt(lastClaim) < 86400000) {
-                return alert("Günlük ödülünüzü zaten aldınız! 24 saat sonra tekrar alabilirsiniz.");
+                return alert("Günlük ödülünüzü aldınız! 24 saat sonra tekrar gelebilirsiniz.");
             }
             userCoins += 10;
             localStorage.setItem('dailyClaim_' + currentUID, now.toString());
             updateCoinDisplay();
-            alert("Tebrikler! 10 Coin günlük ödül hesabınıza eklendi. 🪙");
+            alert("Tebrikler! 10 Coin eklendi 🪙");
         }
 
         function claimWeeklyReward() {
@@ -554,10 +672,10 @@
             userCoins += 50;
             localStorage.setItem('weeklyClaim_' + currentUID, now.toString());
             updateCoinDisplay();
-            alert("Tebrikler! 50 Coin haftalık bonus hesabınıza eklendi! 🎉");
+            alert("Tebrikler! 50 Coin hesabınıza tanımlandı 🎉");
         }
 
-        /* ----- HEDİYE SİSTEMİ ----- */
+        /* ----- HEDİYE VE MİKROFON / ODA SİSTEMİ ----- */
         function openGiftModalForUser(uid, name) {
             selectedGiftTargetUID = uid;
             selectedGiftTargetName = name;
@@ -568,9 +686,7 @@
         function closeGiftModal() { document.getElementById('sendGiftModal').style.display = 'none'; }
 
         function sendGift(giftName, price, icon) {
-            if (userCoins < price) {
-                return alert("Yetersiz Coin! Günlük/haftalık hediyeleri alabilir veya adminden destek isteyebilirsiniz.");
-            }
+            if (userCoins < price) return alert("Yetersiz Coin!");
 
             userCoins -= price;
             updateCoinDisplay();
@@ -583,17 +699,68 @@
             if (chatBox) {
                 const msg = document.createElement('div');
                 msg.className = 'chat-msg gift-msg';
-                msg.innerHTML = `<b>🎁 HEDİYE!</b> <span>${currentUsername}</span>, <b>${selectedGiftTargetName}</b> kişisine ${icon} <b>${giftName}</b> gönderdi!`;
+                msg.innerHTML = `<b>🎁 HEDİYE!</b> <span>${currentUsername}</span> -> <b>${selectedGiftTargetName}</b> kullanıcısına ${icon} <b>${giftName}</b> attı!`;
                 chatBox.appendChild(msg);
                 chatBox.scrollTop = chatBox.scrollHeight;
             }
 
-            alert(`${selectedGiftTargetName} kullanıcısına ${giftName} gönderildi! 🎉`);
+            alert(`${selectedGiftTargetName} kullanıcısına ${giftName} atıldı! 🎉`);
             closeGiftModal();
+            closeRoomUserSelectGiftModal();
             closeInstaProfileModal();
         }
 
-        /* ----- ADMİN COİN YÜKLEME & DUYURU ----- */
+        function openRoomUserSelectGiftModal() {
+            const room = activeRealRooms.find(r => r.id === activeRoomId);
+            if (!room) return;
+
+            const list = document.getElementById('roomUsersSelectList');
+            list.innerHTML = '';
+
+            room.users.forEach(u => {
+                if(u.uid === currentUID) return; // Kendine hediye atma gösterilmez
+                const item = document.createElement('div');
+                item.className = 'user-select-item';
+                item.onclick = () => {
+                    closeRoomUserSelectGiftModal();
+                    openGiftModalForUser(u.uid, u.name);
+                };
+                item.innerHTML = `
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <img src="${u.avatar || 'https://api.dicebear.com/7.x/bottts/svg?seed=' + u.name}" style="width:36px; height:36px; border-radius:50%;">
+                        <b>${u.name}</b>
+                    </div>
+                    <span style="color:var(--gold); font-size:0.8rem; font-weight:700;"><i class="fa-solid fa-gift"></i> Seç</span>
+                `;
+                list.appendChild(item);
+            });
+
+            if(list.children.length === 0) {
+                list.innerHTML = '<p style="font-size:0.85rem; color:var(--text-muted); text-align:center;">Oda içerisinde başka kullanıcı bulunmuyor.</p>';
+            }
+
+            document.getElementById('roomUserSelectGiftModal').style.display = 'flex';
+        }
+
+        function closeRoomUserSelectGiftModal() { document.getElementById('roomUserSelectGiftModal').style.display = 'none'; }
+
+        /* ----- ADMİN BANLAMA VE COİN İŞLEMLERİ ----- */
+        function adminBanUser() {
+            const uid = document.getElementById('adminBanUID').value.trim();
+            if(!uid) return alert("UID Girin!");
+            if(!bannedUIDs.includes(uid)) bannedUIDs.push(uid);
+            alert(`#${uid} UID'li kullanıcı banlandı!`);
+            document.getElementById('adminBanUID').value = '';
+        }
+
+        function adminUnbanUser() {
+            const uid = document.getElementById('adminBanUID').value.trim();
+            if(!uid) return alert("UID Girin!");
+            bannedUIDs = bannedUIDs.filter(id => id !== uid);
+            alert(`#${uid} UID'li kullanıcının banı kaldırıldı.`);
+            document.getElementById('adminBanUID').value = '';
+        }
+
         function adminAddCoins() {
             const targetUID = document.getElementById('adminTargetUID').value.trim();
             const amount = parseInt(document.getElementById('adminCoinAmount').value);
@@ -620,12 +787,10 @@
             closeAdminModal();
         }
 
-        function closeAnnouncement() {
-            document.getElementById('announcementBar').style.display = 'none';
-        }
+        function closeAnnouncement() { document.getElementById('announcementBar').style.display = 'none'; }
 
-        /* ----- PROFİL MODALI ----- */
-        function openMyOwnProfile() { openUserProfile(currentUID, currentUsername, document.getElementById('userAvatar').src); }
+        /* ----- PROFİL GÖSTERİMİ ----- */
+        function openMyOwnProfile() { openUserProfile(currentUID, currentUsername, userAvatarUrl); }
 
         function openUserProfile(uid, name, avatar) {
             selectedGiftTargetUID = uid;
@@ -637,20 +802,17 @@
             document.getElementById('profileModalUID').innerText = "UID: #" + uid;
 
             const giftsContainer = document.getElementById('profileReceivedGifts');
-            giftsContainer.innerHTML = userData.gifts.length > 0 
+            giftsContainer.innerHTML = userData.gifts && userData.gifts.length > 0 
                 ? userData.gifts.map(g => `<span>${g}</span>`).join(' ') 
                 : '<span style="font-size:0.75rem; color:var(--text-muted);">Henüz hediye alınmadı.</span>';
 
             document.getElementById('instaProfileModal').style.display = 'flex';
         }
 
-        function openSendGiftModalFromProfile() {
-            openGiftModalForUser(selectedGiftTargetUID, selectedGiftTargetName);
-        }
-
+        function openSendGiftModalFromProfile() { openGiftModalForUser(selectedGiftTargetUID, selectedGiftTargetName); }
         function closeInstaProfileModal() { document.getElementById('instaProfileModal').style.display = 'none'; }
 
-        /* ----- ODA VE SOHBET MANTIĞI ----- */
+        /* ----- ODA İŞLEMLERİ VE ÇİFT KATILIMCI DÜZELTMESİ ----- */
         function renderLobbyRooms() {
             const container = document.getElementById('roomsContainer');
             container.innerHTML = '';
@@ -673,15 +835,23 @@
         function createNewRealRoom() {
             const name = prompt("Oda Adı:");
             if(!name) return;
-            const newRoom = { id: Date.now(), name: "🎙 " + name, users: [{ uid: currentUID, name: currentUsername, avatar: document.getElementById('userAvatar').src }] };
+            const newRoom = { id: Date.now(), name: "🎙 " + name, users: [] };
             activeRealRooms.push(newRoom);
             renderLobbyRooms();
             joinRoom(newRoom.id);
         }
 
         function joinRoom(roomId) {
+            activeRoomId = roomId;
             const room = activeRealRooms.find(r => r.id === roomId);
             if(!room) return;
+
+            // Kendimizi odaya mükerrer eklememek için kontrol
+            const exists = room.users.some(u => u.uid === currentUID);
+            if (!exists) {
+                room.users.push({ uid: currentUID, name: currentUsername, avatar: userAvatarUrl, role: userRole });
+            }
+
             document.getElementById('lobbyView').style.display = 'none';
             document.getElementById('feedView').style.display = 'none';
             document.getElementById('activeRoomView').style.display = 'flex';
@@ -694,26 +864,21 @@
             const container = document.getElementById('participantsContainer');
             container.innerHTML = '';
             
-            // Kullanıcının kendisi
-            const selfCard = document.createElement('div');
-            selfCard.className = 'participant-card';
-            selfCard.onclick = () => openMyOwnProfile();
-            selfCard.innerHTML = `
-                <img src="${document.getElementById('userAvatar').src}" style="width:50px; height:50px; border-radius:50%; margin-bottom:8px;">
-                <b style="font-size:0.8rem;">${currentUsername} (Sen)</b>
-            `;
-            container.appendChild(selfCard);
+            document.getElementById('currentRoomUsersCount').innerText = `${room.users.length} Katılımcı`;
 
-            // Diğer sabit kullanıcılar
-            const targetCard = document.createElement('div');
-            targetCard.className = 'participant-card';
-            targetCard.onclick = () => openGiftModalForUser('100000', 'ROX (Kurucu)');
-            targetCard.innerHTML = `
-                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=RoxAdmin" style="width:50px; height:50px; border-radius:50%; margin-bottom:8px;">
-                <b style="font-size:0.8rem;">ROX (Kurucu)</b>
-                <span style="font-size:0.65rem; color:var(--gold); margin-top:4px;"><i class="fa-solid fa-gift"></i> Hediye At</span>
-            `;
-            container.appendChild(targetCard);
+            // Odaya dahil olan benzersiz kullanıcıları listele
+            room.users.forEach(u => {
+                const isMe = u.uid === currentUID;
+                const card = document.createElement('div');
+                card.className = 'participant-card';
+                card.onclick = () => isMe ? openMyOwnProfile() : openGiftModalForUser(u.uid, u.name);
+                card.innerHTML = `
+                    <img src="${u.avatar || userAvatarUrl}" style="width:50px; height:50px; border-radius:50%; margin-bottom:8px; object-fit:cover;">
+                    <b style="font-size:0.8rem;">${u.name} ${isMe ? '(Sen)' : ''}</b>
+                    ${!isMe ? '<span style="font-size:0.65rem; color:var(--gold); margin-top:4px;"><i class="fa-solid fa-gift"></i> Hediye At</span>' : ''}
+                `;
+                container.appendChild(card);
+            });
         }
 
         function sendChatMessage() {
@@ -732,11 +897,17 @@
 
         function handleChatKeyPress(e) { if(e.key === 'Enter') sendChatMessage(); }
 
+        /* ----- SES & MİKROFON MANTIK SİMÜLASYONU ----- */
         function toggleMic() {
             isMicOn = !isMicOn;
             const btn = document.getElementById('micBtn');
             btn.classList.toggle('active-off', !isMicOn);
             btn.innerHTML = isMicOn ? '<i class="fa-solid fa-microphone"></i>' : '<i class="fa-solid fa-microphone-slash"></i>';
+            
+            // WebRTC Ses Akışı Kontrolü Simülasyonu
+            navigator.mediaDevices?.getUserMedia({ audio: true }).then(stream => {
+                stream.getAudioTracks().forEach(track => track.enabled = isMicOn);
+            }).catch(() => {});
         }
 
         function toggleDeafen() {
@@ -747,8 +918,16 @@
         }
 
         function leaveRoom() {
+            if(activeRoomId) {
+                const room = activeRealRooms.find(r => r.id === activeRoomId);
+                if(room) {
+                    room.users = room.users.filter(u => u.uid !== currentUID);
+                }
+            }
+            activeRoomId = null;
             document.getElementById('activeRoomView').style.display = 'none';
             document.getElementById('lobbyView').style.display = 'flex';
+            renderLobbyRooms();
         }
 
         function switchMainTab(tab) {
