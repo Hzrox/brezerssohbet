@@ -3,371 +3,544 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brezers Sohbet</title>
+    <title>Brezers Sohbet - Yeni İnsanlar, Yeni Sohbetler</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --primary-green: #00ff66;
-            --dark-bg: #0b0f0e;
-            --card-bg: rgba(15, 23, 20, 0.9);
-            --text-light: #ffffff;
-            --text-gray: #a0a0a0;
+            --bg-color: #0b0f0d;
+            --card-bg: rgba(18, 28, 22, 0.85);
+            --primary-green: #00ff87;
+            --accent-green: #60efff;
+            --text-color: #ffffff;
+            --text-muted: #a0aec0;
+            --border-color: rgba(0, 255, 135, 0.2);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
         }
 
         body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--dark-bg);
-            color: var(--text-light);
-            background-image: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url('arkaplan.jpg');
-            background-size: cover;
-            background-position: center;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at 50% 30%, rgba(0, 255, 135, 0.05), transparent 70%);
+            color: var(--text-color);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
         }
 
+        /* HEADER / NAVBAR */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 50px;
-            border-bottom: 1px solid rgba(0, 255, 102, 0.15);
+            padding: 20px 8%;
+            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--primary-green);
-            text-shadow: 0 0 10px rgba(0, 255, 102, 0.5);
-        }
-
-        nav {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        .logo i {
+            color: var(--primary-green);
+        }
+
+        .logo span {
+            color: var(--primary-green);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
         }
 
         nav a {
-            color: var(--text-light);
+            color: var(--text-muted);
             text-decoration: none;
-            font-size: 15px;
-            cursor: pointer;
+            font-weight: 500;
             transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         nav a:hover, nav a.active {
             color: var(--primary-green);
         }
 
-        .main-container {
+        /* MAIN HERO SECTION */
+        .hero-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 40px 50px;
-            max-width: 1300px;
-            margin: 0 auto;
-            width: 100%;
-            box-sizing: border-box;
+            padding: 60px 8%;
             flex: 1;
+            gap: 40px;
         }
 
-        .hero-section { max-width: 600px; }
-        .hero-section h1 {
+        .hero-text {
+            max-width: 550px;
+        }
+
+        .hero-title {
             font-size: 56px;
-            margin: 0 0 10px 0;
-            color: var(--primary-green);
-            text-shadow: 0 0 20px rgba(0, 255, 102, 0.4);
+            font-weight: 800;
             line-height: 1.1;
-        }
-        .hero-section p {
-            color: var(--text-gray);
-            font-size: 16px;
-            line-height: 1.6;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #fff, var(--primary-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
+        .hero-subtitle {
+            color: var(--primary-green);
+            letter-spacing: 2px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .hero-desc {
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        /* FEATURES GRID */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: var(--primary-green);
+            transform: translateY(-3px);
+        }
+
+        .feature-card i {
+            font-size: 24px;
+            color: var(--primary-green);
+            margin-bottom: 8px;
+        }
+
+        .feature-card h4 {
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .feature-card p {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* LOGIN / REGISTER CARD */
         .auth-card {
             background: var(--card-bg);
-            border: 1px solid rgba(0, 255, 102, 0.3);
-            border-radius: 12px;
-            padding: 30px;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 35px;
             width: 380px;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(0, 255, 102, 0.05);
-            box-sizing: border-box;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            backdrop-filter: blur(15px);
         }
 
-        .auth-card h3 { margin-top: 0; font-size: 22px; margin-bottom: 5px; color: var(--primary-green); }
-        .auth-card p { font-size: 13px; color: var(--text-gray); margin-bottom: 20px; }
+        .auth-card h3 {
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
 
-        .input-group {
-            position: relative;
+        .auth-card p.sub {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
             margin-bottom: 15px;
+            position: relative;
         }
 
-        .input-group input {
+        .form-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .form-control {
             width: 100%;
-            padding: 12px 15px 12px 40px;
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid #333;
-            border-radius: 6px;
-            color: white;
-            box-sizing: border-box;
+            padding: 12px 15px 12px 45px;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: #fff;
             outline: none;
             transition: 0.3s;
         }
 
-        .input-group input:focus {
+        .form-control:focus {
             border-color: var(--primary-green);
-            box-shadow: 0 0 8px rgba(0, 255, 102, 0.3);
         }
 
-        .input-group span {
-            position: absolute;
-            left: 12px;
-            top: 12px;
-            color: var(--text-gray);
-        }
-
-        .btn-submit {
+        .btn-primary {
             width: 100%;
             padding: 12px;
             background: var(--primary-green);
-            border: none;
-            border-radius: 6px;
             color: #000;
-            font-weight: bold;
-            font-size: 15px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
             cursor: pointer;
             transition: 0.3s;
-            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
-        .btn-submit:hover {
-            background: #00cc52;
-            box-shadow: 0 0 12px rgba(0, 255, 102, 0.6);
+        .btn-primary:hover {
+            box-shadow: 0 0 15px rgba(0, 255, 135, 0.4);
+            transform: scale(1.02);
+        }
+
+        .btn-outline {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            color: var(--primary-green);
+            border: 1px solid var(--primary-green);
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        .btn-outline:hover {
+            background: rgba(0, 255, 135, 0.1);
         }
 
         .divider {
             text-align: center;
             margin: 15px 0;
-            color: var(--text-gray);
+            color: var(--text-muted);
             font-size: 12px;
+            position: relative;
         }
 
-        .btn-secondary {
-            width: 100%;
-            padding: 12px;
-            background: transparent;
-            border: 1px solid var(--primary-green);
-            border-radius: 6px;
-            color: var(--primary-green);
-            font-weight: bold;
-            font-size: 15px;
-            cursor: pointer;
-            transition: 0.3s;
-            box-sizing: border-box;
-        }
-
-        .btn-secondary:hover {
-            background: rgba(0, 255, 102, 0.1);
-        }
-
-        .btn-gmail {
-            width: 100%;
-            padding: 12px;
-            background: #ffffff;
-            border: none;
-            border-radius: 6px;
-            color: #333;
-            font-weight: bold;
-            font-size: 14px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
+        /* MODAL / ADMIN PANEL STYLES */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
             justify-content: center;
-            gap: 10px;
-            transition: 0.3s;
-            margin-top: 10px;
+            align-items: center;
         }
-        .btn-gmail:hover { background: #e6e6e6; }
 
-        .page-section { display: none; }
-        .page-section.active-page { display: flex; }
-
-        .panel-container {
-            max-width: 900px;
-            margin: 40px auto;
+        .modal-content {
             background: var(--card-bg);
-            border: 1px solid rgba(0, 255, 102, 0.3);
-            border-radius: 12px;
+            border: 1px solid var(--primary-green);
+            border-radius: 15px;
             padding: 30px;
-            width: 100%;
-            box-sizing: border-box;
+            width: 90%;
+            max-width: 600px;
+            max-height: 85vh;
+            overflow-y: auto;
         }
 
-        .contact-bar {
+        .close-btn {
+            float: right;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 20px;
+        }
+
+        /* FOOTER */
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 20px 8%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(10, 15, 12, 0.95);
-            padding: 15px 50px;
-            border-top: 1px solid rgba(0, 255, 102, 0.15);
-            font-size: 14px;
-            color: var(--text-gray);
+            color: var(--text-muted);
+            font-size: 13px;
         }
 
-        .contact-info { display: flex; gap: 25px; }
-        .contact-info span { color: var(--primary-green); }
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .hero-container {
+                flex-direction: column;
+            }
+            .auth-card {
+                width: 100%;
+            }
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
     </style>
 </head>
 <body>
 
+    <!-- NAVBAR -->
     <header>
-        <div class="logo">🌿 BREZERS SOHBET</div>
+        <div class="logo">
+            <i class="fa-solid fa-crown"></i>
+            Brezers <span>Sohbet</span>
+        </div>
         <nav>
-            <a onclick="showPage('homePage')" class="active">Ana Sayfa</a>
-            <a href="https://t.me/Hzrox" target="_blank">Telegram (@Hzrox)</a>
-            <a href="https://wa.me/905397141379" target="_blank">WhatsApp</a>
+            <ul>
+                <li><a href="#" class="active"><i class="fa-solid fa-house"></i> Ana Sayfa</a></li>
+                <li><a href="#rooms" onclick="checkAuth('rooms')"><i class="fa-solid fa-users"></i> Sohbet Odaları</a></li>
+                <li><a href="#features"><i class="fa-solid fa-star"></i> Özellikler</a></li>
+                <li><a href="#contact" onclick="showContact()"><i class="fa-solid fa-envelope"></i> İletişim</a></li>
+            </ul>
         </nav>
     </header>
 
-    <!-- 1. GİRİŞ SAYFASI (E-posta ile giriş) -->
-    <div id="homePage" class="main-container page-section active-page">
-        <div class="hero-section">
-            <h1>BREZERS<br>- SOHBET -</h1>
-            <p>Brezers Sohbet'e hoş geldin!<br>Yeni arkadaşlar kur, keyifli sohbetler et, özel odalarda kendini ifade et.</p>
+    <!-- HERO / LOGIN SECTION -->
+    <div class="hero-container">
+        <div class="hero-text">
+            <div class="hero-subtitle">YENİ İNSANLAR • YENİ SOHBETLER • TEK PLATFORM</div>
+            <h1 class="hero-title">BREZERS SOHBET</h1>
+            <p class="hero-desc">
+                Brezers Sohbet'e hoş geldin! Yeni arkadaşlıklar kur, keyifli sohbetler et, sesli ve özel odalarda kendini özgürce ifade et.
+            </p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fa-solid fa-comments"></i>
+                    <h4>SOHBET ODALARI</h4>
+                    <p>İstediğin konuda sohbet et.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fa-solid fa-user-group"></i>
+                    <h4>ARKADAŞLIK</h4>
+                    <p>Yeni insanlarla tanış.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fa-solid fa-microphone"></i>
+                    <h4>SESLİ ODALAR</h4>
+                    <p>Sesini duyur, katıl.</p>
+                </div>
+            </div>
         </div>
 
-        <div class="auth-card">
-            <h3>Hoş Geldin<br>Brezers Sohbet'e</h3>
-            <p>Mail adresinle giriş yap veya hemen kayıt ol!</p>
+        <!-- AUTH FORM -->
+        <div class="auth-card" id="authBox">
+            <div id="loginForm">
+                <i class="fa-solid fa-comments-dollar" style="font-size: 30px; color: var(--primary-green); margin-bottom: 10px;"></i>
+                <h3>Hoş Geldin</h3>
+                <p class="sub"><strong style="color:var(--primary-green)">Brezers Sohbet</strong>'e katılmak için giriş yap veya kaydol!</p>
+
+                <div class="form-group">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" id="email" class="form-control" placeholder="E-Posta (Gmail)">
+                </div>
+                <div class="form-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="password" class="form-control" placeholder="Şifre">
+                </div>
+
+                <button class="btn-primary" onclick="handleAuth('login')">
+                    Giriş Yap <i class="fa-solid fa-arrow-right"></i>
+                </button>
+
+                <div class="divider">veya</div>
+
+                <button class="btn-outline" onclick="toggleAuthMode('register')">
+                    <i class="fa-solid fa-user-plus"></i> Kayıt Ol
+                </button>
+            </div>
+
+            <div id="registerForm" style="display: none;">
+                <h3>Kayıt Ol</h3>
+                <p class="sub">Hemen hesabını oluştur ve sohbetlere katıl!</p>
+
+                <div class="form-group">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="regName" class="form-control" placeholder="Kullanıcı Adı">
+                </div>
+                <div class="form-group">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" id="regEmail" class="form-control" placeholder="E-Posta Adresi">
+                </div>
+                <div class="form-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="regPassword" class="form-control" placeholder="Şifre">
+                </div>
+
+                <button class="btn-primary" onclick="handleAuth('register')">
+                    Hesap Oluştur <i class="fa-solid fa-check"></i>
+                </button>
+
+                <button class="btn-outline" onclick="toggleAuthMode('login')">
+                    Zaten Hesabım Var
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN PANEL MODAL (Varsayılan Gizli) -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeAdmin()">&times;</span>
+            <h2 style="color:var(--primary-green); margin-bottom:20px;"><i class="fa-solid fa-user-shield"></i> Admin Paneli</h2>
             
-            <form id="loginForm">
-                <div class="input-group">
-                    <span>📧</span>
-                    <input type="email" id="loginEmail" placeholder="E-posta Adresi (Gmail)" required>
+            <div style="margin-bottom: 20px;">
+                <h4><i class="fa-solid fa-bullhorn"></i> Sitede Duyuru Geç</h4>
+                <input type="text" id="announcementText" class="form-control" placeholder="Duyuru metnini yazın..." style="margin-top:8px;">
+                <button class="btn-primary" style="margin-top:8px;" onclick="postAnnouncement()">Duyuruyu Yayınla</button>
+            </div>
+
+            <hr style="border-color:var(--border-color); margin: 20px 0;">
+
+            <div style="margin-bottom: 20px;">
+                <h4><i class="fa-solid fa-ban"></i> Kullanıcı Banlama / Ban Açma (VID)</h4>
+                <input type="text" id="targetVID" class="form-control" placeholder="Kullanıcı VID Girin..." style="margin-top:8px;">
+                <div style="display:flex; gap:10px; margin-top:8px;">
+                    <button class="btn-primary" style="background:#ff4757; color:#fff;" onclick="banUser()">Kullanıcıyı Banla</button>
+                    <button class="btn-outline" onclick="unbanUser()">Ban Kaldır</button>
                 </div>
-                <div class="input-group">
-                    <span>🔒</span>
-                    <input type="password" id="loginPass" placeholder="Şifre" required>
-                </div>
-                <button type="submit" class="btn-submit">Giriş Yap &gt;</button>
-            </form>
+            </div>
 
-            <button class="btn-gmail" onclick="gmailLogin()">
-                <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.6l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.8 7.3l3.7 2.9C6.4 7.1 9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/><path fill="#FBBC05" d="M5.5 14.8c-.2-.8-.4-1.8-.4-2.8s.2-2 .4-2.8L1.8 6.3C.7 8.5 0 10.9 0 13.5s.7 5 1.8 7.2l3.7-2.9z"/><path fill="#34A853" d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.6-2.1-6.5-5.2L1.8 16c1.9 3.7 5.7 7 10.2 7z"/></svg>
-                Google ile Hızlı Giriş
-            </button>
+            <hr style="border-color:var(--border-color); margin: 20px 0;">
 
-            <div class="divider">veya</div>
-
-            <button class="btn-secondary" onclick="showPage('registerPage')">Kayıt Ol</button>
-        </div>
-    </div>
-
-    <!-- 2. KAYIT OL SAYFASI (Mail ile Kayıt) -->
-    <div id="registerPage" class="main-container page-section" style="justify-content: center;">
-        <div class="auth-card">
-            <h3>Aramıza Katıl</h3>
-            <p>Mail adresinle hesap oluştur ve sohbete başla!</p>
-            
-            <form id="registerForm">
-                <div class="input-group">
-                    <span>👤</span>
-                    <input type="text" placeholder="Kullanıcı Adı" required>
-                </div>
-                <div class="input-group">
-                    <span>📧</span>
-                    <input type="email" placeholder="E-posta Adresi (Gmail)" required>
-                </div>
-                <div class="input-group">
-                    <span>🔒</span>
-                    <input type="password" placeholder="Şifre" required>
-                </div>
-                <button type="submit" class="btn-submit">Kayıt Ol</button>
-            </form>
-
-            <button class="btn-gmail" onclick="gmailLogin()">
-                <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.6l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.8 7.3l3.7 2.9C6.4 7.1 9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/><path fill="#FBBC05" d="M5.5 14.8c-.2-.8-.4-1.8-.4-2.8s.2-2 .4-2.8L1.8 6.3C.7 8.5 0 10.9 0 13.5s.7 5 1.8 7.2l3.7-2.9z"/><path fill="#34A853" d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.6-2.1-6.5-5.2L1.8 16c1.9 3.7 5.7 7 10.2 7z"/></svg>
-                Google ile Kayıt Ol
-            </button>
-
-            <div style="text-align: center; margin-top: 15px; font-size: 13px;">
-                Zaten hesabın var mı? <a style="color: var(--primary-green); cursor: pointer;" onclick="showPage('homePage')">Giriş Yap</a>
+            <div>
+                <h4><i class="fa-solid fa-coins"></i> Coin Dağıt</h4>
+                <input type="text" id="coinVID" class="form-control" placeholder="Kullanıcı VID..." style="margin-top:8px;">
+                <input type="number" id="coinAmount" class="form-control" placeholder="Coin Miktarı" style="margin-top:8px;">
+                <button class="btn-primary" style="margin-top:8px;" onclick="sendCoins()">Coin Gönder</button>
             </div>
         </div>
     </div>
 
-    <!-- 3. SOHBET ODALARI -->
-    <div id="chatPage" class="page-section" style="flex: 1; flex-direction: column; align-items: center; justify-content: center;">
-        <div class="panel-container">
-            <h2 style="color: var(--primary-green); margin-top:0;">💬 Brezers Sohbet Odaları</h2>
-            <p style="color: var(--text-gray);">Sohbet odasına başarıyla bağlandın!</p>
-            <div style="background: rgba(0,0,0,0.5); padding: 20px; border-radius: 8px; min-height: 150px; border: 1px solid #222; margin-bottom: 15px;">
-                <p style="color: #00ff66; font-size: 13px;">[Sistem]: Sohbete hoş geldin!</p>
-            </div>
-            <button class="btn-secondary" onclick="showPage('homePage')">Çıkış Yap</button>
+    <!-- FOOTER -->
+    <footer>
+        <div class="logo" style="font-size: 16px;">
+            <i class="fa-solid fa-crown"></i> Brezers Sohbet
         </div>
-    </div>
-
-    <!-- 4. ADMIN PANELİ (roxhzr@gmail.com / hasan890) -->
-    <div id="adminPage" class="page-section" style="flex: 1; flex-direction: column; align-items: center; justify-content: center;">
-        <div class="panel-container" style="border-color: #00ff66;">
-            <h2 style="color: var(--primary-green); margin-top:0;">🛡️ Admin Yönetim Paneli</h2>
-            <p style="color: var(--text-gray);">Hoş geldin patron! Oturum açılan mail: <b>roxhzr@gmail.com</b></p>
-            <div style="background: rgba(0,0,0,0.5); padding: 20px; border-radius: 8px; margin-bottom: 15px;">
-                <p>Sistem Durumu: <span style="color: var(--primary-green);">Sorunsuz Çalışıyor</span></p>
-                <p>Yetki Seviyesi: <span style="color: var(--primary-green);">Süper Admin</span></p>
-            </div>
-            <button class="btn-secondary" onclick="showPage('homePage')">Güvenli Çıkış</button>
+        <div>
+            © 2025 Brezers Sohbet | Tüm Hakları Saklıdır.
         </div>
-    </div>
+    </footer>
 
-    <div class="contact-bar">
-        <div class="contact-info">
-            <div>💬 Telegram: <span>@Hzrox</span></div>
-            <div>📞 WhatsApp: <span>+90 539 714 13 79</span></div>
-        </div>
-        <div>© 2026 Brezers Sohbet | Tüm hakları saklıdır.</div>
-    </div>
-
+    <!-- JS & LOGIC -->
     <script>
-        function showPage(pageId) {
-            document.querySelectorAll('.page-section').forEach(page => {
-                page.classList.remove('active-page');
-                page.style.display = 'none';
-            });
-            const target = document.getElementById(pageId);
-            target.style.display = 'flex';
-            target.classList.add('active-page');
+        // ADMIN BİLGİLERİ (Görseldeki isteklerinize göre tanımlandı)
+        const ADMIN_EMAIL = "roxhzr@gmail.com";
+        const ADMIN_PASS = "hasan890";
+
+        function toggleAuthMode(mode) {
+            if(mode === 'register') {
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('registerForm').style.display = 'block';
+            } else {
+                document.getElementById('loginForm').style.display = 'block';
+                document.getElementById('registerForm').style.display = 'none';
+            }
         }
 
-        // Giriş Kontrolü (Admin & Normal Kullanıcı Mail)
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = document.getElementById('loginEmail').value.trim();
-            const pass = document.getElementById('loginPass').value.trim();
+        function handleAuth(type) {
+            if(type === 'login') {
+                const email = document.getElementById('email').value;
+                const pass = document.getElementById('password').value;
 
-            // Admin Kontrolü
-            if(email === "roxhzr@gmail.com" && pass === "hasan890") {
-                alert("Admin girişi başarılı! Yönetim paneline yönlendiriliyorsunuz.");
-                showPage('adminPage');
+                if(!email || !pass) {
+                    alert("Lütfen e-posta ve şifrenizi girin!");
+                    return;
+                }
+
+                // ADMIN GİRİŞ KONTROLÜ
+                if(email === ADMIN_EMAIL && pass === ADMIN_PASS) {
+                    alert("Admin Girişi Başarılı! Admin Paneli Açılıyor...");
+                    document.getElementById('adminModal').style.display = 'flex';
+                    return;
+                }
+
+                alert("Giriş başarılı! Ana odaya yönlendiriliyorsunuz.");
+                // Normal kullanıcı yönlendirmesi yapılabilir
             } else {
-                alert("Giriş başarılı! Sohbet odalarına yönlendiriliyorsunuz...");
-                showPage('chatPage');
+                const name = document.getElementById('regName').value;
+                const email = document.getElementById('regEmail').value;
+                const pass = document.getElementById('regPassword').value;
+
+                if(!name || !email || !pass) {
+                    alert("Lütfen tüm alanları doldurun!");
+                    return;
+                }
+
+                // Otomatik VID Oluşturma
+                const userVID = Math.floor(100000 + Math.random() * 900000);
+                alert(`Kayıt Başarılı! Hesabınız oluşturuldu.\nAtanan VID Numaranız: ${userVID}`);
+                toggleAuthMode('login');
             }
-        });
+        }
 
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert("Kayıt işlemi başarılı! Giriş sayfasına yönlendiriliyorsunuz.");
-            showPage('homePage');
-        });
+        function closeAdmin() {
+            document.getElementById('adminModal').style.display = 'none';
+        }
 
-        function gmailLogin() {
-            alert("Google ile doğrulama yapıldı! Sohbet odasına bağlanılıyor...");
-            showPage('chatPage');
+        function postAnnouncement() {
+            const txt = document.getElementById('announcementText').value;
+            if(txt) alert("Duyuru Sistemde Yayınlandı: " + txt);
+        }
+
+        function banUser() {
+            const vid = document.getElementById('targetVID').value;
+            if(vid) alert(`VID: ${vid} kullanıcı engellendi/banlandı.`);
+        }
+
+        function unbanUser() {
+            const vid = document.getElementById('targetVID').value;
+            if(vid) alert(`VID: ${vid} kullanıcının banı kaldırıldı.`);
+        }
+
+        function sendCoins() {
+            const vid = document.getElementById('coinVID').value;
+            const amount = document.getElementById('coinAmount').value;
+            if(vid && amount) alert(`VID: ${vid} kullanıcısına ${amount} Coin aktarıldı!`);
+        }
+
+        function showContact() {
+            alert("İletişim Bilgileri:\nTelegram: @brezerssohbet\nWhatsApp: +90 5XX XXX XX XX");
+        }
+
+        function checkAuth(page) {
+            alert("Sohbet alanına erişmek için lütfen önce giriş yapın.");
         }
     </script>
 </body>
