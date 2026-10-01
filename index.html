@@ -3,714 +3,659 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brezers Sohbet - Türkiye'nin Sesli & Yazılı Sohbet Platformu</title>
-    <!-- Font Awesome & Google Fonts -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    
+    <title>Brezers Sohbet</title>
     <style>
         :root {
-            --bg-dark: #050806;
-            --card-bg: rgba(14, 24, 18, 0.95);
-            --primary-green: #00ff87;
-            --secondary-green: #60efff;
-            --danger-red: #ff4757;
-            --gold-coin: #ffd700;
-            --text-main: #ffffff;
-            --text-sub: #a0aec0;
-            --border-glow: rgba(0, 255, 135, 0.25);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
+            --primary-green: #00ff66;
+            --dark-bg: #0b0f0e;
+            --card-bg: rgba(15, 23, 20, 0.95);
+            --text-light: #ffffff;
+            --text-gray: #a0a0a0;
         }
 
         body {
-            background-color: var(--bg-dark);
-            background-image: radial-gradient(circle at 50% 20%, rgba(0, 255, 135, 0.1), transparent 70%);
-            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('arkaplan.jpg');
+            background-size: cover;
+            background-position: center;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow-x: hidden;
+            justify-content: space-between;
         }
 
-        /* HEADER / NAVBAR */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 6%;
-            border-bottom: 1px solid var(--border-glow);
-            backdrop-filter: blur(12px);
-            position: sticky;
-            top: 0;
-            z-index: 200;
-            background: rgba(5, 8, 6, 0.9);
+            padding: 15px 40px;
+            border-bottom: 1px solid rgba(0, 255, 102, 0.15);
+            background: rgba(10, 15, 12, 0.9);
         }
 
         .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
             font-size: 22px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-        }
-
-        .logo i, .logo span { color: var(--primary-green); }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 20px;
-        }
-
-        nav a {
-            color: var(--text-sub);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 13px;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        nav a:hover, nav a.active {
-            color: var(--primary-green);
-            text-shadow: 0 0 10px rgba(0, 255, 135, 0.5);
-        }
-
-        /* USER TOP BAR */
-        .user-top-bar {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(0, 255, 135, 0.08);
-            padding: 6px 15px;
-            border-radius: 30px;
-            border: 1px solid var(--border-glow);
-        }
-
-        .user-top-bar img {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border: 2px solid var(--primary-green);
-            cursor: pointer;
-            object-fit: cover;
-        }
-
-        .coin-badge {
-            color: var(--gold-coin);
-            font-weight: 700;
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        /* MAIN CONTAINER */
-        .main-content {
-            flex: 1;
-            padding: 40px 6%;
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
-        }
-
-        /* HERO AREA */
-        .hero-container {
-            display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            gap: 40px;
-            align-items: center;
-        }
-
-        .hero-title {
-            font-size: 46px;
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 15px;
-            background: linear-gradient(45deg, #fff, var(--primary-green));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero-subtitle {
-            color: var(--primary-green);
-            letter-spacing: 2px;
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* DASHBOARD ROOMS GRID */
-        .section-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--primary-green);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .rooms-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .room-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-glow);
-            border-radius: 16px;
-            padding: 20px;
-            transition: 0.3s;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .room-card:hover {
-            border-color: var(--primary-green);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 255, 135, 0.15);
-        }
-
-        .room-badge {
-            position: absolute;
-            top: 15px; right: 15px;
-            background: rgba(0,255,135,0.15);
-            color: var(--primary-green);
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-
-        /* AUTH CARD */
-        .auth-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-glow);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-            backdrop-filter: blur(15px);
-        }
-
-        .form-group { margin-bottom: 15px; position: relative; }
-        .form-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-sub); }
-        .form-control {
-            width: 100%;
-            padding: 12px 15px 12px 45px;
-            background: rgba(0,0,0,0.6);
-            border: 1px solid var(--border-glow);
-            border-radius: 10px;
-            color: #fff;
-            outline: none;
-            transition: 0.3s;
-        }
-        .form-control:focus { border-color: var(--primary-green); }
-
-        .btn-primary {
-            width: 100%;
-            padding: 12px;
-            background: var(--primary-green);
-            color: #000;
-            border: none;
-            border-radius: 10px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            text-decoration: none;
-        }
-        .btn-primary:hover { box-shadow: 0 0 15px rgba(0, 255, 135, 0.5); transform: scale(1.02); }
-
-        .btn-outline {
-            width: 100%;
-            padding: 11px;
-            background: transparent;
-            color: var(--primary-green);
-            border: 1px solid var(--primary-green);
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: 0.3s;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-        }
-
-        /* MODALS */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.88);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background: var(--card-bg);
-            border: 1px solid var(--primary-green);
-            border-radius: 18px;
-            padding: 25px;
-            width: 90%;
-            max-width: 700px;
-            max-height: 85vh;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        .close-btn {
-            position: absolute;
-            right: 20px; top: 20px;
-            cursor: pointer;
-            color: var(--text-sub);
-            font-size: 22px;
-        }
-
-        /* VOICE ROOM SEATS */
-        .mic-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-            gap: 12px;
-            margin: 20px 0;
-        }
-
-        .mic-seat {
-            background: rgba(0,0,0,0.5);
-            border: 1px dashed var(--border-glow);
-            border-radius: 12px;
-            padding: 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .mic-seat:hover { border-color: var(--primary-green); }
-
-        .mic-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            margin: 0 auto 6px;
-            background: #111;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             font-weight: bold;
             color: var(--primary-green);
-            overflow: hidden;
-            border: 1px solid var(--border-glow);
-        }
-
-        .mic-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .mic-label { font-size: 11px; color: var(--text-sub); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-        /* FLOAT WHATSAPP */
-        .float-wp {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            background-color: #25d366;
-            color: #fff;
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
+            text-shadow: 0 0 10px rgba(0, 255, 102, 0.5);
             display: flex;
-            justify-content: center;
             align-items: center;
-            font-size: 28px;
-            box-shadow: 0 5px 20px rgba(37, 211, 102, 0.5);
-            z-index: 99;
-            transition: 0.3s;
-            text-decoration: none;
+            gap: 10px;
         }
-        .float-wp:hover { transform: scale(1.1); }
 
-        /* FOOTER */
-        footer {
-            border-top: 1px solid var(--border-glow);
-            padding: 20px 6%;
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        nav a, nav button {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: 0.3s;
+        }
+
+        nav a:hover, nav button:hover, nav a.active {
+            color: var(--primary-green);
+        }
+
+        .main-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: var(--text-sub);
-            font-size: 12px;
-            background: rgba(5, 8, 6, 0.9);
+            padding: 40px 50px;
+            max-width: 1300px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+            flex: 1;
         }
+
+        .hero-section { max-width: 600px; }
+        .hero-section h1 {
+            font-size: 50px;
+            margin: 0 0 10px 0;
+            color: var(--primary-green);
+            text-shadow: 0 0 20px rgba(0, 255, 102, 0.4);
+            line-height: 1.1;
+        }
+        .hero-section p {
+            color: var(--text-gray);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .auth-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 255, 102, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            width: 360px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+            box-sizing: border-box;
+        }
+
+        .auth-card h3 { margin-top: 0; font-size: 20px; margin-bottom: 5px; color: var(--primary-green); }
+        .auth-card p { font-size: 13px; color: var(--text-gray); margin-bottom: 15px; }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 12px;
+        }
+
+        .input-group input, .input-group select, .input-group textarea {
+            width: 100%;
+            padding: 10px 12px 10px 38px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid #333;
+            border-radius: 6px;
+            color: white;
+            box-sizing: border-box;
+            outline: none;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+
+        .input-group textarea { resize: none; height: 60px; padding-top: 10px; }
+
+        .input-group input:focus, .input-group select:focus, .input-group textarea:focus {
+            border-color: var(--primary-green);
+            box-shadow: 0 0 8px rgba(0, 255, 102, 0.3);
+        }
+
+        .input-group span {
+            position: absolute;
+            left: 12px;
+            top: 10px;
+            color: var(--text-gray);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 10px;
+            background: var(--primary-green);
+            border: none;
+            border-radius: 6px;
+            color: #000;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 5px;
+        }
+
+        .btn-submit:hover {
+            background: #00cc52;
+            box-shadow: 0 0 12px rgba(0, 255, 102, 0.6);
+        }
+
+        .divider {
+            text-align: center;
+            margin: 12px 0;
+            color: var(--text-gray);
+            font-size: 12px;
+        }
+
+        .btn-secondary {
+            width: 100%;
+            padding: 10px;
+            background: transparent;
+            border: 1px solid var(--primary-green);
+            border-radius: 6px;
+            color: var(--primary-green);
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-sizing: border-box;
+        }
+
+        .btn-secondary:hover { background: rgba(0, 255, 102, 0.1); }
+
+        .btn-gmail {
+            width: 100%;
+            padding: 10px;
+            background: #ffffff;
+            border: none;
+            border-radius: 6px;
+            color: #333;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: 0.3s;
+            margin-top: 8px;
+        }
+        .btn-gmail:hover { background: #e6e6e6; }
+
+        .page-section { display: none; }
+        .page-section.active-page { display: flex; }
+
+        /* Duyuru Barı */
+        #announcementBanner {
+            background: rgba(0, 255, 102, 0.15);
+            border-bottom: 1px solid var(--primary-green);
+            color: var(--primary-green);
+            padding: 8px 20px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: bold;
+            display: none;
+        }
+
+        /* Ana Uygulama Düzeni */
+        .app-layout {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            margin: 20px auto;
+            gap: 20px;
+            box-sizing: border-box;
+            flex: 1;
+        }
+
+        .left-sidebar {
+            width: 300px;
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 255, 102, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            height: fit-content;
+        }
+
+        .profile-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 12px;
+        }
+
+        .profile-avatar {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-green);
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .feed-container {
+            flex: 1;
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 255, 102, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Sesli Oda Ekranı */
+        .room-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 20px auto;
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 255, 102, 0.4);
+            border-radius: 12px;
+            padding: 25px;
+            box-sizing: border-box;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .slots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 15px;
+            background: rgba(0,0,0,0.4);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #222;
+        }
+
+        .slot {
+            background: rgba(15, 23, 20, 0.8);
+            border: 1px dashed var(--primary-green);
+            border-radius: 8px;
+            height: 90px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: var(--text-gray);
+            cursor: pointer;
+            position: relative;
+        }
+        .slot.filled { border-style: solid; color: var(--text-light); }
+
+        .contact-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 15, 12, 0.95);
+            padding: 12px 40px;
+            border-top: 1px solid rgba(0, 255, 102, 0.15);
+            font-size: 13px;
+            color: var(--text-gray);
+        }
+
+        .contact-info { display: flex; gap: 20px; }
+        .contact-info span { color: var(--primary-green); }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR -->
     <header>
-        <div class="logo" onclick="location.reload()">
-            <i class="fa-solid fa-crown"></i> Brezers <span>Sohbet</span>
+        <div class="logo">
+            <span>🌿</span> Brezers Sohbet
         </div>
-        
+        <div id="coinDisplay" style="color: var(--primary-green); font-weight: bold; font-size: 14px; display:none;">
+            💰 <span id="userCoins">50</span> Coin
+        </div>
         <nav>
-            <ul>
-                <li><a href="#" class="active"><i class="fa-solid fa-house"></i> Ana Sayfa</a></li>
-                <li><a href="#rooms" onclick="openVoiceRoom()"><i class="fa-solid fa-microphone-lines"></i> Sesli Odalar</a></li>
-                <li><a href="#family" onclick="openFamilyModal()"><i class="fa-solid fa-users-rays"></i> Aileler</a></li>
-                <li><a href="#search" onclick="openSearchModal()"><i class="fa-solid fa-magnifying-glass"></i> VIP Arama</a></li>
-                <li><a href="#contact" onclick="openContactModal()"><i class="fa-solid fa-envelope"></i> İletişim</a></li>
-            </ul>
+            <a onclick="showPage('homePage')" class="nav-home active" id="navHomeLink">Ana Sayfa</a>
+            <a href="https://t.me/Hzrox" target="_blank">Telegram</a>
+            <a href="https://wa.me/905397141379" target="_blank">WhatsApp</a>
         </nav>
-
-        <div class="user-top-bar">
-            <span class="coin-badge"><i class="fa-solid fa-coins"></i> <span id="userCoinCount">50</span> Coin</span>
-            <div id="adminBadgeBtn" style="display:none;">
-                <button onclick="document.getElementById('adminModal').style.display='flex'" style="background:var(--danger-red); color:#fff; border:none; padding:4px 10px; border-radius:12px; font-weight:bold; font-size:11px; cursor:pointer;"><i class="fa-solid fa-shield-halved"></i> Admin</button>
-            </div>
-            <!-- DÜZELTİLEN YÜKSEK KALİTELİ SVG VARSAYILAN AVATAR -->
-            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230e1812'/><circle cx='50' cy='35' r='20' fill='%2300ff87'/><path d='M 20 85 C 20 60, 80 60, 80 85 Z' fill='%2300ff87'/></svg>" id="navProfileImg" onclick="openProfileModal()">
-        </div>
     </header>
 
-    <!-- DUYURU BANNER -->
-    <div id="announcementBanner" style="display:none; background: linear-gradient(90deg, #00ff87, #60efff); color: #000; padding: 8px 6%; text-align: center; font-weight: 700; font-size: 13px;">
-        <i class="fa-solid fa-bullhorn"></i> <span id="announcementText">Duyuru: Brezers Sohbet Canlı Sesli Odalar Aktif!</span>
-    </div>
+    <!-- Duyuru Şeridi -->
+    <div id="announcementBanner">📢 Duyuru: Sistem aktif! Herkese iyi sohbetler dileriz.</div>
 
-    <!-- MAIN CONTENT -->
-    <div class="main-content">
-        <!-- HERO AREA -->
-        <div class="hero-container" id="heroSection">
-            <div>
-                <div class="hero-subtitle"><i class="fa-solid fa-fire"></i> TÜRKİYE'NİN SOHBET PLATFORMU</div>
-                <h1 class="hero-title">CANLI SESLİ ODA VE EĞLENCE SİSTEMİ</h1>
-                <p style="color: var(--text-sub); line-height: 1.6; margin-bottom: 25px;">
-                    Yeni arkadaşlarla tanışın, sesli odalara bağlanın, aileler kurun ve VIP ayrıcalıklarının tadını çıkarın.
-                </p>
-
-                <div style="display:flex; gap:15px;">
-                    <button class="btn-primary" style="width:auto; padding:12px 25px;" onclick="openVoiceRoom()"><i class="fa-solid fa-microphone"></i> Hızlı Odaya Katıl</button>
-                    <button class="btn-outline" style="width:auto; padding:12px 25px;" onclick="openContactModal()"><i class="fa-solid fa-headset"></i> Destek Al</button>
-                </div>
-            </div>
-
-            <!-- GİRİŞ / KAYIT KARTI -->
-            <div class="auth-card" id="authBox">
-                <div id="loginForm">
-                    <h3 style="font-size:20px; margin-bottom:5px;"><i class="fa-solid fa-right-to-bracket"></i> Hesabına Giriş Yap</h3>
-                    <p style="color:var(--text-sub); font-size:12px; margin-bottom:15px;">Sohbete katılmak için oturum açın.</p>
-
-                    <div class="form-group">
-                        <i class="fa-solid fa-envelope"></i>
-                        <input type="email" id="email" class="form-control" placeholder="E-Posta / Admin Mail">
-                    </div>
-                    <div class="form-group">
-                        <i class="fa-solid fa-lock"></i>
-                        <input type="password" id="password" class="form-control" placeholder="Şifre">
-                    </div>
-
-                    <button class="btn-primary" onclick="handleAuth('login')">Giriş Yap</button>
-                    <button class="btn-outline" onclick="toggleAuth('register')">Yeni Kayıt Oluştur</button>
-                </div>
-
-                <div id="registerForm" style="display: none;">
-                    <h3 style="font-size:20px; margin-bottom:5px;"><i class="fa-solid fa-user-plus"></i> Kayıt Ol</h3>
-                    <p style="color:var(--text-sub); font-size:12px; margin-bottom:15px;">Aramıza katıl ve 50 Coin kazan!</p>
-
-                    <div class="form-group">
-                        <i class="fa-solid fa-user"></i>
-                        <input type="text" id="regName" class="form-control" placeholder="Kullanıcı Adı">
-                    </div>
-                    <div class="form-group">
-                        <i class="fa-solid fa-envelope"></i>
-                        <input type="email" id="regEmail" class="form-control" placeholder="E-Posta Adresi">
-                    </div>
-                    <div class="form-group">
-                        <i class="fa-solid fa-lock"></i>
-                        <input type="password" id="regPassword" class="form-control" placeholder="Şifre">
-                    </div>
-
-                    <button class="btn-primary" onclick="handleAuth('register')">Kayıt Ol</button>
-                    <button class="btn-outline" onclick="toggleAuth('login')">Giriş Ekranına Dön</button>
-                </div>
+    <!-- 1. GİRİŞ SAYFASI -->
+    <div id="homePage" class="main-container page-section active-page">
+        <div class="hero-section">
+            <h1>BREZERS<br>- SOHBET -</h1>
+            <p>Sesli odalar kur, arkadaşlarınla sohbet et, aile oluştur ve coin kazan!</p>
+            <div style="margin-top: 20px; display: flex; gap: 15px;">
+                <a href="https://t.me/Hzrox" target="_blank" style="color: var(--primary-green); text-decoration: none;">💬 Telegram Destekte Kalın</a>
             </div>
         </div>
 
-        <!-- POPÜLER SESLİ ODALAR -->
-        <div>
-            <div class="section-title"><i class="fa-solid fa-tower-broadcast"></i> Popüler Sesli Odalar</div>
-            <div class="rooms-grid">
-                <div class="room-card" onclick="openVoiceRoom('Brezers Ana Sohbet', 'Admin_Hasan')">
-                    <span class="room-badge"><i class="fa-solid fa-user"></i> 14/30 Kişi</span>
-                    <h3 style="font-size:16px; color:#fff; margin-bottom:5px;"><i class="fa-solid fa-microphone" style="color:var(--primary-green);"></i> Brezers Ana Sohbet</h3>
-                    <p style="font-size:12px; color:var(--text-sub);">Oda Sahibi: Admin_Hasan</p>
+        <div class="auth-card">
+            <h3>Giriş Yap</h3>
+            <p>Mail adresinle veya Google ile bağlan.</p>
+            
+            <form id="loginForm">
+                <div class="input-group">
+                    <span>📧</span>
+                    <input type="email" id="loginEmail" placeholder="E-posta Adresi (Gmail)" required>
                 </div>
-                <div class="room-card" onclick="openVoiceRoom('Müzik & Oyun Odası', 'Hzrox_VIP')">
-                    <span class="room-badge"><i class="fa-solid fa-user"></i> 8/12 Kişi</span>
-                    <h3 style="font-size:16px; color:#fff; margin-bottom:5px;"><i class="fa-solid fa-music" style="color:var(--primary-green);"></i> Müzik & Oyun Odası</h3>
-                    <p style="font-size:12px; color:var(--text-sub);">Oda Sahibi: Hzrox_VIP</p>
+                <div class="input-group">
+                    <span>🔒</span>
+                    <input type="password" id="loginPass" placeholder="Şifre" required>
                 </div>
-                <div class="room-card" onclick="openVoiceRoom('VIP Aile Odası', 'Kral_User')">
-                    <span class="room-badge"><i class="fa-solid fa-user"></i> 22/30 Kişi</span>
-                    <h3 style="font-size:16px; color:#fff; margin-bottom:5px;"><i class="fa-solid fa-crown" style="color:var(--gold-coin);"></i> VIP Aile Odası</h3>
-                    <p style="font-size:12px; color:var(--text-sub);">Oda Sahibi: Kral_User</p>
+                <button type="submit" class="btn-submit">Giriş Yap</button>
+            </form>
+
+            <button class="btn-gmail" onclick="socialLogin()">
+                <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.6l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.8 7.3l3.7 2.9C6.4 7.1 9 5 12 5z"/><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/><path fill="#FBBC05" d="M5.5 14.8c-.2-.8-.4-1.8-.4-2.8s.2-2 .4-2.8L1.8 6.3C.7 8.5 0 10.9 0 13.5s.7 5 1.8 7.2l3.7-2.9z"/><path fill="#34A853" d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.6-2.1-6.5-5.2L1.8 16c1.9 3.7 5.7 7 10.2 7z"/></svg>
+                Google ile Giriş Yap
+            </button>
+
+            <div class="divider">veya</div>
+            <button class="btn-secondary" onclick="showPage('registerPage')">Kayıt Ol</button>
+        </div>
+    </div>
+
+    <!-- 2. KAYIT OL SAYFASI -->
+    <div id="registerPage" class="main-container page-section" style="justify-content: center;">
+        <div class="auth-card">
+            <h3>Aramıza Katıl</h3>
+            <p>Hesabını oluştur ve hemen sohbete başla!</p>
+            
+            <form id="registerForm">
+                <div class="input-group">
+                    <span>👤</span>
+                    <input type="text" id="regUser" placeholder="Kullanıcı Adı" required>
                 </div>
+                <div class="input-group">
+                    <span>📧</span>
+                    <input type="email" id="regMail" placeholder="E-posta Adresi (Gmail)" required>
+                </div>
+                <div class="input-group">
+                    <span>🔒</span>
+                    <input type="password" id="regPass" placeholder="Şifre" required>
+                </div>
+                <button type="submit" class="btn-submit">Kayıt Ol</button>
+            </form>
+            <div style="text-align: center; margin-top: 12px; font-size: 13px;">
+                Zaten hesabın var mı? <a style="color: var(--primary-green); cursor: pointer;" onclick="showPage('homePage')">Giriş Yap</a>
             </div>
         </div>
     </div>
 
-    <!-- İLETİŞİM MODALI -->
-    <div id="contactModal" class="modal">
-        <div class="modal-content" style="max-width: 450px; text-align: center;">
-            <span class="close-btn" onclick="closeModal('contactModal')">&times;</span>
-            <h3 style="color:var(--primary-green); margin-bottom:10px;"><i class="fa-solid fa-headset"></i> İletişim & Destek</h3>
-            <p style="font-size:12px; color:var(--text-sub); margin-bottom:20px;">Bizimle 7/24 iletişime geçebilirsiniz.</p>
+    <!-- 3. ANA UYGULAMA / AKIŞ EKRANI -->
+    <div id="mainAppPage" class="page-section" style="flex: 1; flex-direction: column;">
+        <div class="app-layout">
+            <div class="left-sidebar">
+                <div class="profile-box">
+                    <img id="userProfilePic" src="https://via.placeholder.com/60" class="profile-avatar" title="PP'ye basarak oda açabilir veya PP değiştirebilirsin" onclick="openVoiceRoomModal()">
+                    <div>
+                        <h4 id="profileUsernameName" style="margin:0; font-size: 15px; color: var(--primary-green);">Kullanıcı</h4>
+                        <p id="profileBioText" style="margin:3px 0 0 0; font-size: 12px; color: var(--text-gray);">Biyografi eklenmedi...</p>
+                    </div>
+                </div>
 
-            <div style="display:flex; flex-direction:column; gap:12px;">
-                <a href="https://wa.me/905397141379" target="_blank" class="btn-primary" style="background:#25d366; color:#fff;">
-                    <i class="fa-brands fa-whatsapp" style="font-size:20px;"></i> WhatsApp: +90 539 714 13 79
-                </a>
-                <a href="https://t.me/Hzrox" target="_blank" class="btn-primary" style="background:#0088cc; color:#fff;">
-                    <i class="fa-brands fa-telegram" style="font-size:20px;"></i> Telegram: @Hzrox
-                </a>
+                <div style="font-size: 13px; display: flex; flex-direction: column; gap: 8px;">
+                    <div>👥 Takipçi: <b id="followerCount">12</b> | Arkadaş: <b id="friendCount">5</b></div>
+                    <div>🪙 Coin Miktarınız: <b id="sidebarCoins" style="color: var(--primary-green);">50</b></div>
+                </div>
+
+                <hr style="border-color: rgba(255,255,255,0.1); margin: 0;">
+
+                <button class="btn-secondary" onclick="openBioModal()">✏️ Biyografi / PP Düzenle</button>
+                <button class="btn-submit" onclick="openVoiceRoomModal()">🎙️ Sesli Oda Aç</button>
+                <button class="btn-secondary" onclick="openFamilyModal()">🏰 Aile Aç / Yönet</button>
+            </div>
+
+            <div class="feed-container">
+                <h3 style="margin: 0; color: var(--primary-green); font-size: 18px;">🌐 Aktif Sesli Odalar ve Paylaşımlar</h3>
+                <div id="roomsListArea" style="display: flex; flex-direction: column; gap: 10px;">
+                    <div style="background: rgba(0,0,0,0.4); padding: 12px; border-radius: 8px; border: 1px solid #222; display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <b>Genel Eğlence Odası</b> <span style="font-size: 12px; color: var(--text-gray);">(Sahip: Rox)</span>
+                            <p style="margin: 5px 0 0 0; font-size: 12px; color: var(--text-gray);">Keyifli sohbetler ve müzik.</p>
+                        </div>
+                        <button class="btn-submit" style="width: auto; padding: 6px 15px;" onclick="joinRoom('Genel Eğlence Odası', 6)">Odaya Gir</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- HIZLI WHATSAPP BUTTON -->
-    <a href="https://wa.me/905397141379" target="_blank" class="float-wp" title="WhatsApp Destek">
-        <i class="fa-brands fa-whatsapp"></i>
-    </a>
-
-    <!-- SESLİ ODA MODALI -->
-    <div id="voiceRoomModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('voiceRoomModal')">&times;</span>
-            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-glow); padding-bottom:12px;">
+    <!-- 4. SESLİ ODA YÖNETİM EKRANI -->
+    <div id="voiceRoomPage" class="page-section" style="flex: 1; flex-direction: column;">
+        <div class="room-container">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div>
-                    <h3 id="roomTitleDisplay" style="color:var(--primary-green); font-size:18px;"><i class="fa-solid fa-microphone"></i> Brezers Ana Sohbet</h3>
-                    <p id="roomDescDisplay" style="font-size:11px; color:var(--text-sub);">Kapasite: 12 Koltuk</p>
+                    <h2 id="activeRoomTitle" style="color: var(--primary-green); margin:0;">Oda Adı</h2>
+                    <p id="activeRoomDesc" style="color: var(--text-gray); margin: 5px 0 0 0; font-size: 13px;">Oda açıklaması...</p>
                 </div>
-                <button class="btn-outline" style="width:auto; padding:5px 12px; font-size:12px;" onclick="openRoomSettings()"><i class="fa-solid fa-gear"></i> Ayarlar</button>
+                <button class="btn-secondary" style="border-color: #ff3333; color: #ff3333; width: auto;" onclick="leaveRoom()">Oda Durdur / Ayrıl</button>
             </div>
 
-            <div class="mic-grid" id="micGrid"></div>
+            <div class="slots-grid" id="roomSlotsGrid"></div>
 
-            <div style="background:rgba(0,0,0,0.5); border-radius:10px; padding:12px; border:1px solid var(--border-glow);">
-                <div id="chatBox" style="height:120px; overflow-y:auto; font-size:12px; margin-bottom:10px;">
-                    <div style="color:var(--primary-green);">[Sistem]: Sesli odaya bağlandınız. Keyifli sohbetler!</div>
-                </div>
-                <div style="display:flex; gap:8px;">
-                    <input type="text" id="chatInput" class="form-control" placeholder="Odaya mesaj yaz..." style="padding:8px 12px;">
-                    <button class="btn-primary" style="width:90px; padding:8px;" onclick="sendChatMessage()">Gönder</button>
-                </div>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn-secondary" onclick="alert('Mikrofon kapatıldı/açıldı.')">🎤 Mikrofonu Aç/Kapat</button>
+                <button class="btn-secondary" onclick="alert('Yazılı mesaj gönderildi.')">💬 Oda İçi Sohbet</button>
             </div>
         </div>
     </div>
 
-    <!-- ADMIN MODALI -->
-    <div id="adminModal" class="modal">
-        <div class="modal-content" style="max-width: 450px;">
-            <span class="close-btn" onclick="closeModal('adminModal')">&times;</span>
-            <h2 style="color:var(--danger-red); margin-bottom:15px; font-size:20px;"><i class="fa-solid fa-user-shield"></i> Admin Paneli</h2>
+    <!-- 5. ADMIN PANELİ (roxhzr@gmail.com / hasan890) -->
+    <div id="adminPage" class="page-section" style="flex: 1; flex-direction: column; align-items: center; justify-content: center;">
+        <div class="auth-card" style="width: 450px; border-color: var(--primary-green);">
+            <h2 style="color: var(--primary-green); margin-top:0;">🛡️ Admin Yönetim Paneli</h2>
+            <p>Patron kontrol paneline hoş geldin.</p>
             
-            <div style="margin-bottom:15px;">
-                <label style="font-size:12px; color:var(--text-sub);">Site Duyurusu Yayınla:</label>
-                <input type="text" id="adminAnnounceInput" class="form-control" placeholder="Duyuru metni..." style="margin-top:5px;">
-                <button class="btn-primary" style="margin-top:8px;" onclick="publishAdminAnnouncement()">Duyuruyu Yayınla</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- PROFİL MODALI -->
-    <div id="profileModal" class="modal">
-        <div class="modal-content" style="max-width: 420px; text-align:center;">
-            <span class="close-btn" onclick="closeModal('profileModal')">&times;</span>
-            
-            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230e1812'/><circle cx='50' cy='35' r='20' fill='%2300ff87'/><path d='M 20 85 C 20 60, 80 60, 80 85 Z' fill='%2300ff87'/></svg>" id="cardPP" style="width:85px; height:85px; border-radius:50%; border:2px solid var(--primary-green); object-fit:cover; margin-bottom:10px;">
-            <h3 id="cardName">Kullanıcı</h3>
-            <p style="font-size:12px; color:var(--text-sub);">VID: <span id="cardVID">100023</span></p>
-
-            <div style="margin-top:15px; text-align:left;">
-                <label style="font-size:11px; color:var(--text-sub);">Galeriden Profil Resmi Yükle:</label>
-                <input type="file" accept="image/*" onchange="uploadPP(event)" style="font-size:11px; margin-top:5px; color:var(--text-sub); width:100%;">
-            </div>
-        </div>
-    </div>
-
-    <!-- AİLE MODALI -->
-    <div id="familyModal" class="modal">
-        <div class="modal-content" style="max-width:400px;">
-            <span class="close-btn" onclick="closeModal('familyModal')">&times;</span>
-            <h3 style="color:var(--primary-green); margin-bottom:15px;"><i class="fa-solid fa-users-rays"></i> Aile Oluştur</h3>
-            <div class="form-group">
-                <input type="text" id="famName" class="form-control" placeholder="Aile İsmi">
-            </div>
-            <button class="btn-primary" onclick="alert('Aileniz kuruldu!')">Aileyi Kur</button>
-        </div>
-    </div>
-
-    <!-- SEARCH MODALI -->
-    <div id="searchModal" class="modal">
-        <div class="modal-content" style="max-width:400px;">
-            <span class="close-btn" onclick="closeModal('searchModal')">&times;</span>
-            <h3 style="color:var(--primary-green); margin-bottom:15px;"><i class="fa-solid fa-magnifying-glass"></i> VIP & VID Arama</h3>
-            <input type="text" class="form-control" placeholder="Kullanıcı VID Girin..." style="margin-bottom:10px;">
-            <button class="btn-primary" onclick="alert('Kullanıcı bulundu!')">Arama Yap</button>
-        </div>
-    </div>
-
-    <!-- ODA AYARLARI MODALI -->
-    <div id="roomSettingsModal" class="modal">
-        <div class="modal-content" style="max-width:400px;">
-            <span class="close-btn" onclick="closeModal('roomSettingsModal')">&times;</span>
-            <h3 style="color:var(--primary-green); margin-bottom:15px;"><i class="fa-solid fa-sliders"></i> Oda Ayarları</h3>
-            <div class="form-group">
-                <label style="font-size:11px; color:var(--text-sub);">Mikrofon Kapasitesi (6-30)</label>
-                <input type="number" id="setMicLimit" class="form-control" value="12" min="6" max="30">
-            </div>
-            <button class="btn-primary" onclick="saveRoomSettings()">Kaydet</button>
-        </div>
-    </div>
-
-    <!-- FOOTER -->
-    <footer>
-        <div class="logo" style="font-size: 14px;">
-            <i class="fa-solid fa-crown"></i> Brezers Sohbet
-        </div>
-        <div>© 2026 Brezers Sohbet | Tüm Hakları Saklıdır.</div>
-    </footer>
-
-    <!-- SCRIPT -->
-    <script>
-        const ADMIN_EMAIL = "roxhzr@gmail.com";
-        const ADMIN_PASS = "hasan890";
-        let currentUser = null;
-        let currentMicLimit = 12;
-        let userPP = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230e1812'/><circle cx='50' cy='35' r='20' fill='%2300ff87'/><path d='M 20 85 C 20 60, 80 60, 80 85 Z' fill='%2300ff87'/></svg>";
-
-        function toggleAuth(mode) {
-            document.getElementById('loginForm').style.display = mode === 'register' ? 'none' : 'block';
-            document.getElementById('registerForm').style.display = mode === 'register' ? 'block' : 'none';
-        }
-
-        function handleAuth(type) {
-            const email = document.getElementById('email').value;
-            const pass = document.getElementById('password').value;
-
-            if(type === 'login' && email === ADMIN_EMAIL && pass === ADMIN_PASS) {
-                alert("Yönetici Girişi Başarılı!");
-                document.getElementById('adminBadgeBtn').style.display = 'block';
-                document.getElementById('adminModal').style.display = 'flex';
-                loginUserSuccess("Admin_Hasan", ADMIN_EMAIL, 100001);
-                return;
-            }
-
-            const username = document.getElementById('regName').value || "Kullanıcı";
-            loginUserSuccess(username, email || "user@gmail.com", Math.floor(100000 + Math.random() * 900000));
-        }
-
-        function loginUserSuccess(name, email, vid) {
-            currentUser = { name, email, vid };
-            document.getElementById('cardName').innerText = name;
-            document.getElementById('cardVID').innerText = vid;
-            alert("Başarıyla giriş yapıldı: " + name);
-        }
-
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-        function openVoiceRoom(title, owner) { 
-            if(title) document.getElementById('roomTitleDisplay').innerText = title;
-            document.getElementById('voiceRoomModal').style.display = 'flex'; 
-            renderMics(); 
-        }
-        function openFamilyModal() { document.getElementById('familyModal').style.display = 'flex'; }
-        function openSearchModal() { document.getElementById('searchModal').style.display = 'flex'; }
-        function openContactModal() { document.getElementById('contactModal').style.display = 'flex'; }
-        function openProfileModal() { document.getElementById('profileModal').style.display = 'flex'; }
-        function openRoomSettings() { document.getElementById('roomSettingsModal').style.display = 'flex'; }
-
-        function renderMics() {
-            const grid = document.getElementById('micGrid');
-            grid.innerHTML = '';
-            for(let i = 1; i <= currentMicLimit; i++) {
-                grid.innerHTML += `
-                    <div class="mic-seat" onclick="takeMic(${i})">
-                        <div class="mic-avatar" id="micAvatar_${i}"><i class="fa-solid fa-microphone-slash"></i></div>
-                        <div class="mic-label" id="micLabel_${i}">Mik ${i}</div>
+            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px;">
+                <div>
+                    <label style="font-size: 12px; color: var(--text-gray);">Siteden Duyuru Geç</label>
+                    <div style="display: flex; gap: 5px; margin-top: 4px;">
+                        <input type="text" id="adminAnnouncementText" placeholder="Duyuru metni yazın..." style="flex:1; padding: 8px; background: #000; border: 1px solid #333; color: #fff; border-radius: 4px;">
+                        <button class="btn-submit" style="width: 80px; margin:0;" onclick="publishAnnouncement()">Yayınla</button>
                     </div>
-                `;
+                </div>
+
+                <div>
+                    <label style="font-size: 12px; color: var(--text-gray);">Kullanıcıya Coin Dağıt / Banla</label>
+                    <input type="text" id="targetUser" placeholder="Kullanıcı Adı" style="width:100%; padding: 8px; background: #000; border: 1px solid #333; color: #fff; border-radius: 4px; margin-top: 4px; box-sizing: border-box;">
+                    <div style="display: flex; gap: 10px; margin-top: 8px;">
+                        <button class="btn-submit" onclick="adminAction('coin')">Coin Ekle (+100)</button>
+                        <button class="btn-secondary" style="border-color: #ff3333; color: #ff3333;" onclick="adminAction('ban')">Kullanıcıyı Banla</button>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-secondary" style="margin-top: 20px;" onclick="showPage('mainAppPage')">Ana Panele Dön</button>
+        </div>
+    </div>
+
+    <!-- MODALLAR -->
+    <div id="roomModal" style="display:none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 1000;">
+        <div class="auth-card" style="width: 400px;">
+            <h3>🎙️ Sesli Oda Aç</h3>
+            <p>Oda detaylarını ayarla.</p>
+            <div class="input-group"><span>🏷️</span><input type="text" id="newRoomName" placeholder="Oda Adı"></div>
+            <div class="input-group"><span>📝</span><textarea id="newRoomDesc" placeholder="Açıklama (İsteğe bağlı)"></textarea></div>
+            <div class="input-group">
+                <span>🪑</span>
+                <select id="newRoomSlotCount">
+                    <option value="6">6 Slot (Mikrofon)</option>
+                    <option value="12">12 Slot (Mikrofon)</option>
+                    <option value="18">18 Slot (Mikrofon)</option>
+                    <option value="30">30 Slot (Maksimum)</option>
+                </select>
+            </div>
+            <button class="btn-submit" onclick="createRoom()">Odayı Başlat</button>
+            <button class="btn-secondary" style="margin-top: 8px;" onclick="closeModals()">İptal</button>
+        </div>
+    </div>
+
+    <div id="bioModal" style="display:none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 1000;">
+        <div class="auth-card" style="width: 400px;">
+            <h3>✏️ Profil ve Biyografi Düzenle</h3>
+            <div class="input-group"><span>🖼️</span><input type="text" id="inputNewPp" placeholder="Profil Fotoğrafı (URL)"></div>
+            <div class="input-group"><span>📄</span><textarea id="inputNewBio" placeholder="Biyografiniz..."></textarea></div>
+            <button class="btn-submit" onclick="saveProfileChanges()">Kaydet</button>
+            <button class="btn-secondary" style="margin-top: 8px;" onclick="closeModals()">İptal</button>
+        </div>
+    </div>
+
+    <div id="familyModal" style="display:none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 1000;">
+        <div class="auth-card" style="width: 400px;">
+            <h3>🏰 Aile Kurulum Yönetimi</h3>
+            <p>Aile adı ve en fazla 3 admin seçimi.</p>
+            <div class="input-group"><span>🏰</span><input type="text" placeholder="Aile Adı"></div>
+            <div class="input-group"><span>👑</span><input type="text" placeholder="Admin 1 (Kullanıcı Adı)"></div>
+            <div class="input-group"><span>👑</span><input type="text" placeholder="Admin 2 (Kullanıcı Adı)"></div>
+            <div class="input-group"><span>👑</span><input type="text" placeholder="Admin 3 (Kullanıcı Adı)"></div>
+            <button class="btn-submit" onclick="alert('Aile başarıyla oluşturuldu!'); closeModals();">Aileyi Kur</button>
+            <button class="btn-secondary" style="margin-top: 8px;" onclick="closeModals()">İptal</button>
+        </div>
+    </div>
+
+    <div class="contact-bar">
+        <div class="contact-info">
+            <div>💬 Telegram: <span>@Hzrox</span></div>
+            <div>📞 WhatsApp: <span>+90 539 714 13 79</span></div>
+        </div>
+        <div>© 2026 Brezers Sohbet | Tüm hakları saklıdır.</div>
+    </div>
+
+    <script>
+        let currentCoins = 50;
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page-section').forEach(page => {
+                page.classList.remove('active-page');
+                page.style.display = 'none';
+            });
+            const target = document.getElementById(pageId);
+            target.style.display = 'flex';
+            target.classList.add('active-page');
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim();
+            const pass = document.getElementById('loginPass').value.trim();
+
+            if(email === "roxhzr@gmail.com" && pass === "hasan890") {
+                alert("Patron girişi başarılı! Admin paneline yönlendiriliyorsunuz.");
+                showPage('adminPage');
+            } else {
+                alert("Giriş başarılı! Ana panele yönlendiriliyorsunuz.");
+                document.getElementById('coinDisplay').style.display = 'block';
+                showPage('mainAppPage');
+            }
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const user = document.getElementById('regUser').value;
+            document.getElementById('profileUsernameName').innerText = user;
+            alert("Kayıt başarılı! Giriş yapabilirsiniz.");
+            showPage('homePage');
+        });
+
+        function socialLogin() {
+            alert("Google ile giriş yapıldı!");
+            document.getElementById('coinDisplay').style.display = 'block';
+            showPage('mainAppPage');
+        }
+
+        function openVoiceRoomModal() { document.getElementById('roomModal').style.display = 'flex'; }
+        function openBioModal() { document.getElementById('bioModal').style.display = 'flex'; }
+        function openFamilyModal() { document.getElementById('familyModal').style.display = 'flex'; }
+        function closeModals() {
+            document.querySelectorAll('[id$="Modal"]').forEach(m => m.style.display = 'none');
+        }
+
+        function createRoom() {
+            const name = document.getElementById('newRoomName').value || "İsimsiz Oda";
+            const desc = document.getElementById('newRoomDesc').value || "Açıklama yok";
+            const slotCount = parseInt(document.getElementById('newRoomSlotCount').value);
+
+            document.getElementById('activeRoomTitle').innerText = name;
+            document.getElementById('activeRoomDesc').innerText = desc;
+
+            const grid = document.getElementById('roomSlotsGrid');
+            grid.innerHTML = '';
+            for(let i=1; i<=slotCount; i++) {
+                grid.innerHTML += `<div class="slot">Mikrofon ${i}<br><span style="font-size:10px; color:var(--primary-green);">Boş</span></div>`;
+            }
+
+            closeModals();
+            showPage('voiceRoomPage');
+        }
+
+        function joinRoom(roomName, slots) {
+            document.getElementById('activeRoomTitle').innerText = roomName;
+            document.getElementById('activeRoomDesc').innerText = "Odaya katıldınız.";
+            const grid = document.getElementById('roomSlotsGrid');
+            grid.innerHTML = '';
+            for(let i=1; i<=slots; i++) {
+                grid.innerHTML += `<div class="slot">Mikrofon ${i}<br><span style="font-size:10px; color:var(--primary-green);">Boş</span></div>`;
+            }
+            showPage('voiceRoomPage');
+        }
+
+        function leaveRoom() {
+            alert("Odadan ayrıldınız. 6 saat sonra tekrar giriş yapabilirsiniz.");
+            showPage('mainAppPage');
+        }
+
+        function saveProfileChanges() {
+            const newPp = document.getElementById('inputNewPp').value;
+            const newBio = document.getElementById('inputNewBio').value;
+            if(newPp) document.getElementById('userProfilePic').src = newPp;
+            if(newBio) document.getElementById('profileBioText').innerText = newBio;
+            closeModals();
+            alert("Profil güncellendi.");
+        }
+
+        function publishAnnouncement() {
+            const text = document.getElementById('adminAnnouncementText').value;
+            if(text) {
+                const banner = document.getElementById('announcementBanner');
+                banner.innerText = "📢 Duyuru: " + text;
+                banner.style.display = 'block';
+                alert("Duyuru sitede yayınlandı!");
             }
         }
 
-        function takeMic(index) {
-            const avatarEl = document.getElementById(`micAvatar_${index}`);
-            const labelEl = document.getElementById(`micLabel_${index}`);
-            
-            const name = currentUser ? currentUser.name : "Kullanıcı";
-            avatarEl.innerHTML = `<img src="${userPP}">`;
-            labelEl.innerText = name;
-            alert(`Mikrofon ${index} koltuğuna oturdunuz.`);
-        }
-
-        function saveRoomSettings() {
-            const limit = parseInt(document.getElementById('setMicLimit').value);
-            if(limit >= 6 && limit <= 30) {
-                currentMicLimit = limit;
-                renderMics();
-                closeModal('roomSettingsModal');
-            }
-        }
-
-        function sendChatMessage() {
-            const txt = document.getElementById('chatInput').value;
-            if(!txt) return;
-            const box = document.getElementById('chatBox');
-            box.innerHTML += `<div><strong>${currentUser ? currentUser.name : 'Kullanıcı'}:</strong> ${txt}</div>`;
-            document.getElementById('chatInput').value = '';
-            box.scrollTop = box.scrollHeight;
-        }
-
-        function uploadPP(e) {
-            const file = e.target.files[0];
-            if(file) {
-                const reader = new FileReader();
-                reader.onload = function(evt) {
-                    userPP = evt.target.result;
-                    document.getElementById('navProfileImg').src = userPP;
-                    document.getElementById('cardPP').src = userPP;
-                    alert('Profil resminiz güncellendi!');
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function publishAdminAnnouncement() {
-            const txt = document.getElementById('adminAnnounceInput').value;
-            if(txt) {
-                document.getElementById('announcementBanner').style.display = 'block';
-                document.getElementById('announcementText').innerText = "Duyuru: " + txt;
-                closeModal('adminModal');
+        function adminAction(type) {
+            const target = document.getElementById('targetUser').value;
+            if(!target) { alert("Lütfen kullanıcı adı yazın."); return; }
+            if(type === 'coin') {
+                currentCoins += 100;
+                document.getElementById('sidebarCoins').innerText = currentCoins;
+                alert(target + " adlı kullanıcıya 100 coin eklendi.");
+            } else if(type === 'ban') {
+                alert(target + " adlı kullanıcı sistemden banlandı.");
             }
         }
     </script>
