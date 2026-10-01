@@ -3,21 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brezers Sohbet - Yeni İnsanlar, Yeni Sohbetler</title>
-    <!-- Font Awesome Icons -->
+    <title>Brezers Sohbet - Türkiye'nin Sesli & Yazılı Sohbet Platformu</title>
+    <!-- Font Awesome & Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-color: #0b0f0d;
-            --card-bg: rgba(18, 28, 22, 0.85);
+            --bg-dark: #070a08;
+            --card-bg: rgba(14, 24, 18, 0.9);
             --primary-green: #00ff87;
-            --accent-green: #60efff;
-            --text-color: #ffffff;
-            --text-muted: #a0aec0;
-            --border-color: rgba(0, 255, 135, 0.2);
+            --secondary-green: #60efff;
+            --danger-red: #ff4757;
+            --gold-coin: #ffd700;
+            --text-main: #ffffff;
+            --text-sub: #a0aec0;
+            --border-glow: rgba(0, 255, 135, 0.25);
         }
 
         * {
@@ -28,12 +29,13 @@
         }
 
         body {
-            background-color: var(--bg-color);
-            background-image: radial-gradient(circle at 50% 30%, rgba(0, 255, 135, 0.05), transparent 70%);
-            color: var(--text-color);
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(circle at 50% 20%, rgba(0, 255, 135, 0.08), transparent 70%);
+            color: var(--text-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            overflow-x: hidden;
         }
 
         /* HEADER / NAVBAR */
@@ -41,42 +43,39 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 8%;
-            border-bottom: 1px solid var(--border-color);
-            backdrop-filter: blur(10px);
+            padding: 15px 6%;
+            border-bottom: 1px solid var(--border-glow);
+            backdrop-filter: blur(12px);
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 200;
+            background: rgba(7, 10, 8, 0.8);
         }
 
         .logo {
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 24px;
-            font-weight: 700;
-            color: #fff;
+            font-size: 22px;
+            font-weight: 800;
             text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
         }
 
-        .logo i {
-            color: var(--primary-green);
-        }
-
-        .logo span {
-            color: var(--primary-green);
-        }
+        .logo i, .logo span { color: var(--primary-green); }
 
         nav ul {
             display: flex;
             list-style: none;
-            gap: 30px;
+            gap: 25px;
         }
 
         nav a {
-            color: var(--text-muted);
+            color: var(--text-sub);
             text-decoration: none;
             font-weight: 500;
+            font-size: 14px;
             transition: 0.3s;
             display: flex;
             align-items: center;
@@ -85,24 +84,58 @@
 
         nav a:hover, nav a.active {
             color: var(--primary-green);
+            text-shadow: 0 0 10px rgba(0, 255, 135, 0.5);
         }
 
-        /* MAIN HERO SECTION */
+        /* DYNAMIC USER BAR */
+        .user-top-bar {
+            display: none;
+            align-items: center;
+            gap: 15px;
+            background: rgba(0, 255, 135, 0.1);
+            padding: 6px 15px;
+            border-radius: 20px;
+            border: 1px solid var(--border-glow);
+        }
+
+        .user-top-bar img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-green);
+            cursor: pointer;
+            object-fit: cover;
+        }
+
+        .coin-badge {
+            color: var(--gold-coin);
+            font-weight: 700;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* MAIN CONTAINER */
+        .main-content {
+            flex: 1;
+            padding: 40px 6%;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        /* HERO & AUTH SECTION */
         .hero-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 60px 8%;
-            flex: 1;
             gap: 40px;
         }
 
-        .hero-text {
-            max-width: 550px;
-        }
-
+        .hero-text { max-width: 600px; }
         .hero-title {
-            font-size: 56px;
+            font-size: 52px;
             font-weight: 800;
             line-height: 1.1;
             margin-bottom: 15px;
@@ -114,103 +147,53 @@
         .hero-subtitle {
             color: var(--primary-green);
             letter-spacing: 2px;
-            font-size: 14px;
-            font-weight: 600;
+            font-size: 13px;
+            font-weight: 700;
             margin-bottom: 20px;
         }
 
-        .hero-desc {
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        /* FEATURES GRID */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 15px;
+            margin-top: 25px;
         }
 
         .feature-card {
             background: var(--card-bg);
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--border-glow);
             padding: 15px;
             border-radius: 12px;
             text-align: center;
             transition: 0.3s;
         }
+        .feature-card:hover { border-color: var(--primary-green); transform: translateY(-3px); }
+        .feature-card i { font-size: 24px; color: var(--primary-green); margin-bottom: 8px; }
 
-        .feature-card:hover {
-            border-color: var(--primary-green);
-            transform: translateY(-3px);
-        }
-
-        .feature-card i {
-            font-size: 24px;
-            color: var(--primary-green);
-            margin-bottom: 8px;
-        }
-
-        .feature-card h4 {
-            font-size: 13px;
-            margin-bottom: 4px;
-        }
-
-        .feature-card p {
-            font-size: 11px;
-            color: var(--text-muted);
-        }
-
-        /* LOGIN / REGISTER CARD */
+        /* AUTH CARD */
         .auth-card {
             background: var(--card-bg);
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--border-glow);
             border-radius: 20px;
             padding: 35px;
             width: 380px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
             backdrop-filter: blur(15px);
         }
 
-        .auth-card h3 {
-            font-size: 22px;
-            margin-bottom: 5px;
-        }
-
-        .auth-card p.sub {
-            color: var(--text-muted);
-            font-size: 13px;
-            margin-bottom: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-            position: relative;
-        }
-
-        .form-group i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-        }
-
+        .form-group { margin-bottom: 15px; position: relative; }
+        .form-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-sub); }
         .form-control {
             width: 100%;
             padding: 12px 15px 12px 45px;
-            background: rgba(0,0,0,0.5);
-            border: 1px solid var(--border-color);
+            background: rgba(0,0,0,0.6);
+            border: 1px solid var(--border-glow);
             border-radius: 10px;
             color: #fff;
             outline: none;
             transition: 0.3s;
         }
-
-        .form-control:focus {
-            border-color: var(--primary-green);
-        }
+        .form-control:focus { border-color: var(--primary-green); }
 
         .btn-primary {
             width: 100%;
@@ -225,17 +208,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
+            text-decoration: none;
         }
-
-        .btn-primary:hover {
-            box-shadow: 0 0 15px rgba(0, 255, 135, 0.4);
-            transform: scale(1.02);
-        }
+        .btn-primary:hover { box-shadow: 0 0 15px rgba(0, 255, 135, 0.5); transform: scale(1.02); }
 
         .btn-outline {
             width: 100%;
-            padding: 12px;
+            padding: 11px;
             background: transparent;
             color: var(--primary-green);
             border: 1px solid var(--primary-green);
@@ -244,21 +224,12 @@
             cursor: pointer;
             margin-top: 10px;
             transition: 0.3s;
-        }
-
-        .btn-outline:hover {
-            background: rgba(0, 255, 135, 0.1);
-        }
-
-        .divider {
+            text-decoration: none;
+            display: inline-block;
             text-align: center;
-            margin: 15px 0;
-            color: var(--text-muted);
-            font-size: 12px;
-            position: relative;
         }
 
-        /* MODAL / ADMIN PANEL STYLES */
+        /* MODALS */
         .modal {
             display: none;
             position: fixed;
@@ -273,43 +244,123 @@
         .modal-content {
             background: var(--card-bg);
             border: 1px solid var(--primary-green);
-            border-radius: 15px;
-            padding: 30px;
+            border-radius: 18px;
+            padding: 25px;
             width: 90%;
-            max-width: 600px;
+            max-width: 650px;
             max-height: 85vh;
             overflow-y: auto;
+            position: relative;
         }
 
         .close-btn {
-            float: right;
+            position: absolute;
+            right: 20px; top: 20px;
             cursor: pointer;
-            color: var(--text-muted);
-            font-size: 20px;
+            color: var(--text-sub);
+            font-size: 22px;
         }
 
-        /* FOOTER */
-        footer {
-            border-top: 1px solid var(--border-color);
-            padding: 20px 8%;
+        /* VOICE ROOM SIMULATION */
+        .room-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: var(--text-muted);
-            font-size: 13px;
+            border-bottom: 1px solid var(--border-glow);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
         }
 
-        /* RESPONSIVE */
-        @media (max-width: 900px) {
-            .hero-container {
-                flex-direction: column;
-            }
-            .auth-card {
-                width: 100%;
-            }
-            .features-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+        .mic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .mic-seat {
+            background: rgba(0,0,0,0.5);
+            border: 1px dashed var(--border-glow);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .mic-seat:hover { border-color: var(--primary-green); }
+
+        .mic-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            margin: 0 auto 6px;
+            background: #222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary-green);
+        }
+
+        .mic-label { font-size: 11px; color: var(--text-sub); }
+
+        /* PROFILE CARD WITH SLIDER */
+        .profile-card-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid var(--border-glow);
+            padding: 20px;
+        }
+
+        .profile-slider {
+            display: flex;
+            width: 200%;
+            transition: transform 0.4s ease-in-out;
+        }
+
+        .profile-page { width: 50%; padding-right: 15px; }
+
+        .swipe-hint {
+            text-align: center;
+            font-size: 11px;
+            color: var(--primary-green);
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        /* QUICK WHATSAPP FLOAT BUTTON */
+        .float-wp {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background-color: #25d366;
+            color: #fff;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            box-shadow: 0 5px 20px rgba(37, 211, 102, 0.5);
+            z-index: 99;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .float-wp:hover { transform: scale(1.1); }
+
+        /* FOOTER */
+        footer {
+            border-top: 1px solid var(--border-glow);
+            padding: 20px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-sub);
+            font-size: 12px;
+            background: rgba(7, 10, 8, 0.9);
         }
     </style>
 </head>
@@ -317,230 +368,359 @@
 
     <!-- NAVBAR -->
     <header>
-        <div class="logo">
-            <i class="fa-solid fa-crown"></i>
-            Brezers <span>Sohbet</span>
+        <div class="logo" onclick="location.reload()">
+            <i class="fa-solid fa-crown"></i> Brezers <span>Sohbet</span>
         </div>
+        
         <nav>
             <ul>
                 <li><a href="#" class="active"><i class="fa-solid fa-house"></i> Ana Sayfa</a></li>
-                <li><a href="#rooms" onclick="checkAuth('rooms')"><i class="fa-solid fa-users"></i> Sohbet Odaları</a></li>
-                <li><a href="#features"><i class="fa-solid fa-star"></i> Özellikler</a></li>
-                <li><a href="#contact" onclick="showContact()"><i class="fa-solid fa-envelope"></i> İletişim</a></li>
+                <li><a href="#rooms" onclick="openVoiceRoom()"><i class="fa-solid fa-microphone-lines"></i> Sesli Odalar</a></li>
+                <li><a href="#family" onclick="openFamilyModal()"><i class="fa-solid fa-users-rays"></i> Aileler</a></li>
+                <li><a href="#search" onclick="openSearchModal()"><i class="fa-solid fa-magnifying-glass"></i> VIP & VID Arama</a></li>
+                <li><a href="#contact" onclick="openContactModal()"><i class="fa-solid fa-envelope"></i> İletişim</a></li>
             </ul>
         </nav>
+
+        <div class="user-top-bar" id="userTopBar">
+            <span class="coin-badge"><i class="fa-solid fa-coins"></i> <span id="userCoinCount">50</span> Coin</span>
+            <img src="https://via.placeholder.com/150/00ff87/000000?text=PP" id="navProfileImg" onclick="openProfileModal()">
+        </div>
     </header>
 
-    <!-- HERO / LOGIN SECTION -->
-    <div class="hero-container">
-        <div class="hero-text">
-            <div class="hero-subtitle">YENİ İNSANLAR • YENİ SOHBETLER • TEK PLATFORM</div>
-            <h1 class="hero-title">BREZERS SOHBET</h1>
-            <p class="hero-desc">
-                Brezers Sohbet'e hoş geldin! Yeni arkadaşlıklar kur, keyifli sohbetler et, sesli ve özel odalarda kendini özgürce ifade et.
-            </p>
+    <!-- ANNOUNCEMENT BANNER -->
+    <div id="announcementBanner" style="display:none; background: linear-gradient(90deg, #00ff87, #60efff); color: #000; padding: 8px 6%; text-align: center; font-weight: 700; font-size: 13px;">
+        <i class="fa-solid fa-bullhorn"></i> <span id="announcementText">Duyuru: Brezers Sohbet Sesli Odalar Aktif Edilmiştir!</span>
+    </div>
 
-            <div class="features-grid">
-                <div class="feature-card">
-                    <i class="fa-solid fa-comments"></i>
-                    <h4>SOHBET ODALARI</h4>
-                    <p>İstediğin konuda sohbet et.</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fa-solid fa-user-group"></i>
-                    <h4>ARKADAŞLIK</h4>
-                    <p>Yeni insanlarla tanış.</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fa-solid fa-microphone"></i>
-                    <h4>SESLİ ODALAR</h4>
-                    <p>Sesini duyur, katıl.</p>
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <!-- HERO & AUTH -->
+        <div class="hero-container" id="heroSection">
+            <div class="hero-text">
+                <div class="hero-subtitle">YENİ İNSANLAR • YENİ SOHBETLER • TEK PLATFORM</div>
+                <h1 class="hero-title">BREZERS SOHBET</h1>
+                <p style="color: var(--text-sub); line-height: 1.6;">
+                    Brezers Sohbet'e hoş geldin! Yeni arkadaşlıklar kur, sesli ve özel odalarda kendini özgürce ifade et, aile kur veya VIP dünyasında yerini al.
+                </p>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fa-solid fa-comments"></i>
+                        <h4>SOHBET ODALARI</h4>
+                        <p>Kesintisiz yazılı & sesli sohbet.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fa-solid fa-people-group"></i>
+                        <h4>AİLE SİSTEMİ</h4>
+                        <p>Aileni kur, sıralamada yüksel.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fa-solid fa-crown"></i>
+                        <h4>VIP & COIN</h4>
+                        <p>Aylık 50 Coin hediyeni kap.</p>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- AUTH FORM -->
-        <div class="auth-card" id="authBox">
-            <div id="loginForm">
-                <i class="fa-solid fa-comments-dollar" style="font-size: 30px; color: var(--primary-green); margin-bottom: 10px;"></i>
-                <h3>Hoş Geldin</h3>
-                <p class="sub"><strong style="color:var(--primary-green)">Brezers Sohbet</strong>'e katılmak için giriş yap veya kaydol!</p>
+            <!-- LOGIN / REGISTER FORM -->
+            <div class="auth-card" id="authBox">
+                <div id="loginForm">
+                    <h3 style="font-size:22px; margin-bottom:5px;">Hoş Geldin</h3>
+                    <p style="color:var(--text-sub); font-size:13px; margin-bottom:20px;">Giriş yap veya kayıt olarak hemen başla!</p>
 
-                <div class="form-group">
-                    <i class="fa-solid fa-envelope"></i>
-                    <input type="email" id="email" class="form-control" placeholder="E-Posta (Gmail)">
-                </div>
-                <div class="form-group">
-                    <i class="fa-solid fa-lock"></i>
-                    <input type="password" id="password" class="form-control" placeholder="Şifre">
-                </div>
+                    <div class="form-group">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="email" class="form-control" placeholder="Gmail / E-Posta">
+                    </div>
+                    <div class="form-group">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="password" class="form-control" placeholder="Şifre">
+                    </div>
 
-                <button class="btn-primary" onclick="handleAuth('login')">
-                    Giriş Yap <i class="fa-solid fa-arrow-right"></i>
-                </button>
+                    <button class="btn-primary" onclick="handleAuth('login')">
+                        Giriş Yap <i class="fa-solid fa-arrow-right"></i>
+                    </button>
 
-                <div class="divider">veya</div>
-
-                <button class="btn-outline" onclick="toggleAuthMode('register')">
-                    <i class="fa-solid fa-user-plus"></i> Kayıt Ol
-                </button>
-            </div>
-
-            <div id="registerForm" style="display: none;">
-                <h3>Kayıt Ol</h3>
-                <p class="sub">Hemen hesabını oluştur ve sohbetlere katıl!</p>
-
-                <div class="form-group">
-                    <i class="fa-solid fa-user"></i>
-                    <input type="text" id="regName" class="form-control" placeholder="Kullanıcı Adı">
-                </div>
-                <div class="form-group">
-                    <i class="fa-solid fa-envelope"></i>
-                    <input type="email" id="regEmail" class="form-control" placeholder="E-Posta Adresi">
-                </div>
-                <div class="form-group">
-                    <i class="fa-solid fa-lock"></i>
-                    <input type="password" id="regPassword" class="form-control" placeholder="Şifre">
+                    <button class="btn-outline" onclick="toggleAuth('register')">Kayıt Ol</button>
                 </div>
 
-                <button class="btn-primary" onclick="handleAuth('register')">
-                    Hesap Oluştur <i class="fa-solid fa-check"></i>
-                </button>
+                <div id="registerForm" style="display: none;">
+                    <h3 style="font-size:22px; margin-bottom:5px;">Kayıt Ol</h3>
+                    <p style="color:var(--text-sub); font-size:13px; margin-bottom:20px;">Hesabını oluştur ve VID numaranı al!</p>
 
-                <button class="btn-outline" onclick="toggleAuthMode('login')">
-                    Zaten Hesabım Var
-                </button>
+                    <div class="form-group">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" id="regName" class="form-control" placeholder="Kullanıcı Adı">
+                    </div>
+                    <div class="form-group">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="regEmail" class="form-control" placeholder="Gmail Adresi">
+                    </div>
+                    <div class="form-group">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="regPassword" class="form-control" placeholder="Şifre">
+                    </div>
+
+                    <button class="btn-primary" onclick="handleAuth('register')">Hesap Oluştur</button>
+                    <button class="btn-outline" onclick="toggleAuth('login')">Giriş Ekranına Dön</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- ADMIN PANEL MODAL (Varsayılan Gizli) -->
-    <div id="adminModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeAdmin()">&times;</span>
-            <h2 style="color:var(--primary-green); margin-bottom:20px;"><i class="fa-solid fa-user-shield"></i> Admin Paneli</h2>
-            
-            <div style="margin-bottom: 20px;">
-                <h4><i class="fa-solid fa-bullhorn"></i> Sitede Duyuru Geç</h4>
-                <input type="text" id="announcementText" class="form-control" placeholder="Duyuru metnini yazın..." style="margin-top:8px;">
-                <button class="btn-primary" style="margin-top:8px;" onclick="postAnnouncement()">Duyuruyu Yayınla</button>
+    <!-- İLETİŞİM MODALI (GÜNCELLENEN KISIM) -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content" style="max-width: 450px; text-align: center;">
+            <span class="close-btn" onclick="closeModal('contactModal')">&times;</span>
+            <h3 style="color:var(--primary-green); margin-bottom:10px;"><i class="fa-solid fa-headset"></i> İletişim & Destek</h3>
+            <p style="font-size:12px; color:var(--text-sub); margin-bottom:20px;">Bizimle 7/24 iletişime geçebilirsiniz.</p>
+
+            <div style="display:flex; flex-direction:column; gap:12px;">
+                <a href="https://wa.me/905397141379" target="_blank" class="btn-primary" style="background:#25d366; color:#fff;">
+                    <i class="fa-brands fa-whatsapp" style="font-size:20px;"></i> WhatsApp: +90 539 714 13 79
+                </a>
+                <a href="https://t.me/Hzrox" target="_blank" class="btn-primary" style="background:#0088cc; color:#fff;">
+                    <i class="fa-brands fa-telegram" style="font-size:20px;"></i> Telegram: @Hzrox
+                </a>
             </div>
+        </div>
+    </div>
 
-            <hr style="border-color:var(--border-color); margin: 20px 0;">
+    <!-- HIZLI WHATSAPP CANLI BUTONU -->
+    <a href="https://wa.me/905397141379" target="_blank" class="float-wp" title="WhatsApp Destek">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
 
-            <div style="margin-bottom: 20px;">
-                <h4><i class="fa-solid fa-ban"></i> Kullanıcı Banlama / Ban Açma (VID)</h4>
-                <input type="text" id="targetVID" class="form-control" placeholder="Kullanıcı VID Girin..." style="margin-top:8px;">
-                <div style="display:flex; gap:10px; margin-top:8px;">
-                    <button class="btn-primary" style="background:#ff4757; color:#fff;" onclick="banUser()">Kullanıcıyı Banla</button>
-                    <button class="btn-outline" onclick="unbanUser()">Ban Kaldır</button>
+    <!-- SESLİ ODA MODALI -->
+    <div id="voiceRoomModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <span class="close-btn" onclick="closeModal('voiceRoomModal')">&times;</span>
+            <div class="room-header">
+                <div>
+                    <h3 id="roomTitleDisplay" style="color:var(--primary-green);"><i class="fa-solid fa-microphone"></i> Brezers Ana Sohbet Odası</h3>
+                    <p id="roomDescDisplay" style="font-size:12px; color:var(--text-sub);">Oda Sahibi: Admin | Kapasite: En Az 6 - En Fazla 30 Mik</p>
+                </div>
+                <div style="display:flex; gap:8px;">
+                    <button class="btn-outline" style="width:auto; padding:5px 12px; font-size:12px;" onclick="alert('Canlı Müzik Botu Odaya Katıldı!')"><i class="fa-solid fa-music"></i> Müzik Botu</button>
+                    <button class="btn-outline" style="width:auto; padding:5px 12px; font-size:12px;" onclick="openRoomSettings()"><i class="fa-solid fa-gear"></i> Oda Ayarları</button>
                 </div>
             </div>
 
-            <hr style="border-color:var(--border-color); margin: 20px 0;">
+            <div class="mic-grid" id="micGrid"></div>
 
-            <div>
-                <h4><i class="fa-solid fa-coins"></i> Coin Dağıt</h4>
-                <input type="text" id="coinVID" class="form-control" placeholder="Kullanıcı VID..." style="margin-top:8px;">
-                <input type="number" id="coinAmount" class="form-control" placeholder="Coin Miktarı" style="margin-top:8px;">
-                <button class="btn-primary" style="margin-top:8px;" onclick="sendCoins()">Coin Gönder</button>
+            <div style="background:rgba(0,0,0,0.5); border-radius:10px; padding:15px; border:1px solid var(--border-glow);">
+                <div id="chatBox" style="height:120px; overflow-y:auto; font-size:12px; margin-bottom:10px;">
+                    <div style="color:var(--primary-green);">[Sistem]: Sesli odaya katıldınız. Keyifli sohbetler!</div>
+                </div>
+                <div style="display:flex; gap:10px;">
+                    <input type="text" id="chatInput" class="form-control" placeholder="Mesajınızı yazın..." style="padding:8px 15px;">
+                    <button class="btn-primary" style="width:100px; padding:8px;" onclick="sendChatMessage()">Gönder</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ODA AYARLARI MODALI -->
+    <div id="roomSettingsModal" class="modal">
+        <div class="modal-content" style="max-width: 450px;">
+            <span class="close-btn" onclick="closeModal('roomSettingsModal')">&times;</span>
+            <h3 style="color:var(--primary-green); margin-bottom:15px;"><i class="fa-solid fa-sliders"></i> Sesli Oda Ayarları</h3>
+            
+            <div class="form-group">
+                <label style="font-size:12px; color:var(--text-sub);">Oda Adı</label>
+                <input type="text" id="setRoomTitle" class="form-control" value="Brezers Sohbet Odası">
+            </div>
+            <div class="form-group">
+                <label style="font-size:12px; color:var(--text-sub);">Oda Açıklaması</label>
+                <input type="text" id="setRoomDesc" class="form-control" value="Keyifli Sohbetler!">
+            </div>
+            <div class="form-group">
+                <label style="font-size:12px; color:var(--text-sub);">Mikrofon Kapasitesi (6 - 30 Arası)</label>
+                <input type="number" id="setMicLimit" class="form-control" value="12" min="6" max="30">
+            </div>
+            <button class="btn-primary" onclick="saveRoomSettings()">Ayarları Kaydet</button>
+        </div>
+    </div>
+
+    <!-- PROFİL MODALI -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content" style="max-width: 450px; overflow:hidden;">
+            <span class="close-btn" onclick="closeModal('profileModal')">&times;</span>
+            
+            <div class="profile-card-container">
+                <div class="profile-slider" id="profileSlider">
+                    <div class="profile-page">
+                        <div style="text-align:center; margin-bottom:15px;">
+                            <img src="https://via.placeholder.com/150/00ff87/000000?text=PP" id="cardPP" style="width:80px; height:80px; border-radius:50%; border:2px solid var(--primary-green); object-fit:cover;">
+                            <h3 id="cardName" style="margin-top:8px;">Kullanıcı Adı</h3>
+                            <p style="font-size:11px; color:var(--text-sub);">VID: <span id="cardVID">102938</span></p>
+                            <p id="cardBio" style="font-size:12px; margin-top:5px; color:#fff;">"Henüz bir biyografi eklenmedi."</p>
+                        </div>
+                        <hr style="border-color:var(--border-glow); margin:10px 0;">
+                        <p style="font-size:11px; color:var(--text-sub);"><i class="fa-solid fa-calendar-day"></i> Katılım Tarihi: Ekim 2026</p>
+                        <div class="swipe-hint" onclick="slideProfile(1)">Diğer Seçenekler İçin Sola Kaydır <i class="fa-solid fa-arrow-right"></i></div>
+                    </div>
+
+                    <div class="profile-page">
+                        <h4 style="color:var(--primary-green); margin-bottom:15px;"><i class="fa-solid fa-bolt"></i> Hızlı İşlemler</h4>
+                        <button class="btn-primary" style="margin-bottom:8px;" onclick="openVoiceRoom()"><i class="fa-solid fa-microphone"></i> Sesli Oda Aç</button>
+                        <button class="btn-outline" style="margin-bottom:8px;" onclick="alert('Mesaj kutusu açılıyor...')"><i class="fa-solid fa-envelope"></i> Mesaj At</button>
+                        <button class="btn-outline" style="margin-bottom:8px;" onclick="alert('Takip edildi!')"><i class="fa-solid fa-user-plus"></i> Takip Et</button>
+                        
+                        <div style="margin-top:15px;">
+                            <label style="font-size:11px; color:var(--text-sub);">Galeriden PP Değiştir:</label>
+                            <input type="file" accept="image/*" onchange="uploadPP(event)" style="font-size:11px; margin-top:5px; color:var(--text-sub);">
+                        </div>
+
+                        <div class="swipe-hint" onclick="slideProfile(0)"><i class="fa-solid fa-arrow-left"></i> Profil Bilgilerine Dön</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AİLE MODALI -->
+    <div id="familyModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('familyModal')">&times;</span>
+            <h3 style="color:var(--primary-green); margin-bottom:15px;"><i class="fa-solid fa-users-rays"></i> Aile Sistemi</h3>
+            
+            <div class="form-group">
+                <input type="text" id="famName" class="form-control" placeholder="Aile Adı">
+            </div>
+            <button class="btn-primary" onclick="alert('Aileniz başarıyla kuruldu!')">Aile Kur</button>
+        </div>
+    </div>
+
+    <!-- SEARCH MODALI -->
+    <div id="searchModal" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <span class="close-btn" onclick="closeModal('searchModal')">&times;</span>
+            <h3 style="color:var(--primary-green); margin-bottom:15px;"><i class="fa-solid fa-magnifying-glass"></i> VID ile Arama</h3>
+            <input type="text" id="searchInput" class="form-control" placeholder="VID girin..." style="margin-bottom:10px;">
+            <button class="btn-primary" onclick="alert('Arama tamamlandı!')">Arama Yap</button>
+        </div>
+    </div>
+
+    <!-- ADMIN MODALI -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('adminModal')">&times;</span>
+            <h2 style="color:var(--danger-red); margin-bottom:20px;"><i class="fa-solid fa-user-shield"></i> Admin Paneli</h2>
+            <div style="margin-bottom: 15px;">
+                <h4>Duyuru Yayınla</h4>
+                <input type="text" id="adminAnnounceInput" class="form-control" placeholder="Duyuru metni..." style="margin-top:5px;">
+                <button class="btn-primary" style="margin-top:5px;" onclick="publishAdminAnnouncement()">Yayınla</button>
             </div>
         </div>
     </div>
 
     <!-- FOOTER -->
     <footer>
-        <div class="logo" style="font-size: 16px;">
+        <div class="logo" style="font-size: 14px;">
             <i class="fa-solid fa-crown"></i> Brezers Sohbet
         </div>
-        <div>
-            © 2025 Brezers Sohbet | Tüm Hakları Saklıdır.
-        </div>
+        <div>© 2026 Brezers Sohbet | Tüm Hakları Saklıdır.</div>
     </footer>
 
-    <!-- JS & LOGIC -->
+    <!-- SCRIPT -->
     <script>
-        // ADMIN BİLGİLERİ (Görseldeki isteklerinize göre tanımlandı)
         const ADMIN_EMAIL = "roxhzr@gmail.com";
         const ADMIN_PASS = "hasan890";
+        let currentUser = null;
+        let currentMicLimit = 12;
 
-        function toggleAuthMode(mode) {
-            if(mode === 'register') {
-                document.getElementById('loginForm').style.display = 'none';
-                document.getElementById('registerForm').style.display = 'block';
-            } else {
-                document.getElementById('loginForm').style.display = 'block';
-                document.getElementById('registerForm').style.display = 'none';
-            }
+        function toggleAuth(mode) {
+            document.getElementById('loginForm').style.display = mode === 'register' ? 'none' : 'block';
+            document.getElementById('registerForm').style.display = mode === 'register' ? 'block' : 'none';
         }
 
         function handleAuth(type) {
-            if(type === 'login') {
-                const email = document.getElementById('email').value;
-                const pass = document.getElementById('password').value;
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('password').value;
 
-                if(!email || !pass) {
-                    alert("Lütfen e-posta ve şifrenizi girin!");
-                    return;
-                }
+            if(type === 'login' && email === ADMIN_EMAIL && pass === ADMIN_PASS) {
+                alert("Yönetici Girişi Başarılı!");
+                document.getElementById('adminModal').style.display = 'flex';
+                loginUserSuccess("Admin_Hasan", ADMIN_EMAIL, 100001);
+                return;
+            }
 
-                // ADMIN GİRİŞ KONTROLÜ
-                if(email === ADMIN_EMAIL && pass === ADMIN_PASS) {
-                    alert("Admin Girişi Başarılı! Admin Paneli Açılıyor...");
-                    document.getElementById('adminModal').style.display = 'flex';
-                    return;
-                }
+            loginUserSuccess("Kullanıcı", email || "test@gmail.com", Math.floor(100000 + Math.random() * 900000));
+        }
 
-                alert("Giriş başarılı! Ana odaya yönlendiriliyorsunuz.");
-                // Normal kullanıcı yönlendirmesi yapılabilir
-            } else {
-                const name = document.getElementById('regName').value;
-                const email = document.getElementById('regEmail').value;
-                const pass = document.getElementById('regPassword').value;
+        function loginUserSuccess(name, email, vid) {
+            currentUser = { name, email, vid };
+            document.getElementById('heroSection').style.display = 'none';
+            document.getElementById('userTopBar').style.display = 'flex';
+            document.getElementById('cardName').innerText = name;
+            document.getElementById('cardVID').innerText = vid;
+            renderMics();
+        }
 
-                if(!name || !email || !pass) {
-                    alert("Lütfen tüm alanları doldurun!");
-                    return;
-                }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        function openVoiceRoom() { document.getElementById('voiceRoomModal').style.display = 'flex'; renderMics(); }
+        function openFamilyModal() { document.getElementById('familyModal').style.display = 'flex'; }
+        function openSearchModal() { document.getElementById('searchModal').style.display = 'flex'; }
+        function openContactModal() { document.getElementById('contactModal').style.display = 'flex'; }
+        function openProfileModal() { document.getElementById('profileModal').style.display = 'flex'; }
 
-                // Otomatik VID Oluşturma
-                const userVID = Math.floor(100000 + Math.random() * 900000);
-                alert(`Kayıt Başarılı! Hesabınız oluşturuldu.\nAtanan VID Numaranız: ${userVID}`);
-                toggleAuthMode('login');
+        function renderMics() {
+            const grid = document.getElementById('micGrid');
+            grid.innerHTML = '';
+            for(let i = 1; i <= currentMicLimit; i++) {
+                grid.innerHTML += `
+                    <div class="mic-seat" onclick="alert('Mik ${i} koltuğuna oturdunuz.')">
+                        <div class="mic-avatar"><i class="fa-solid fa-microphone-slash"></i></div>
+                        <div class="mic-label">Mik ${i}</div>
+                    </div>
+                `;
             }
         }
 
-        function closeAdmin() {
-            document.getElementById('adminModal').style.display = 'none';
+        function openRoomSettings() { document.getElementById('roomSettingsModal').style.display = 'flex'; }
+        function saveRoomSettings() {
+            const limit = parseInt(document.getElementById('setMicLimit').value);
+            if(limit >= 6 && limit <= 30) {
+                currentMicLimit = limit;
+                renderMics();
+                closeModal('roomSettingsModal');
+            }
         }
 
-        function postAnnouncement() {
-            const txt = document.getElementById('announcementText').value;
-            if(txt) alert("Duyuru Sistemde Yayınlandı: " + txt);
+        function sendChatMessage() {
+            const txt = document.getElementById('chatInput').value;
+            if(!txt) return;
+            const box = document.getElementById('chatBox');
+            box.innerHTML += `<div><strong>${currentUser ? currentUser.name : 'Kullanıcı'}:</strong> ${txt}</div>`;
+            document.getElementById('chatInput').value = '';
+            box.scrollTop = box.scrollHeight;
         }
 
-        function banUser() {
-            const vid = document.getElementById('targetVID').value;
-            if(vid) alert(`VID: ${vid} kullanıcı engellendi/banlandı.`);
+        function slideProfile(page) {
+            document.getElementById('profileSlider').style.transform = `translateX(-${page * 50}%)`;
         }
 
-        function unbanUser() {
-            const vid = document.getElementById('targetVID').value;
-            if(vid) alert(`VID: ${vid} kullanıcının banı kaldırıldı.`);
+        function uploadPP(e) {
+            const file = e.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    document.getElementById('navProfileImg').src = evt.target.result;
+                    document.getElementById('cardPP').src = evt.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
         }
 
-        function sendCoins() {
-            const vid = document.getElementById('coinVID').value;
-            const amount = document.getElementById('coinAmount').value;
-            if(vid && amount) alert(`VID: ${vid} kullanıcısına ${amount} Coin aktarıldı!`);
-        }
-
-        function showContact() {
-            alert("İletişim Bilgileri:\nTelegram: @brezerssohbet\nWhatsApp: +90 5XX XXX XX XX");
-        }
-
-        function checkAuth(page) {
-            alert("Sohbet alanına erişmek için lütfen önce giriş yapın.");
+        function publishAdminAnnouncement() {
+            const txt = document.getElementById('adminAnnounceInput').value;
+            if(txt) {
+                document.getElementById('announcementBanner').style.display = 'block';
+                document.getElementById('announcementText').innerText = "Duyuru: " + txt;
+                closeModal('adminModal');
+            }
         }
     </script>
 </body>
