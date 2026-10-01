@@ -3,1162 +3,283 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BREZERS SOHBET | Ultra Sosyal Platform</title>
-    <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <title>Brezers Sohbet</title>
     <style>
         :root {
-            --bg-main: #090d16;
-            --bg-card: rgba(22, 30, 46, 0.85);
-            --border-color: rgba(255, 255, 255, 0.08);
-            --primary: #6366f1;
-            --primary-glow: rgba(99, 102, 241, 0.35);
-            --accent: #38bdf8;
-            --admin-red: #ef4444;
-            --text: #f3f4f6;
-            --text-muted: #94a3b8;
-            --green: #22c55e;
-            --gold: #f59e0b;
-            --purple: #a855f7;
-            --like-red: #f43f5e;
+            --primary-green: #00ff66;
+            --dark-bg: #0b0f0e;
+            --card-bg: rgba(15, 23, 20, 0.9);
+            --text-light: #ffffff;
+            --text-gray: #a0a0a0;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-        body { background-color: var(--bg-main); color: var(--text); min-height: 100vh; display: flex; overflow: hidden; }
-
-        /* Duyuru Barı */
-        .announcement-bar {
-            position: fixed; top: 0; left: 0; width: 100%; background: linear-gradient(90deg, #ef4444, #a855f7);
-            color: #fff; padding: 8px 16px; text-align: center; font-size: 0.85rem; font-weight: 700; z-index: 10000;
-            display: none; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            background-image: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url('arkaplan.jpg');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        /* Modal & Popuplar */
-        .auth-overlay { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(9, 13, 22, 0.95); backdrop-filter: blur(15px); 
-            z-index: 9999; display: flex; justify-content: center; align-items: center; 
+        /* Üst Menü */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            border-bottom: 1px solid rgba(0, 255, 102, 0.15);
         }
 
-        .auth-card { 
-            background: var(--bg-card); border: 1px solid var(--border-color); 
-            padding: 35px 40px; border-radius: 24px; width: 100%; max-width: 440px; 
-            text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-green);
+            text-shadow: 0 0 10px rgba(0, 255, 102, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .auth-card h2 { 
-            font-size: 1.7rem; margin-bottom: 6px; 
-            background: linear-gradient(135deg, var(--accent), var(--primary)); 
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; 
-        }
-        
-        .auth-tabs { display: flex; background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 4px; margin: 20px 0; }
-        .auth-tab { flex: 1; padding: 10px; border: none; background: transparent; color: var(--text-muted); font-weight: 600; border-radius: 8px; cursor: pointer; transition: all 0.3s; }
-        .auth-tab.active { background: var(--primary); color: #fff; box-shadow: 0 0 10px var(--primary-glow); }
-
-        .input-group { margin-bottom: 16px; text-align: left; }
-        .input-group label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; }
-        .input-group input, .input-group select, .input-group textarea { 
-            width: 100%; padding: 12px 16px; border-radius: 12px; background: rgba(255,255,255,0.04); 
-            border: 1px solid var(--border-color); color: #fff; outline: none; transition: all 0.3s; 
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
 
-        .btn-primary { 
-            width: 100%; padding: 12px; border-radius: 12px; border: none; 
-            background: linear-gradient(135deg, var(--primary), #4f46e5); color: #fff; 
-            font-weight: 700; cursor: pointer; box-shadow: 0 0 15px var(--primary-glow); transition: all 0.2s; 
-        }
-        .btn-primary:hover { transform: translateY(-2px); }
-
-        .btn-telegram { 
-            background: #0088cc; display: flex; align-items: center; justify-content: center; gap: 10px; 
-            text-decoration: none; color: #fff; font-weight: 600; padding: 10px; border-radius: 12px; margin-bottom: 8px; 
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 15px;
+            transition: 0.3s;
         }
 
-        /* Ana Layout */
-        .app-container { display: flex; width: 100vw; height: 100vh; }
-        .sidebar { width: 320px; background: rgba(15, 23, 42, 0.8); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 20px; gap: 12px; overflow-y: auto;}
+        nav a:hover, nav a.active {
+            color: var(--primary-green);
+        }
 
-        .user-profile-box { display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 16px; cursor: pointer; transition: all 0.3s; position: relative;}
-        .user-profile-box:hover { border-color: var(--primary); }
-        .avatar-wrapper { position: relative; width: 52px; height: 52px; }
-        .avatar { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); }
-        .pp-upload-badge { position: absolute; bottom: 0; right: 0; background: var(--accent); color: #000; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; cursor: pointer;}
+        /* Ana İçerik */
+        .main-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 50px;
+            max-width: 1300px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
 
-        .role-badge { font-size: 0.65rem; padding: 2px 8px; border-radius: 6px; font-weight: 800; text-transform: uppercase; margin-left: 4px; }
-        .role-admin { background: var(--admin-red); color: #fff; }
-        .role-vip { background: var(--gold); color: #000; }
-        .role-member { background: rgba(255,255,255,0.1); color: var(--text-muted); }
+        .hero-section {
+            max-width: 600px;
+        }
 
-        .coin-badge { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; padding: 4px 10px; border-radius: 20px; font-weight: 800; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 0 10px rgba(245, 158, 11, 0.3); }
+        .hero-section h1 {
+            font-size: 56px;
+            margin: 0 0 10px 0;
+            color: var(--primary-green);
+            text-shadow: 0 0 20px rgba(0, 255, 102, 0.4);
+            line-height: 1.1;
+        }
 
-        .rewards-box { background: rgba(245, 158, 11, 0.1); border: 1px dashed var(--gold); border-radius: 14px; padding: 12px; text-align: center; }
-        .rewards-btn { background: var(--gold); color: #000; border: none; font-weight: 800; font-size: 0.75rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; transition: transform 0.2s; }
-        .rewards-btn:hover { transform: scale(1.05); }
+        .hero-section p {
+            color: var(--text-gray);
+            font-size: 16px;
+            line-height: 1.6;
+        }
 
-        .main-content { flex: 1; display: flex; flex-direction: column; background: var(--bg-main); position: relative; }
-        
-        /* Story Alanı */
-        .stories-container { display: flex; gap: 15px; padding: 15px 30px; border-bottom: 1px solid var(--border-color); overflow-x: auto; background: rgba(15,23,42,0.4); align-items: center; }
-        .story-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; font-size: 0.75rem; gap: 4px; flex-shrink: 0; }
-        .story-ring { width: 58px; height: 58px; border-radius: 50%; padding: 2px; background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
-        .story-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid var(--bg-main); }
+        /* Sağ Giriş Kartı */
+        .auth-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 255, 102, 0.3);
+            border-radius: 12px;
+            padding: 30px;
+            width: 350px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(0, 255, 102, 0.05);
+            box-sizing: border-box;
+        }
 
-        .rooms-header { padding: 20px 30px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
-        .rooms-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; padding: 30px; overflow-y: auto; } 
-        .room-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 20px; transition: all 0.3s; cursor: pointer; }
-        .room-card:hover { border-color: var(--primary); box-shadow: 0 10px 30px var(--primary-glow); transform: translateY(-4px); }
+        .auth-card h3 {
+            margin-top: 0;
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
 
-        .active-room-view { display: none; flex-direction: column; height: 100%; background: #0c121e; }
-        .room-nav { padding: 15px 25px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background: rgba(15, 23, 42, 0.9); }
-        .room-body { display: flex; flex: 1; overflow: hidden; }
+        .auth-card p {
+            font-size: 13px;
+            color: var(--text-gray);
+            margin-bottom: 20px;
+        }
 
-        .voice-participants { flex: 1; padding: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 15px; align-content: start; overflow-y: auto; }
-        .participant-card { display: flex; flex-direction: column; align-items: center; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); padding: 15px; border-radius: 16px; text-align: center; cursor: pointer; transition: transform 0.2s; position: relative; }
-        .participant-card:hover { transform: scale(1.04); border-color: var(--primary); }
+        .input-group {
+            position: relative;
+            margin-bottom: 15px;
+        }
 
-        .feed-container { max-width: 600px; margin: 0 auto; width: 100%; padding: 20px; overflow-y: auto; height: 100%; display: flex; flex-direction: column; gap: 25px; }
-        .post-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; overflow: hidden; }
-        .post-header { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--border-color); }
-        .post-header img { width: 38px; height: 38px; border-radius: 50%; cursor: pointer; object-fit: cover;}
-        .post-img { width: 100%; max-height: 480px; object-fit: cover; display: block; }
-        .post-actions { padding: 12px 18px; display: flex; gap: 16px; font-size: 1.3rem; }
-        .post-action-btn { cursor: pointer; transition: transform 0.2s; color: var(--text-muted); }
-        .post-action-btn:hover { transform: scale(1.15); }
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px 12px 40px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #333;
+            border-radius: 6px;
+            color: white;
+            box-sizing: border-box;
+            outline: none;
+            transition: 0.3s;
+        }
 
-        .chat-panel { width: 330px; background: rgba(15, 23, 42, 0.7); border-left: 1px solid var(--border-color); display: flex; flex-direction: column; }
-        .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-        .chat-msg { background: rgba(255,255,255,0.04); padding: 10px 12px; border-radius: 10px; font-size: 0.85rem; word-break: break-word; }
-        .chat-msg.gift-msg { background: rgba(245, 158, 11, 0.15); border: 1px solid var(--gold); }
+        .input-group input:focus {
+            border-color: var(--primary-green);
+            box-shadow: 0 0 8px rgba(0, 255, 102, 0.3);
+        }
 
-        .chat-input-box { padding: 12px; border-top: 1px solid var(--border-color); display: flex; gap: 8px; }
-        .chat-input-box input { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid var(--border-color); background: rgba(0,0,0,0.2); color: #fff; outline: none; }
+        .input-group span {
+            position: absolute;
+            left: 12px;
+            top: 12px;
+            color: var(--text-gray);
+        }
 
-        /* Oda Alt Kontrolleri */
-        .room-controls { padding: 15px 30px; border-top: 1px solid var(--border-color); background: rgba(15, 23, 42, 0.9); display: flex; justify-content: center; gap: 18px; }
-        .control-btn { width: 50px; height: 50px; border-radius: 50%; border: none; background: rgba(255,255,255,0.1); color: #fff; font-size: 1.2rem; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; }
-        .control-btn:hover { transform: scale(1.08); background: rgba(255,255,255,0.2); }
-        .control-btn.active-off { background: var(--admin-red); }
-        .control-btn.gift-control { background: var(--gold); color: #000; box-shadow: 0 0 12px rgba(245, 158, 11, 0.4); }
+        .btn-login {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary-green);
+            border: none;
+            border-radius: 6px;
+            color: #000;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 5px;
+        }
 
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 9998; display: none; justify-content: center; align-items: center; }
-        .modal-box { background: var(--bg-card); border: 1px solid var(--border-color); padding: 25px; border-radius: 20px; width: 580px; max-height: 85vh; overflow-y: auto; }
-        
-        .gift-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 15px 0; }
-        .gift-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 14px; padding: 12px; text-align: center; cursor: pointer; transition: all 0.2s; }
-        .gift-card:hover { border-color: var(--gold); background: rgba(245, 158, 11, 0.1); transform: translateY(-3px); }
-        .gift-icon { font-size: 1.8rem; margin-bottom: 6px; display: block; }
-        .gift-price { font-size: 0.75rem; font-weight: 800; color: var(--gold); }
+        .btn-login:hover {
+            background: #00cc52;
+            box-shadow: 0 0 12px rgba(0, 255, 102, 0.6);
+        }
 
-        .insta-profile-modal { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 24px; width: 620px; max-height: 88vh; overflow-y: auto; padding: 25px; }
-        .insta-profile-header { display: flex; gap: 25px; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; margin-bottom: 20px; }
-        .insta-profile-pp { width: 95px; height: 95px; border-radius: 50%; border: 3px solid var(--primary); object-fit: cover; }
-        .received-gifts-box { background: rgba(0,0,0,0.25); border: 1px solid var(--border-color); border-radius: 14px; padding: 12px; margin-bottom: 15px; }
+        .divider {
+            text-align: center;
+            margin: 15px 0;
+            color: var(--text-gray);
+            font-size: 12px;
+        }
 
-        .nav-tab-btn { padding: 8px 16px; border-radius: 12px; border: 1px solid var(--border-color); background: rgba(255,255,255,0.05); color: var(--text); font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; }
-        .nav-tab-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+        .btn-register {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            border: 1px solid var(--primary-green);
+            border-radius: 6px;
+            color: var(--primary-green);
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
 
-        .user-select-item { display: flex; align-items: center; justify-content: space-between; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 10px; margin-bottom: 8px; border: 1px solid var(--border-color); cursor: pointer;}
-        .user-select-item:hover { border-color: var(--gold); background: rgba(245, 158, 11, 0.08); }
+        .btn-register:hover {
+            background: rgba(0, 255, 102, 0.1);
+        }
 
-        /* Aile (Clan) Kartları */
-        .family-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 20px; display: flex; gap: 15px; align-items: center; transition: all 0.3s; }
-        .family-card:hover { border-color: var(--accent); box-shadow: 0 10px 25px rgba(56, 189, 248, 0.2); }
-        .family-pp { width: 70px; height: 70px; border-radius: 20px; object-fit: cover; border: 2px solid var(--accent); }
+        /* Alt Bilgi Şeridi */
+        .contact-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 15, 12, 0.95);
+            padding: 15px 50px;
+            border-top: 1px solid rgba(0, 255, 102, 0.15);
+            font-size: 14px;
+            color: var(--text-gray);
+        }
 
-        /* Arama Buton Stilleri */
-        .search-tab-btn { padding: 8px 16px; border-radius: 10px; border: 1px solid var(--border-color); background: rgba(255,255,255,0.04); color: var(--text-muted); font-weight: 600; cursor: pointer; transition: all 0.2s; }
-        .search-tab-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
+        .contact-info {
+            display: flex;
+            gap: 25px;
+        }
+
+        .contact-info span {
+            color: var(--primary-green);
+        }
     </style>
 </head>
 <body>
 
-    <!-- Gizli Dosya Seçiciler (Galeri Hikaye, PP ve Aile PP İçin) -->
-    <input type="file" id="storyFileInput" accept="image/*" style="display: none;" onchange="handleStoryUpload(event)">
-    <input type="file" id="ppFileInput" accept="image/*" style="display: none;" onchange="handlePPChange(event)">
-    <input type="file" id="familyPPFileInput" accept="image/*" style="display: none;" onchange="handleFamilyPPSelect(event)">
+    <!-- Üst Menü -->
+    <header>
+        <div class="logo">🌿 BREZERS SOHBET</div>
+        <nav>
+            <a href="index.html" class="active">Ana Sayfa</a>
+            <a href="sohbet.html">Sohbet Odaları</a>
+            <a href="ozellikler.html">Özellikler</a>
+            <a href="https://t.me/Hzrox" target="_blank">Telegram (@Hzrox)</a>
+            <a href="https://wa.me/905397141379" target="_blank">WhatsApp</a>
+        </nav>
+    </header>
 
-    <!-- Üst Duyuru BARI -->
-    <div class="announcement-bar" id="announcementBar">
-        <span id="announcementText"><i class="fa-solid fa-bullhorn"></i> Hoşgeldiniz!</span>
-        <button onclick="closeAnnouncement()" style="background:none; border:none; color:#fff; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
-    </div>
+    <!-- Ana İçerik -->
+    <div class="main-container">
+        <div class="hero-section">
+            <h1>BREZERS<br>- SOHBET -</h1>
+            <p>Brezers Sohbet'e hoş geldin!<br>Yeni arkadaşlar kur, keyifli sohbetler et, özel odalarda kendini ifade et.</p>
+        </div>
 
-    <!-- Auth Giriş/Kayıt Modalı -->
-    <div class="auth-overlay" id="authModal">
+        <!-- Sağ Giriş Paneli -->
         <div class="auth-card">
-            <h2>BREZERS SOHBET</h2>
-            <p style="color: var(--text-muted); font-size: 0.85rem;">Sosyal Topluluğa Giriş Yapın</p>
-
-            <div class="auth-tabs">
-                <button class="auth-tab active" id="loginTabBtn" onclick="switchTab('login')">Giriş Yap</button>
-                <button class="auth-tab" id="registerTabBtn" onclick="switchTab('register')">Kayıt Ol</button>
-            </div>
-
-            <div id="loginForm">
-                <div class="input-group">
-                    <label><i class="fa-solid fa-envelope"></i> Gmail (E-Posta)</label>
-                    <input type="email" id="loginEmail" placeholder="ornek@gmail.com">
-                </div>
-                <div class="input-group">
-                    <label><i class="fa-solid fa-key"></i> Şifre</label>
-                    <input type="password" id="loginPassword" placeholder="••••••••">
-                </div>
-                <button class="btn-primary" onclick="handleLogin()">Giriş Yap</button>
-            </div>
-
-            <div id="registerForm" style="display: none;">
-                <div class="input-group">
-                    <label><i class="fa-solid fa-envelope"></i> Gmail (E-Posta)</label>
-                    <input type="email" id="regEmail" placeholder="ornek@gmail.com">
-                </div>
-                <div class="input-group">
-                    <label><i class="fa-solid fa-user-tag"></i> Rol Seçimi</label>
-                    <select id="regRole">
-                        <option value="member">Üye</option>
-                        <option value="streamer">Yayıncı / İçerik Üretici</option>
-                        <option value="vip">VIP Üye</option>
-                    </select>
-                </div>
-                <div class="input-group">
-                    <label><i class="fa-solid fa-key"></i> Şifre</label>
-                    <input type="password" id="regPassword" placeholder="••••••••">
-                </div>
-                <button class="btn-primary" onclick="handleRegister()">Kayıt Ol</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Aile (Clan) Oluşturma Modalı -->
-    <div class="modal-overlay" id="createFamilyModal">
-        <div class="modal-box" style="max-width: 450px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3 style="color: var(--accent);"><i class="fa-solid fa-users-rectangle"></i> Yeni Aile Oluştur</h3>
-                <button onclick="closeCreateFamilyModal()" style="background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-
-            <div style="text-align: center; margin-bottom: 15px;">
-                <img src="https://api.dicebear.com/7.x/identicon/svg?seed=Family" id="familyPPPreview" style="width: 80px; height: 80px; border-radius: 20px; object-fit: cover; border: 2px solid var(--accent); margin-bottom: 8px;">
-                <div>
-                    <button class="btn-primary" style="width: auto; padding: 6px 14px; font-size: 0.75rem;" onclick="triggerFamilyPPSelect()"><i class="fa-solid fa-image"></i> Resim Seç</button>
-                </div>
-            </div>
-
-            <div class="input-group">
-                <label>Aile Adı</label>
-                <input type="text" id="familyNameInput" placeholder="Örn: Brezers Krallığı">
-            </div>
-
-            <div class="input-group">
-                <label>Aile Açıklaması</label>
-                <textarea id="familyDescInput" rows="3" placeholder="Ailenizin vizyonu ve kuralları..."></textarea>
-            </div>
-
-            <button class="btn-primary" style="background: linear-gradient(135deg, var(--accent), #0284c7);" onclick="saveNewFamily()"><i class="fa-solid fa-shield-halved"></i> Aileyi Kur</button>
-        </div>
-    </div>
-
-    <!-- Instagram Stili Profil Modalı -->
-    <div class="modal-overlay" id="instaProfileModal">
-        <div class="insta-profile-modal">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3><i class="fa-solid fa-user"></i> Kullanıcı Profili</h3>
-                <button onclick="closeInstaProfileModal()" style="background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-
-            <div class="insta-profile-header">
-                <img src="" id="profileModalPP" class="insta-profile-pp" alt="PP">
-                <div style="flex: 1;">
-                    <h3 id="profileModalUsername" style="display:flex; align-items:center; gap:8px;">
-                        <span>Kullanıcı</span>
-                        <span id="profileModalRole" class="role-badge role-member">ÜYE</span>
-                    </h3>
-                    <p style="font-size:0.75rem; color:var(--accent);" id="profileModalUID">UID: #------</p>
-
-                    <div class="received-gifts-box" style="margin-top: 10px;">
-                        <p style="font-size:0.75rem; font-weight:700; color:var(--gold); margin-bottom:6px;"><i class="fa-solid fa-gift"></i> Hesaptaki Hediyeler</p>
-                        <div id="profileReceivedGifts" style="display:flex; gap:10px; overflow-x:auto; font-size:1.3rem;"></div>
-                    </div>
-
-                    <div style="display:flex; gap:10px; margin-top:10px;">
-                        <button id="profileGiftBtn" class="btn-primary" style="padding: 6px 14px; font-size: 0.8rem; background: var(--gold); color:#000;" onclick="openSendGiftModalFromProfile()">
-                            <i class="fa-solid fa-gift"></i> Hediye Gönder
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Hediye Gönderme Modalı -->
-    <div class="modal-overlay" id="sendGiftModal">
-        <div class="modal-box" style="max-width:460px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3><i class="fa-solid fa-gift" style="color:var(--gold);"></i> Hediye Gönder</h3>
-                <button onclick="closeGiftModal()" style="background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
-            </div>
+            <h3>Hoş Geldin<br>Brezers Sohbet'e</h3>
+            <p>Sohbete katılmak için giriş yap veya hemen kayıt ol!</p>
             
-            <p style="font-size:0.85rem; color:var(--text-muted);">Alıcı: <b id="giftTargetName" style="color:#fff;">...</b></p>
-            <p style="font-size:0.85rem; color:var(--gold); font-weight:700; margin-top:4px;">Mevcut Bakiyeniz: <span id="giftModalUserCoins">0</span> Coin 🪙</p>
+            <form id="loginForm">
+                <div class="input-group">
+                    <span>👤</span>
+                    <input type="text" id="username" placeholder="Kullanıcı Adı" required>
+                </div>
+                <div class="input-group">
+                    <span>🔒</span>
+                    <input type="password" id="password" placeholder="Şifre" required>
+                </div>
+                <button type="submit" class="btn-login">Giriş Yap &gt;</button>
+            </form>
 
-            <div class="gift-grid">
-                <div class="gift-card" onclick="sendGift('🌹 Gül', 10, '🌹')"><span class="gift-icon">🌹</span><span class="gift-price">10 Coin</span></div>
-                <div class="gift-card" onclick="sendGift('☕ Kahve', 25, '☕')"><span class="gift-icon">☕</span><span class="gift-price">25 Coin</span></div>
-                <div class="gift-card" onclick="sendGift('🍰 Pasta', 50, '🍰')"><span class="gift-icon">🍰</span><span class="gift-price">50 Coin</span></div>
-                <div class="gift-card" onclick="sendGift('👑 Kral Tacı', 100, '👑')"><span class="gift-icon">👑</span><span class="gift-price">100 Coin</span></div>
-                <div class="gift-card" onclick="sendGift('🚀 Roket', 250, '🚀')"><span class="gift-icon">🚀</span><span class="gift-price">250 Coin</span></div>
-                <div class="gift-card" onclick="sendGift('💎 Elmas', 500, '💎')"><span class="gift-icon">💎</span><span class="gift-price">500 Coin</span></div>
-                <div class="gift-card" onclick="sendGift('🏎 Spor Araba', 1000, '🏎')"><span class="gift-icon">🏎</span><span class="gift-price">1000 Coin</span></div>
-                <div class="gift-card" onclick="sendGift('🏰 Şato', 2500, '🏰')"><span class="gift-icon">🏰</span><span class="gift-price">2500 Coin</span></div>
-            </div>
+            <div class="divider">veya</div>
+
+            <button class="btn-register" onclick="window.location.href='kayit.html'">Kayıt Ol</button>
         </div>
     </div>
 
-    <!-- Odadaki Kullanıcıyı Seçip Hediye Gönderme Modalı -->
-    <div class="modal-overlay" id="roomUserSelectGiftModal">
-        <div class="modal-box" style="max-width:440px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3><i class="fa-solid fa-gift" style="color:var(--gold);"></i> Kime Hediye Atacaksın?</h3>
-                <button onclick="closeRoomUserSelectGiftModal()" style="background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px;">Hediye göndermek istediğin odaya katılımcıyı seç:</p>
-            <div id="roomUsersSelectList"></div>
+    <!-- Alt İletişim Şeridi -->
+    <div class="contact-bar">
+        <div class="contact-info">
+            <div>💬 Telegram: <span>@Hzrox</span></div>
+            <div>📞 WhatsApp: <span>+90 539 714 13 79</span></div>
         </div>
-    </div>
-
-    <!-- Hikaye Gösterici Modal -->
-    <div class="modal-overlay" id="storyViewerModal" onclick="closeStoryViewer()">
-        <div style="position:relative; max-width:400px; width:90%; border-radius:20px; overflow:hidden; border:2px solid var(--primary);">
-            <img src="" id="storyViewerImg" style="width:100%; height:auto; display:block; max-height:80vh; object-fit:contain; background:#000;">
-            <div style="position:absolute; top:15px; left:15px; display:flex; align-items:center; gap:10px; background:rgba(0,0,0,0.5); padding:6px 12px; border-radius:20px;">
-                <img id="storyViewerPP" src="" style="width:30px; height:30px; border-radius:50%;">
-                <span id="storyViewerName" style="font-weight:700; font-size:0.85rem;">...</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Admin Panel Modal -->
-    <div class="modal-overlay" id="adminModal">
-        <div class="modal-box" style="border-color: var(--admin-red);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3 style="color: var(--admin-red);"><i class="fa-solid fa-user-shield"></i> Admin Yönetim Paneli</h3>
-                <button onclick="closeAdminModal()" style="background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-
-            <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid var(--admin-red); border-radius: 14px; padding: 15px; margin-bottom: 15px;">
-                <h4 style="color: var(--admin-red); margin-bottom: 10px;"><i class="fa-solid fa-ban"></i> Kullanıcı Banla / Engelle</h4>
-                <div style="display:flex; gap:8px; margin-bottom:8px;">
-                    <input type="text" id="adminBanUID" placeholder="Banlanacak UID" style="flex:1; padding:8px; border-radius:8px; border:1px solid var(--border-color); background:rgba(0,0,0,0.3); color:#fff;">
-                    <button class="btn-primary" style="background: var(--admin-red); width:auto; padding:0 15px;" onclick="adminBanUser()">Banla</button>
-                    <button class="btn-primary" style="background: var(--green); width:auto; padding:0 15px;" onclick="adminUnbanUser()">Ban Kaldır</button>
-                </div>
-            </div>
-
-            <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid var(--gold); border-radius: 14px; padding: 15px; margin-bottom: 15px;">
-                <h4 style="color: var(--gold); margin-bottom: 10px;"><i class="fa-solid fa-coins"></i> Kullanıcı Hesabına Coin Yükle</h4>
-                <div style="display:flex; gap:8px; margin-bottom:8px;">
-                    <input type="text" id="adminTargetUID" placeholder="Hedef UID (Örn: 100000)" style="flex:1; padding:8px; border-radius:8px; border:1px solid var(--border-color); background:rgba(0,0,0,0.3); color:#fff;">
-                    <input type="number" id="adminCoinAmount" placeholder="Miktar" style="width:110px; padding:8px; border-radius:8px; border:1px solid var(--border-color); background:rgba(0,0,0,0.3); color:#fff;">
-                </div>
-                <button class="btn-primary" style="background: var(--gold); color: #000;" onclick="adminAddCoins()">Coin Gönder</button>
-            </div>
-
-            <div style="background: rgba(0,0,0,0.25); border: 1px solid var(--border-color); border-radius: 14px; padding: 15px;">
-                <h4 style="color: var(--accent); margin-bottom: 10px;"><i class="fa-solid fa-bullhorn"></i> Platform Geneli Duyuru Yayınla</h4>
-                <div style="display:flex; gap:8px;">
-                    <input type="text" id="announcementInput" placeholder="Tüm kullanıcılara duyuru..." style="flex:1; padding:8px; border-radius:8px; border:1px solid var(--border-color); background:rgba(255,255,255,0.05); color:#fff;">
-                    <button class="btn-primary" style="width:auto; padding:0 15px;" onclick="publishAnnouncement()">Yayınla</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Uygulama Ana Ekranı -->
-    <div class="app-container">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <div class="user-profile-box" onclick="triggerPPChange()">
-                <div class="avatar-wrapper">
-                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=user" id="userAvatar" class="avatar" alt="PP">
-                    <div class="pp-upload-badge" title="Profil Resmini Değiştir"><i class="fa-solid fa-camera"></i></div>
-                </div>
-                <div class="user-info" style="flex: 1;">
-                    <h4 id="displayUsername">
-                        <span>Kullanıcı</span>
-                        <span id="userRoleBadge" class="role-badge role-member">Üye</span>
-                    </h4>
-                    <p id="displayUID" style="font-size:0.75rem; color:var(--accent);">UID: #------</p>
-                    <div style="margin-top: 6px;">
-                        <span class="coin-badge"><i class="fa-solid fa-coins"></i> <span id="userCoinBalance">0</span> Coin</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Ücretsiz Günlük & Haftalık Hediye Kutusu -->
-            <div class="rewards-box">
-                <p style="font-size:0.8rem; font-weight:700; color:var(--gold);"><i class="fa-solid fa-gift"></i> Ücretsiz Ödüller</p>
-                <div style="display:flex; gap:6px; margin-top:8px;">
-                    <button class="rewards-btn" style="flex:1;" onclick="claimDailyReward()">Günlük (10 🪙)</button>
-                    <button class="rewards-btn" style="flex:1; background:var(--purple); color:#fff;" onclick="claimWeeklyReward()">Haftalık (50 🪙)</button>
-                </div>
-            </div>
-
-            <!-- Sol Menü Aileler / Klan Butonu -->
-            <button class="btn-primary" style="background: rgba(56, 189, 248, 0.15); border: 1px solid var(--accent); color: var(--accent); font-size: 0.9rem;" onclick="switchMainTab('families')">
-                <i class="fa-solid fa-users-rectangle"></i> Aileler & Arama
-            </button>
-
-            <a href="https://t.me/Hzrox" target="_blank" class="btn-telegram">
-                <i class="fa-brands fa-telegram" style="font-size: 1.2rem;"></i> @Hzrox Telegram
-            </a>
-
-            <button id="adminPanelBtn" class="btn-primary" style="display: none; background: rgba(239, 68, 68, 0.2); border: 1px solid var(--admin-red); color: var(--admin-red);" onclick="openAdminModal()">
-                <i class="fa-solid fa-shield-halved"></i> Admin Paneli
-            </button>
-
-            <div style="margin-top: auto;">
-                <button class="btn-primary" style="background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); color: #ef4444;" onclick="logout()">
-                    <i class="fa-solid fa-right-from-bracket"></i> Çıkış Yap
-                </button>
-            </div>
-        </div>
-
-        <!-- Ana İçerik Alanı -->
-        <div class="main-content">
-            
-            <!-- Instagram Story Akışı -->
-            <div class="stories-container" id="storiesContainer">
-                <div class="story-item" onclick="triggerStoryUpload()">
-                    <div class="story-ring" style="background:var(--border-color);">
-                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=user" id="storyUserPP" class="story-img">
-                    </div>
-                    <span>Hikaye Ekle</span>
-                </div>
-            </div>
-
-            <!-- Sekme Gezinme Barı -->
-            <div style="padding:15px 30px; border-bottom:1px solid var(--border-color); display:flex; gap:12px; background:rgba(15,23,42,0.6);">
-                <button class="nav-tab-btn active" id="tabVoiceBtn" onclick="switchMainTab('voice')"><i class="fa-solid fa-microphone"></i> Sesli Odalar</button>
-                <button class="nav-tab-btn" id="tabFeedBtn" onclick="switchMainTab('feed')"><i class="fa-solid fa-images"></i> Akış</button>
-                <button class="nav-tab-btn" id="tabFamilyBtn" onclick="switchMainTab('families')"><i class="fa-solid fa-users-rectangle"></i> Aileler & Arama</button>
-            </div>
-
-            <!-- Sesli Odalar Lobi Görünümü -->
-            <div id="lobbyView" style="display: flex; flex-direction: column; height: 100%;">
-                <div class="rooms-header">
-                    <h2><i class="fa-solid fa-headset"></i> Aktif Odalar</h2>
-                    <button class="btn-primary" style="width: auto; padding: 10px 16px;" onclick="createNewRealRoom()">+ Oda Oluştur</button>
-                </div>
-                <div class="rooms-grid" id="roomsContainer"></div>
-            </div>
-
-            <!-- Instagram Akış Görünümü -->
-            <div id="feedView" style="display: none; height: 100%; overflow: hidden;">
-                <div class="feed-container" id="feedPostsContainer"></div>
-            </div>
-
-            <!-- Aileler ve Arama Sekmesi Görünümü -->
-            <div id="familiesView" style="display: none; height: 100%; overflow-y: auto; padding: 30px;">
-                
-                <!-- Arama Seçenekleri ve Butonları -->
-                <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 20px; margin-bottom: 25px;">
-                    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-                        <button class="search-tab-btn active" id="searchFamilyTabBtn" onclick="switchSearchMode('family')">
-                            <i class="fa-solid fa-users-rectangle"></i> Aile Ara
-                        </button>
-                        <button class="search-tab-btn" id="searchUserTabBtn" onclick="switchSearchMode('user')">
-                            <i class="fa-solid fa-user-group"></i> Dostlarımı Ara (UID)
-                        </button>
-                    </div>
-
-                    <div style="display: flex; gap: 10px;">
-                        <input type="text" id="searchInput" placeholder="Aile adı ara..." style="flex: 1; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border-color); background: rgba(0,0,0,0.25); color: #fff; outline: none;">
-                        <button class="btn-primary" style="width: auto; padding: 0 24px; background: var(--accent); color: #000;" onclick="executeSearch()">
-                            <i class="fa-solid fa-magnifying-glass"></i> Ara
-                        </button>
-                    </div>
-                </div>
-
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
-                    <div>
-                        <h2 id="sectionTitle"><i class="fa-solid fa-users-rectangle" style="color:var(--accent);"></i> Topluluk Aileleri</h2>
-                        <p style="font-size:0.85rem; color:var(--text-muted);">Arkadaşlarınla kendi Aileni kur veya mevcut ailelere katıl!</p>
-                    </div>
-                    <button class="btn-primary" style="width: auto; background: linear-gradient(135deg, var(--accent), #0284c7); padding: 10px 18px;" onclick="openCreateFamilyModal()">
-                        <i class="fa-solid fa-plus"></i> Aile Aç
-                    </button>
-                </div>
-
-                <!-- Aile ve Dostlar Arama Sonuç Grid'i -->
-                <div id="familiesListGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px;">
-                    <!-- Dinamik İçerik -->
-                </div>
-            </div>
-
-            <!-- Aktif Odadaki Canlı Görünüm -->
-            <div class="active-room-view" id="activeRoomView">
-                <div class="room-nav">
-                    <div>
-                        <h3 id="currentRoomTitle">🎙 Genel Sohbet</h3>
-                        <p style="font-size: 0.75rem; color: var(--accent);" id="currentRoomUsersCount">1 Katılımcı</p>
-                    </div>
-                    <button class="btn-primary" style="width: auto; background: var(--admin-red); padding: 8px 16px;" onclick="leaveRoom()">
-                        <i class="fa-solid fa-phone-slash"></i> Ayrıl
-                    </button>
-                </div>
-
-                <div class="room-body">
-                    <div class="voice-participants" id="participantsContainer"></div>
-
-                    <div class="chat-panel">
-                        <div style="padding: 12px; border-bottom: 1px solid var(--border-color); font-weight: 700; font-size: 0.85rem;">
-                            <i class="fa-solid fa-comments"></i> Oda Chat
-                        </div>
-                        <div class="chat-messages" id="chatMessages"></div>
-
-                        <div class="chat-input-box">
-                            <input type="text" id="chatInput" placeholder="Mesaj yazın..." onkeypress="handleChatKeyPress(event)">
-                            <button class="btn-primary" style="width: auto; padding: 0 15px;" onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="room-controls">
-                    <button class="control-btn" id="micBtn" onclick="toggleMic()" title="Mikrofon Aç/Kapat"><i class="fa-solid fa-microphone"></i></button>
-                    <button class="control-btn" id="deafenBtn" onclick="toggleDeafen()" title="Kulaklık Sesi Aç/Kapat"><i class="fa-solid fa-volume-high"></i></button>
-                    <button class="control-btn gift-control" onclick="openRoomUserSelectGiftModal()" title="Odadakilere Hediye Gönder"><i class="fa-solid fa-gift"></i></button>
-                </div>
-            </div>
-
-        </div>
+        <div>© 2026 Brezers Sohbet | Tüm hakları saklıdır.</div>
     </div>
 
     <script>
-        let currentUID = "";
-        let currentUsername = "";
-        let userRole = "member";
-        let isAdmin = false;
-        let userCoins = 100;
-        let isMicOn = true;
-        let isDeafenOn = false;
-        let userAvatarUrl = "https://api.dicebear.com/7.x/bottts/svg?seed=user";
-        let activeRoomId = null;
+        // Giriş ve Admin Yönlendirme Kontrolü
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
 
-        let activeSearchMode = 'family'; // 'family' veya 'user'
-
-        let selectedFamilyPP = "https://api.dicebear.com/7.x/identicon/svg?seed=Family";
-        let bannedUIDs = [];
-
-        let dbUsers = {
-            "100000": { uid: "100000", name: "ROX (Kurucu)", coins: 99999, gifts: ["👑", "💎", "🏎"], role: "admin", avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=RoxAdmin" },
-            "202020": { uid: "202020", name: "Ahmet_TR", coins: 50, gifts: ["☕"], role: "member", avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=Ahmet" }
-        };
-
-        let families = [
-            {
-                id: 1,
-                name: "BREZERS Ailesi",
-                desc: "Platformun kurucu ve resmi lider ailesi. Birlikte güçlü sohbetler!",
-                pp: "https://api.dicebear.com/7.x/identicon/svg?seed=BrezersFamily",
-                leader: "ROX (Kurucu)",
-                membersCount: 12
-            }
-        ];
-
-        let stories = [
-            { id: 1, uid: "100000", name: "ROX", avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=RoxAdmin", img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&q=80" }
-        ];
-
-        let activeRealRooms = [
-            { 
-                id: 1, 
-                name: "🔥 BREZERS Genel Sohbet", 
-                users: [
-                    { uid: "100000", name: "ROX (Kurucu)", role: "admin", avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=RoxAdmin" }
-                ] 
-            }
-        ];
-
-        let allPosts = [
-            {
-                id: 101,
-                authorUID: "100000",
-                authorName: "ROX (Kurucu)",
-                authorAvatar: "https://api.dicebear.com/7.x/bottts/svg?seed=RoxAdmin",
-                imgUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&q=80",
-                caption: "Platforma Aileler (Clan) ve Arama sistemi eklendi! 🔥",
-                likes: ["100000"],
-                comments: []
-            }
-        ];
-
-        let selectedGiftTargetUID = null;
-        let selectedGiftTargetName = null;
-
-        function generateUID() { return Math.floor(100000 + Math.random() * 900000).toString(); }
-
-        function updateCoinDisplay() {
-            document.getElementById('userCoinBalance').innerText = userCoins;
-            document.getElementById('giftModalUserCoins').innerText = userCoins;
-            if(dbUsers[currentUID]) dbUsers[currentUID].coins = userCoins;
-        }
-
-        function switchTab(tab) {
-            if(tab === 'login') {
-                document.getElementById('loginForm').style.display = 'block';
-                document.getElementById('registerForm').style.display = 'none';
-                document.getElementById('loginTabBtn').classList.add('active');
-                document.getElementById('registerTabBtn').classList.remove('active');
+            // Admin mail / yetki doğrulaması
+            if(user === "admin" && pass === "admin123") {
+                alert("Admin paneline yönlendiriliyorsunuz!");
+                window.location.href = "admin-panel.html";
             } else {
-                document.getElementById('loginForm').style.display = 'none';
-                document.getElementById('registerForm').style.display = 'block';
-                document.getElementById('registerTabBtn').classList.add('active');
-                document.getElementById('loginTabBtn').classList.remove('active');
+                alert("Giriş başarılı! Sohbet odalarına yönlendiriliyorsunuz...");
+                window.location.href = "sohbet.html";
             }
-        }
-
-        function handleLogin() {
-            const email = document.getElementById('loginEmail').value.trim();
-            const password = document.getElementById('loginPassword').value.trim();
-            if(!email || !password) return alert("Bilgileri girin!");
-            processAuth(email, password, "member");
-        }
-
-        function handleRegister() {
-            const email = document.getElementById('regEmail').value.trim();
-            const password = document.getElementById('regPassword').value.trim();
-            const role = document.getElementById('regRole').value;
-            if(!email || !password) return alert("Bilgileri girin!");
-            processAuth(email, password, role);
-        }
-
-        function processAuth(email, password, selectedRole) {
-            let uid = "";
-            let name = email.split('@')[0];
-
-            if (email === "roxhzr@gmail.com" && password === "hasan890") {
-                isAdmin = true;
-                userRole = "admin";
-                uid = "100000";
-                name = "ROX (Kurucu)";
-                userCoins = 99999;
-                userAvatarUrl = "https://api.dicebear.com/7.x/bottts/svg?seed=RoxAdmin";
-                document.getElementById('adminPanelBtn').style.display = 'block';
-            } else {
-                uid = generateUID();
-                userRole = selectedRole;
-                userAvatarUrl = `https://api.dicebear.com/7.x/bottts/svg?seed=${name}`;
-            }
-
-            if (bannedUIDs.includes(uid)) {
-                return alert("Hesabınız engellenmiştir!");
-            }
-
-            currentUID = uid;
-            currentUsername = name;
-
-            dbUsers[currentUID] = { uid: currentUID, name: currentUsername, coins: userCoins, gifts: [], role: userRole, avatar: userAvatarUrl };
-
-            document.getElementById('displayUsername').querySelector('span').innerText = currentUsername;
-            document.getElementById('displayUID').innerText = "UID: #" + currentUID;
-            document.getElementById('userAvatar').src = userAvatarUrl;
-            document.getElementById('storyUserPP').src = userAvatarUrl;
-
-            updateCoinDisplay();
-            document.getElementById('authModal').style.display = 'none';
-            renderStories();
-            renderLobbyRooms();
-            renderFeedPosts();
-            renderFamilies();
-        }
-
-        /* ----- ARAMA MODLARI DÜZENLEMESİ ----- */
-        function switchSearchMode(mode) {
-            activeSearchMode = mode;
-            document.getElementById('searchFamilyTabBtn').classList.toggle('active', mode === 'family');
-            document.getElementById('searchUserTabBtn').classList.toggle('active', mode === 'user');
-
-            const input = document.getElementById('searchInput');
-            if(mode === 'family') {
-                input.placeholder = "Aile adı veya lider adı yazın...";
-                document.getElementById('sectionTitle').innerHTML = '<i class="fa-solid fa-users-rectangle" style="color:var(--accent);"></i> Topluluk Aileleri';
-                renderFamilies();
-            } else {
-                input.placeholder = "Dostunun UID kodunu veya adını gir (Örn: 100000)...";
-                document.getElementById('sectionTitle').innerHTML = '<i class="fa-solid fa-user-group" style="color:var(--accent);"></i> Kayıtlı Dostlar / Kullanıcılar';
-                renderUserSearchResults(Object.values(dbUsers));
-            }
-        }
-
-        function executeSearch() {
-            const query = document.getElementById('searchInput').value.trim().toLowerCase();
-
-            if (activeSearchMode === 'family') {
-                const filtered = families.filter(f => f.name.toLowerCase().includes(query) || f.leader.toLowerCase().includes(query));
-                renderFamilies(filtered);
-            } else {
-                const filtered = Object.values(dbUsers).filter(u => u.uid.includes(query) || u.name.toLowerCase().includes(query));
-                renderUserSearchResults(filtered);
-            }
-        }
-
-        function renderUserSearchResults(userList) {
-            const container = document.getElementById('familiesListGrid');
-            container.innerHTML = '';
-
-            if (userList.length === 0) {
-                container.innerHTML = '<p style="color:var(--text-muted); grid-column: 1/-1;">Aranan kriterde dost/kullanıcı bulunamadı.</p>';
-                return;
-            }
-
-            userList.forEach(u => {
-                const card = document.createElement('div');
-                card.className = 'family-card';
-                card.innerHTML = `
-                    <img src="${u.avatar || 'https://api.dicebear.com/7.x/bottts/svg?seed=' + u.name}" class="family-pp" style="border-radius:50%;">
-                    <div style="flex:1;">
-                        <h4 style="font-size:1.1rem; color:#fff;">${u.name}</h4>
-                        <p style="font-size:0.75rem; color:var(--accent); margin:4px 0;">UID: #${u.uid}</p>
-                        <div style="display:flex; gap:8px; margin-top:8px;">
-                            <button class="btn-primary" style="padding:4px 10px; font-size:0.75rem; width:auto;" onclick="openUserProfile('${u.uid}', '${u.name}', '${u.avatar}')">
-                                <i class="fa-solid fa-user"></i> Profili İncele
-                            </button>
-                            <button class="btn-primary" style="padding:4px 10px; font-size:0.75rem; width:auto; background:var(--gold); color:#000;" onclick="openGiftModalForUser('${u.uid}', '${u.name}')">
-                                <i class="fa-solid fa-gift"></i> Hediye At
-                            </button>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        /* ----- AİLE (CLAN) MODÜLÜ İŞLEMLERİ ----- */
-        function openCreateFamilyModal() { document.getElementById('createFamilyModal').style.display = 'flex'; }
-        function closeCreateFamilyModal() { document.getElementById('createFamilyModal').style.display = 'none'; }
-
-        function triggerFamilyPPSelect() { document.getElementById('familyPPFileInput').click(); }
-
-        function handleFamilyPPSelect(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-                selectedFamilyPP = evt.target.result;
-                document.getElementById('familyPPPreview').src = selectedFamilyPP;
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function saveNewFamily() {
-            const name = document.getElementById('familyNameInput').value.trim();
-            const desc = document.getElementById('familyDescInput').value.trim();
-
-            if(!name || !desc) return alert("Lütfen aile adı ve açıklamasını doldurun!");
-
-            const newFam = {
-                id: Date.now(),
-                name: name,
-                desc: desc,
-                pp: selectedFamilyPP,
-                leader: currentUsername,
-                membersCount: 1
-            };
-
-            families.unshift(newFam);
-            renderFamilies();
-            closeCreateFamilyModal();
-            alert(`"${name}" Ailesi başarıyla kuruldu! 🛡`);
-            
-            document.getElementById('familyNameInput').value = '';
-            document.getElementById('familyDescInput').value = '';
-            selectedFamilyPP = "https://api.dicebear.com/7.x/identicon/svg?seed=Family";
-            document.getElementById('familyPPPreview').src = selectedFamilyPP;
-        }
-
-        function renderFamilies(list = families) {
-            const container = document.getElementById('familiesListGrid');
-            container.innerHTML = '';
-
-            if (list.length === 0) {
-                container.innerHTML = '<p style="color:var(--text-muted); grid-column: 1/-1;">Aranan isimde bir Aile bulunamadı.</p>';
-                return;
-            }
-
-            list.forEach(fam => {
-                const card = document.createElement('div');
-                card.className = 'family-card';
-                card.innerHTML = `
-                    <img src="${fam.pp}" class="family-pp">
-                    <div style="flex:1;">
-                        <h4 style="font-size:1.1rem; color:#fff;">${fam.name}</h4>
-                        <p style="font-size:0.75rem; color:var(--text-muted); margin:4px 0;">${fam.desc}</p>
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
-                            <span style="font-size:0.7rem; color:var(--accent); font-weight:700;"><i class="fa-solid fa-crown"></i> Lider: ${fam.leader}</span>
-                            <span style="font-size:0.75rem; color:var(--gold); font-weight:800;"><i class="fa-solid fa-users"></i> ${fam.membersCount} Üye</span>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        /* ----- HİKAYE VE PP YÜKLEME ----- */
-        function triggerStoryUpload() { document.getElementById('storyFileInput').click(); }
-        
-        function handleStoryUpload(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-                const newStory = { id: Date.now(), uid: currentUID, name: currentUsername, avatar: userAvatarUrl, img: evt.target.result };
-                stories.unshift(newStory);
-                renderStories();
-                alert("Hikayeniz yayınlandı! 📸");
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function renderStories() {
-            const container = document.getElementById('storiesContainer');
-            const selfItem = container.firstElementChild;
-            container.innerHTML = '';
-            container.appendChild(selfItem);
-
-            stories.forEach(st => {
-                const div = document.createElement('div');
-                div.className = 'story-item';
-                div.onclick = () => viewStory(st);
-                div.innerHTML = `<div class="story-ring"><img src="${st.avatar}" class="story-img"></div><span>${st.name}</span>`;
-                container.appendChild(div);
-            });
-        }
-
-        function viewStory(st) {
-            document.getElementById('storyViewerImg').src = st.img;
-            document.getElementById('storyViewerPP').src = st.avatar;
-            document.getElementById('storyViewerName').innerText = st.name;
-            document.getElementById('storyViewerModal').style.display = 'flex';
-        }
-
-        function closeStoryViewer() { document.getElementById('storyViewerModal').style.display = 'none'; }
-        function triggerPPChange() { document.getElementById('ppFileInput').click(); }
-
-        function handlePPChange(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-                userAvatarUrl = evt.target.result;
-                document.getElementById('userAvatar').src = userAvatarUrl;
-                document.getElementById('storyUserPP').src = userAvatarUrl;
-                if(dbUsers[currentUID]) dbUsers[currentUID].avatar = userAvatarUrl;
-                alert("Profil resminiz güncellendi! ✨");
-            };
-            reader.readAsDataURL(file);
-        }
-
-        /* ----- ÖDÜLLER ----- */
-        function claimDailyReward() {
-            const lastClaim = localStorage.getItem('dailyClaim_' + currentUID);
-            const now = Date.now();
-            if (lastClaim && now - parseInt(lastClaim) < 86400000) return alert("24 saat geçmeden tekrar alamazsınız!");
-            userCoins += 10;
-            localStorage.setItem('dailyClaim_' + currentUID, now.toString());
-            updateCoinDisplay();
-            alert("10 Coin yüklendi 🪙");
-        }
-
-        function claimWeeklyReward() {
-            const lastClaim = localStorage.getItem('weeklyClaim_' + currentUID);
-            const now = Date.now();
-            if (lastClaim && now - parseInt(lastClaim) < 604800000) return alert("Bu hafta ödülünüzü zaten aldınız!");
-            userCoins += 50;
-            localStorage.setItem('weeklyClaim_' + currentUID, now.toString());
-            updateCoinDisplay();
-            alert("50 Coin tanımlandı 🎉");
-        }
-
-        /* ----- HEDİYE VE MİKROFON / ODA SİSTEMİ ----- */
-        function openGiftModalForUser(uid, name) {
-            selectedGiftTargetUID = uid;
-            selectedGiftTargetName = name;
-            document.getElementById('giftTargetName').innerText = name;
-            document.getElementById('sendGiftModal').style.display = 'flex';
-        }
-
-        function closeGiftModal() { document.getElementById('sendGiftModal').style.display = 'none'; }
-
-        function sendGift(giftName, price, icon) {
-            if (userCoins < price) return alert("Yetersiz Coin!");
-            userCoins -= price;
-            updateCoinDisplay();
-
-            if (dbUsers[selectedGiftTargetUID]) dbUsers[selectedGiftTargetUID].gifts.push(icon);
-
-            const chatBox = document.getElementById('chatMessages');
-            if (chatBox) {
-                const msg = document.createElement('div');
-                msg.className = 'chat-msg gift-msg';
-                msg.innerHTML = `<b>🎁 HEDİYE!</b> <span>${currentUsername}</span> -> <b>${selectedGiftTargetName}</b> kullanıcısına ${icon} <b>${giftName}</b> attı!`;
-                chatBox.appendChild(msg);
-                chatBox.scrollTop = chatBox.scrollHeight;
-            }
-
-            alert(`${selectedGiftTargetName} kişisine ${giftName} atıldı! 🎉`);
-            closeGiftModal();
-            closeRoomUserSelectGiftModal();
-            closeInstaProfileModal();
-        }
-
-        function openRoomUserSelectGiftModal() {
-            const room = activeRealRooms.find(r => r.id === activeRoomId);
-            if (!room) return;
-
-            const list = document.getElementById('roomUsersSelectList');
-            list.innerHTML = '';
-
-            room.users.forEach(u => {
-                if(u.uid === currentUID) return;
-                const item = document.createElement('div');
-                item.className = 'user-select-item';
-                item.onclick = () => {
-                    closeRoomUserSelectGiftModal();
-                    openGiftModalForUser(u.uid, u.name);
-                };
-                item.innerHTML = `
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <img src="${u.avatar || 'https://api.dicebear.com/7.x/bottts/svg?seed=' + u.name}" style="width:36px; height:36px; border-radius:50%;">
-                        <b>${u.name}</b>
-                    </div>
-                    <span style="color:var(--gold); font-size:0.8rem; font-weight:700;"><i class="fa-solid fa-gift"></i> Seç</span>
-                `;
-                list.appendChild(item);
-            });
-
-            if(list.children.length === 0) {
-                list.innerHTML = '<p style="font-size:0.85rem; color:var(--text-muted); text-align:center;">Oda içerisinde başka kullanıcı bulunmuyor.</p>';
-            }
-
-            document.getElementById('roomUserSelectGiftModal').style.display = 'flex';
-        }
-
-        function closeRoomUserSelectGiftModal() { document.getElementById('roomUserSelectGiftModal').style.display = 'none'; }
-
-        /* ----- ADMİN BANLAMA VE COİN İŞLEMLERİ ----- */
-        function adminBanUser() {
-            const uid = document.getElementById('adminBanUID').value.trim();
-            if(!uid) return alert("UID Girin!");
-            if(!bannedUIDs.includes(uid)) bannedUIDs.push(uid);
-            alert(`#${uid} UID'li kullanıcı banlandı!`);
-            document.getElementById('adminBanUID').value = '';
-        }
-
-        function adminUnbanUser() {
-            const uid = document.getElementById('adminBanUID').value.trim();
-            if(!uid) return alert("UID Girin!");
-            bannedUIDs = bannedUIDs.filter(id => id !== uid);
-            alert(`#${uid} UID'li kullanıcının banı kaldırıldı.`);
-            document.getElementById('adminBanUID').value = '';
-        }
-
-        function adminAddCoins() {
-            const targetUID = document.getElementById('adminTargetUID').value.trim();
-            const amount = parseInt(document.getElementById('adminCoinAmount').value);
-            if(!targetUID || isNaN(amount)) return alert("Geçerli UID ve miktar giriniz!");
-
-            if(targetUID === currentUID) {
-                userCoins += amount;
-                updateCoinDisplay();
-            } else if(dbUsers[targetUID]) {
-                dbUsers[targetUID].coins += amount;
-            } else {
-                dbUsers[targetUID] = { uid: targetUID, name: "Kullanıcı", coins: amount, gifts: [], role: "member" };
-            }
-            alert(`#${targetUID} UID'li kullanıcıya ${amount} Coin yüklendi! 🪙`);
-        }
-
-        function publishAnnouncement() {
-            const txt = document.getElementById('announcementInput').value.trim();
-            if(!txt) return;
-            document.getElementById('announcementText').innerHTML = `<i class="fa-solid fa-bullhorn"></i> ${txt}`;
-            document.getElementById('announcementBar').style.display = 'flex';
-            closeAdminModal();
-        }
-
-        function closeAnnouncement() { document.getElementById('announcementBar').style.display = 'none'; }
-
-        /* ----- PROFİL GÖSTERİMİ ----- */
-        function openMyOwnProfile() { openUserProfile(currentUID, currentUsername, userAvatarUrl); }
-
-        function openUserProfile(uid, name, avatar) {
-            selectedGiftTargetUID = uid;
-            selectedGiftTargetName = name || currentUsername;
-
-            const userData = dbUsers[uid] || { gifts: [] };
-            document.getElementById('profileModalPP').src = avatar || `https://api.dicebear.com/7.x/bottts/svg?seed=${name}`;
-            document.getElementById('profileModalUsername').querySelector('span').innerText = name || currentUsername;
-            document.getElementById('profileModalUID').innerText = "UID: #" + uid;
-
-            const giftsContainer = document.getElementById('profileReceivedGifts');
-            giftsContainer.innerHTML = userData.gifts && userData.gifts.length > 0 
-                ? userData.gifts.map(g => `<span>${g}</span>`).join(' ') 
-                : '<span style="font-size:0.75rem; color:var(--text-muted);">Henüz hediye alınmadı.</span>';
-
-            document.getElementById('instaProfileModal').style.display = 'flex';
-        }
-
-        function openSendGiftModalFromProfile() { openGiftModalForUser(selectedGiftTargetUID, selectedGiftTargetName); }
-        function closeInstaProfileModal() { document.getElementById('instaProfileModal').style.display = 'none'; }
-
-        /* ----- ODA İŞLEMLERİ ----- */
-        function renderLobbyRooms() {
-            const container = document.getElementById('roomsContainer');
-            container.innerHTML = '';
-            activeRealRooms.forEach(room => {
-                const card = document.createElement('div');
-                card.className = 'room-card';
-                card.onclick = () => joinRoom(room.id);
-                card.innerHTML = `
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span style="font-weight:700;">${room.name}</span>
-                    </div>
-                    <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 10px;">
-                        <i class="fa-solid fa-users" style="color: var(--accent);"></i> ${room.users.length} Katılımcı
-                    </p>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        function createNewRealRoom() {
-            const name = prompt("Oda Adı:");
-            if(!name) return;
-            const newRoom = { id: Date.now(), name: "🎙 " + name, users: [] };
-            activeRealRooms.push(newRoom);
-            renderLobbyRooms();
-            joinRoom(newRoom.id);
-        }
-
-        function joinRoom(roomId) {
-            activeRoomId = roomId;
-            const room = activeRealRooms.find(r => r.id === roomId);
-            if(!room) return;
-
-            const exists = room.users.some(u => u.uid === currentUID);
-            if (!exists) room.users.push({ uid: currentUID, name: currentUsername, avatar: userAvatarUrl, role: userRole });
-
-            document.getElementById('lobbyView').style.display = 'none';
-            document.getElementById('feedView').style.display = 'none';
-            document.getElementById('familiesView').style.display = 'none';
-            document.getElementById('activeRoomView').style.display = 'flex';
-            document.getElementById('currentRoomTitle').innerText = room.name;
-
-            renderParticipants(room);
-        }
-
-        function renderParticipants(room) {
-            const container = document.getElementById('participantsContainer');
-            container.innerHTML = '';
-            document.getElementById('currentRoomUsersCount').innerText = `${room.users.length} Katılımcı`;
-
-            room.users.forEach(u => {
-                const isMe = u.uid === currentUID;
-                const card = document.createElement('div');
-                card.className = 'participant-card';
-                card.onclick = () => isMe ? openMyOwnProfile() : openGiftModalForUser(u.uid, u.name);
-                card.innerHTML = `
-                    <img src="${u.avatar || userAvatarUrl}" style="width:50px; height:50px; border-radius:50%; margin-bottom:8px; object-fit:cover;">
-                    <b style="font-size:0.8rem;">${u.name} ${isMe ? '(Sen)' : ''}</b>
-                    ${!isMe ? '<span style="font-size:0.65rem; color:var(--gold); margin-top:4px;"><i class="fa-solid fa-gift"></i> Hediye At</span>' : ''}
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        function sendChatMessage() {
-            const input = document.getElementById('chatInput');
-            const txt = input.value.trim();
-            if(!txt) return;
-
-            const chatBox = document.getElementById('chatMessages');
-            const msg = document.createElement('div');
-            msg.className = 'chat-msg';
-            msg.innerHTML = `<b>${currentUsername}:</b> ${txt}`;
-            chatBox.appendChild(msg);
-            chatBox.scrollTop = chatBox.scrollHeight;
-            input.value = '';
-        }
-
-        function handleChatKeyPress(e) { if(e.key === 'Enter') sendChatMessage(); }
-
-        function toggleMic() {
-            isMicOn = !isMicOn;
-            const btn = document.getElementById('micBtn');
-            btn.classList.toggle('active-off', !isMicOn);
-            btn.innerHTML = isMicOn ? '<i class="fa-solid fa-microphone"></i>' : '<i class="fa-solid fa-microphone-slash"></i>';
-        }
-
-        function toggleDeafen() {
-            isDeafenOn = !isDeafenOn;
-            const btn = document.getElementById('deafenBtn');
-            btn.classList.toggle('active-off', isDeafenOn);
-            btn.innerHTML = isDeafenOn ? '<i class="fa-solid fa-volume-xmark"></i>' : '<i class="fa-solid fa-volume-high"></i>';
-        }
-
-        function leaveRoom() {
-            if(activeRoomId) {
-                const room = activeRealRooms.find(r => r.id === activeRoomId);
-                if(room) room.users = room.users.filter(u => u.uid !== currentUID);
-            }
-            activeRoomId = null;
-            document.getElementById('activeRoomView').style.display = 'none';
-            document.getElementById('lobbyView').style.display = 'flex';
-            renderLobbyRooms();
-        }
-
-        function switchMainTab(tab) {
-            document.getElementById('tabVoiceBtn').classList.toggle('active', tab === 'voice');
-            document.getElementById('tabFeedBtn').classList.toggle('active', tab === 'feed');
-            document.getElementById('tabFamilyBtn').classList.toggle('active', tab === 'families');
-
-            document.getElementById('lobbyView').style.display = tab === 'voice' ? 'flex' : 'none';
-            document.getElementById('feedView').style.display = tab === 'feed' ? 'block' : 'none';
-            document.getElementById('familiesView').style.display = tab === 'families' ? 'block' : 'none';
-        }
-
-        function renderFeedPosts() {
-            const container = document.getElementById('feedPostsContainer');
-            container.innerHTML = '';
-            allPosts.forEach(post => {
-                const card = document.createElement('div');
-                card.className = 'post-card';
-                card.innerHTML = `
-                    <div class="post-header">
-                        <img src="${post.authorAvatar}" onclick="openUserProfile('${post.authorUID}', '${post.authorName}', '${post.authorAvatar}')">
-                        <div>
-                            <b style="font-size:0.9rem; cursor:pointer;" onclick="openUserProfile('${post.authorUID}', '${post.authorName}', '${post.authorAvatar}')">${post.authorName}</b>
-                            <p style="font-size:0.7rem; color:var(--text-muted);">UID: #${post.authorUID}</p>
-                        </div>
-                    </div>
-                    <img src="${post.imgUrl}" class="post-img">
-                    <div class="post-actions">
-                        <i class="fa-solid fa-heart post-action-btn" onclick="this.style.color='var(--like-red)'"></i>
-                        <i class="fa-solid fa-gift post-action-btn" style="color:var(--gold);" onclick="openGiftModalForUser('${post.authorUID}', '${post.authorName}')"></i>
-                    </div>
-                    <div style="padding: 0 18px 18px 18px;">
-                        <p style="font-size:0.85rem;"><b>${post.authorName}</b> ${post.caption}</p>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        function openAdminModal() { document.getElementById('adminModal').style.display = 'flex'; }
-        function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
-        function logout() { location.reload(); }
+        });
     </script>
 </body>
 </html>
