@@ -10,8 +10,8 @@
     
     <style>
         :root {
-            --bg-dark: #070a08;
-            --card-bg: rgba(14, 24, 18, 0.9);
+            --bg-dark: #050806;
+            --card-bg: rgba(14, 24, 18, 0.95);
             --primary-green: #00ff87;
             --secondary-green: #60efff;
             --danger-red: #ff4757;
@@ -30,7 +30,7 @@
 
         body {
             background-color: var(--bg-dark);
-            background-image: radial-gradient(circle at 50% 20%, rgba(0, 255, 135, 0.08), transparent 70%);
+            background-image: radial-gradient(circle at 50% 20%, rgba(0, 255, 135, 0.1), transparent 70%);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
@@ -49,7 +49,7 @@
             position: sticky;
             top: 0;
             z-index: 200;
-            background: rgba(7, 10, 8, 0.8);
+            background: rgba(5, 8, 6, 0.9);
         }
 
         .logo {
@@ -68,18 +68,18 @@
         nav ul {
             display: flex;
             list-style: none;
-            gap: 25px;
+            gap: 20px;
         }
 
         nav a {
             color: var(--text-sub);
             text-decoration: none;
             font-weight: 500;
-            font-size: 14px;
+            font-size: 13px;
             transition: 0.3s;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         nav a:hover, nav a.active {
@@ -87,20 +87,20 @@
             text-shadow: 0 0 10px rgba(0, 255, 135, 0.5);
         }
 
-        /* DYNAMIC USER BAR */
+        /* USER TOP BAR */
         .user-top-bar {
-            display: none;
+            display: flex;
             align-items: center;
-            gap: 15px;
-            background: rgba(0, 255, 135, 0.1);
+            gap: 12px;
+            background: rgba(0, 255, 135, 0.08);
             padding: 6px 15px;
-            border-radius: 20px;
+            border-radius: 30px;
             border: 1px solid var(--border-glow);
         }
 
         .user-top-bar img {
-            width: 35px;
-            height: 35px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             border: 2px solid var(--primary-green);
             cursor: pointer;
@@ -125,17 +125,16 @@
             gap: 40px;
         }
 
-        /* HERO & AUTH SECTION */
+        /* HERO AREA */
         .hero-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
             gap: 40px;
+            align-items: center;
         }
 
-        .hero-text { max-width: 600px; }
         .hero-title {
-            font-size: 52px;
+            font-size: 46px;
             font-weight: 800;
             line-height: 1.1;
             margin-bottom: 15px;
@@ -149,34 +148,63 @@
             letter-spacing: 2px;
             font-size: 13px;
             font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* DASHBOARD ROOMS GRID */
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-green);
             margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .features-grid {
+        .rooms-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-top: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
         }
 
-        .feature-card {
+        .room-card {
             background: var(--card-bg);
             border: 1px solid var(--border-glow);
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
+            border-radius: 16px;
+            padding: 20px;
             transition: 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
-        .feature-card:hover { border-color: var(--primary-green); transform: translateY(-3px); }
-        .feature-card i { font-size: 24px; color: var(--primary-green); margin-bottom: 8px; }
+
+        .room-card:hover {
+            border-color: var(--primary-green);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 255, 135, 0.15);
+        }
+
+        .room-badge {
+            position: absolute;
+            top: 15px; right: 15px;
+            background: rgba(0,255,135,0.15);
+            color: var(--primary-green);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
 
         /* AUTH CARD */
         .auth-card {
             background: var(--card-bg);
             border: 1px solid var(--border-glow);
             border-radius: 20px;
-            padding: 35px;
-            width: 380px;
+            padding: 30px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.6);
             backdrop-filter: blur(15px);
         }
@@ -234,7 +262,7 @@
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
+            background: rgba(0,0,0,0.88);
             backdrop-filter: blur(10px);
             z-index: 1000;
             justify-content: center;
@@ -247,7 +275,7 @@
             border-radius: 18px;
             padding: 25px;
             width: 90%;
-            max-width: 650px;
+            max-width: 700px;
             max-height: 85vh;
             overflow-y: auto;
             position: relative;
@@ -261,28 +289,19 @@
             font-size: 22px;
         }
 
-        /* VOICE ROOM SIMULATION */
-        .room-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-glow);
-            padding-bottom: 15px;
-            margin-bottom: 20px;
-        }
-
+        /* VOICE ROOM SEATS */
         .mic-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
+            gap: 12px;
+            margin: 20px 0;
         }
 
         .mic-seat {
             background: rgba(0,0,0,0.5);
             border: 1px dashed var(--border-glow);
             border-radius: 12px;
-            padding: 12px;
+            padding: 10px;
             text-align: center;
             cursor: pointer;
             transition: 0.3s;
@@ -290,47 +309,29 @@
         .mic-seat:hover { border-color: var(--primary-green); }
 
         .mic-avatar {
-            width: 45px;
-            height: 45px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             margin: 0 auto 6px;
-            background: #222;
+            background: #111;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
             color: var(--primary-green);
-        }
-
-        .mic-label { font-size: 11px; color: var(--text-sub); }
-
-        /* PROFILE CARD WITH SLIDER */
-        .profile-card-container {
-            position: relative;
             overflow: hidden;
-            border-radius: 15px;
-            background: rgba(0,0,0,0.4);
             border: 1px solid var(--border-glow);
-            padding: 20px;
         }
 
-        .profile-slider {
-            display: flex;
-            width: 200%;
-            transition: transform 0.4s ease-in-out;
+        .mic-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
-        .profile-page { width: 50%; padding-right: 15px; }
+        .mic-label { font-size: 11px; color: var(--text-sub); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        .swipe-hint {
-            text-align: center;
-            font-size: 11px;
-            color: var(--primary-green);
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        /* QUICK WHATSAPP FLOAT BUTTON */
+        /* FLOAT WHATSAPP */
         .float-wp {
             position: fixed;
             bottom: 25px;
@@ -360,7 +361,7 @@
             align-items: center;
             color: var(--text-sub);
             font-size: 12px;
-            background: rgba(7, 10, 8, 0.9);
+            background: rgba(5, 8, 6, 0.9);
         }
     </style>
 </head>
@@ -377,77 +378,65 @@
                 <li><a href="#" class="active"><i class="fa-solid fa-house"></i> Ana Sayfa</a></li>
                 <li><a href="#rooms" onclick="openVoiceRoom()"><i class="fa-solid fa-microphone-lines"></i> Sesli Odalar</a></li>
                 <li><a href="#family" onclick="openFamilyModal()"><i class="fa-solid fa-users-rays"></i> Aileler</a></li>
-                <li><a href="#search" onclick="openSearchModal()"><i class="fa-solid fa-magnifying-glass"></i> VIP & VID Arama</a></li>
+                <li><a href="#search" onclick="openSearchModal()"><i class="fa-solid fa-magnifying-glass"></i> VIP Arama</a></li>
                 <li><a href="#contact" onclick="openContactModal()"><i class="fa-solid fa-envelope"></i> İletişim</a></li>
             </ul>
         </nav>
 
-        <div class="user-top-bar" id="userTopBar">
+        <div class="user-top-bar">
             <span class="coin-badge"><i class="fa-solid fa-coins"></i> <span id="userCoinCount">50</span> Coin</span>
-            <img src="https://via.placeholder.com/150/00ff87/000000?text=PP" id="navProfileImg" onclick="openProfileModal()">
+            <div id="adminBadgeBtn" style="display:none;">
+                <button onclick="document.getElementById('adminModal').style.display='flex'" style="background:var(--danger-red); color:#fff; border:none; padding:4px 10px; border-radius:12px; font-weight:bold; font-size:11px; cursor:pointer;"><i class="fa-solid fa-shield-halved"></i> Admin</button>
+            </div>
+            <!-- DÜZELTİLEN YÜKSEK KALİTELİ SVG VARSAYILAN AVATAR -->
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230e1812'/><circle cx='50' cy='35' r='20' fill='%2300ff87'/><path d='M 20 85 C 20 60, 80 60, 80 85 Z' fill='%2300ff87'/></svg>" id="navProfileImg" onclick="openProfileModal()">
         </div>
     </header>
 
-    <!-- ANNOUNCEMENT BANNER -->
+    <!-- DUYURU BANNER -->
     <div id="announcementBanner" style="display:none; background: linear-gradient(90deg, #00ff87, #60efff); color: #000; padding: 8px 6%; text-align: center; font-weight: 700; font-size: 13px;">
-        <i class="fa-solid fa-bullhorn"></i> <span id="announcementText">Duyuru: Brezers Sohbet Sesli Odalar Aktif Edilmiştir!</span>
+        <i class="fa-solid fa-bullhorn"></i> <span id="announcementText">Duyuru: Brezers Sohbet Canlı Sesli Odalar Aktif!</span>
     </div>
 
     <!-- MAIN CONTENT -->
     <div class="main-content">
-        <!-- HERO & AUTH -->
+        <!-- HERO AREA -->
         <div class="hero-container" id="heroSection">
-            <div class="hero-text">
-                <div class="hero-subtitle">YENİ İNSANLAR • YENİ SOHBETLER • TEK PLATFORM</div>
-                <h1 class="hero-title">BREZERS SOHBET</h1>
-                <p style="color: var(--text-sub); line-height: 1.6;">
-                    Brezers Sohbet'e hoş geldin! Yeni arkadaşlıklar kur, sesli ve özel odalarda kendini özgürce ifade et, aile kur veya VIP dünyasında yerini al.
+            <div>
+                <div class="hero-subtitle"><i class="fa-solid fa-fire"></i> TÜRKİYE'NİN SOHBET PLATFORMU</div>
+                <h1 class="hero-title">CANLI SESLİ ODA VE EĞLENCE SİSTEMİ</h1>
+                <p style="color: var(--text-sub); line-height: 1.6; margin-bottom: 25px;">
+                    Yeni arkadaşlarla tanışın, sesli odalara bağlanın, aileler kurun ve VIP ayrıcalıklarının tadını çıkarın.
                 </p>
 
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <i class="fa-solid fa-comments"></i>
-                        <h4>SOHBET ODALARI</h4>
-                        <p>Kesintisiz yazılı & sesli sohbet.</p>
-                    </div>
-                    <div class="feature-card">
-                        <i class="fa-solid fa-people-group"></i>
-                        <h4>AİLE SİSTEMİ</h4>
-                        <p>Aileni kur, sıralamada yüksel.</p>
-                    </div>
-                    <div class="feature-card">
-                        <i class="fa-solid fa-crown"></i>
-                        <h4>VIP & COIN</h4>
-                        <p>Aylık 50 Coin hediyeni kap.</p>
-                    </div>
+                <div style="display:flex; gap:15px;">
+                    <button class="btn-primary" style="width:auto; padding:12px 25px;" onclick="openVoiceRoom()"><i class="fa-solid fa-microphone"></i> Hızlı Odaya Katıl</button>
+                    <button class="btn-outline" style="width:auto; padding:12px 25px;" onclick="openContactModal()"><i class="fa-solid fa-headset"></i> Destek Al</button>
                 </div>
             </div>
 
-            <!-- LOGIN / REGISTER FORM -->
+            <!-- GİRİŞ / KAYIT KARTI -->
             <div class="auth-card" id="authBox">
                 <div id="loginForm">
-                    <h3 style="font-size:22px; margin-bottom:5px;">Hoş Geldin</h3>
-                    <p style="color:var(--text-sub); font-size:13px; margin-bottom:20px;">Giriş yap veya kayıt olarak hemen başla!</p>
+                    <h3 style="font-size:20px; margin-bottom:5px;"><i class="fa-solid fa-right-to-bracket"></i> Hesabına Giriş Yap</h3>
+                    <p style="color:var(--text-sub); font-size:12px; margin-bottom:15px;">Sohbete katılmak için oturum açın.</p>
 
                     <div class="form-group">
                         <i class="fa-solid fa-envelope"></i>
-                        <input type="email" id="email" class="form-control" placeholder="Gmail / E-Posta">
+                        <input type="email" id="email" class="form-control" placeholder="E-Posta / Admin Mail">
                     </div>
                     <div class="form-group">
                         <i class="fa-solid fa-lock"></i>
                         <input type="password" id="password" class="form-control" placeholder="Şifre">
                     </div>
 
-                    <button class="btn-primary" onclick="handleAuth('login')">
-                        Giriş Yap <i class="fa-solid fa-arrow-right"></i>
-                    </button>
-
-                    <button class="btn-outline" onclick="toggleAuth('register')">Kayıt Ol</button>
+                    <button class="btn-primary" onclick="handleAuth('login')">Giriş Yap</button>
+                    <button class="btn-outline" onclick="toggleAuth('register')">Yeni Kayıt Oluştur</button>
                 </div>
 
                 <div id="registerForm" style="display: none;">
-                    <h3 style="font-size:22px; margin-bottom:5px;">Kayıt Ol</h3>
-                    <p style="color:var(--text-sub); font-size:13px; margin-bottom:20px;">Hesabını oluştur ve VID numaranı al!</p>
+                    <h3 style="font-size:20px; margin-bottom:5px;"><i class="fa-solid fa-user-plus"></i> Kayıt Ol</h3>
+                    <p style="color:var(--text-sub); font-size:12px; margin-bottom:15px;">Aramıza katıl ve 50 Coin kazan!</p>
 
                     <div class="form-group">
                         <i class="fa-solid fa-user"></i>
@@ -455,21 +444,43 @@
                     </div>
                     <div class="form-group">
                         <i class="fa-solid fa-envelope"></i>
-                        <input type="email" id="regEmail" class="form-control" placeholder="Gmail Adresi">
+                        <input type="email" id="regEmail" class="form-control" placeholder="E-Posta Adresi">
                     </div>
                     <div class="form-group">
                         <i class="fa-solid fa-lock"></i>
                         <input type="password" id="regPassword" class="form-control" placeholder="Şifre">
                     </div>
 
-                    <button class="btn-primary" onclick="handleAuth('register')">Hesap Oluştur</button>
+                    <button class="btn-primary" onclick="handleAuth('register')">Kayıt Ol</button>
                     <button class="btn-outline" onclick="toggleAuth('login')">Giriş Ekranına Dön</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- POPÜLER SESLİ ODALAR -->
+        <div>
+            <div class="section-title"><i class="fa-solid fa-tower-broadcast"></i> Popüler Sesli Odalar</div>
+            <div class="rooms-grid">
+                <div class="room-card" onclick="openVoiceRoom('Brezers Ana Sohbet', 'Admin_Hasan')">
+                    <span class="room-badge"><i class="fa-solid fa-user"></i> 14/30 Kişi</span>
+                    <h3 style="font-size:16px; color:#fff; margin-bottom:5px;"><i class="fa-solid fa-microphone" style="color:var(--primary-green);"></i> Brezers Ana Sohbet</h3>
+                    <p style="font-size:12px; color:var(--text-sub);">Oda Sahibi: Admin_Hasan</p>
+                </div>
+                <div class="room-card" onclick="openVoiceRoom('Müzik & Oyun Odası', 'Hzrox_VIP')">
+                    <span class="room-badge"><i class="fa-solid fa-user"></i> 8/12 Kişi</span>
+                    <h3 style="font-size:16px; color:#fff; margin-bottom:5px;"><i class="fa-solid fa-music" style="color:var(--primary-green);"></i> Müzik & Oyun Odası</h3>
+                    <p style="font-size:12px; color:var(--text-sub);">Oda Sahibi: Hzrox_VIP</p>
+                </div>
+                <div class="room-card" onclick="openVoiceRoom('VIP Aile Odası', 'Kral_User')">
+                    <span class="room-badge"><i class="fa-solid fa-user"></i> 22/30 Kişi</span>
+                    <h3 style="font-size:16px; color:#fff; margin-bottom:5px;"><i class="fa-solid fa-crown" style="color:var(--gold-coin);"></i> VIP Aile Odası</h3>
+                    <p style="font-size:12px; color:var(--text-sub);">Oda Sahibi: Kral_User</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- İLETİŞİM MODALI (GÜNCELLENEN KISIM) -->
+    <!-- İLETİŞİM MODALI -->
     <div id="contactModal" class="modal">
         <div class="modal-content" style="max-width: 450px; text-align: center;">
             <span class="close-btn" onclick="closeModal('contactModal')">&times;</span>
@@ -487,132 +498,99 @@
         </div>
     </div>
 
-    <!-- HIZLI WHATSAPP CANLI BUTONU -->
+    <!-- HIZLI WHATSAPP BUTTON -->
     <a href="https://wa.me/905397141379" target="_blank" class="float-wp" title="WhatsApp Destek">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
     <!-- SESLİ ODA MODALI -->
     <div id="voiceRoomModal" class="modal">
-        <div class="modal-content" style="max-width: 800px;">
+        <div class="modal-content">
             <span class="close-btn" onclick="closeModal('voiceRoomModal')">&times;</span>
-            <div class="room-header">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-glow); padding-bottom:12px;">
                 <div>
-                    <h3 id="roomTitleDisplay" style="color:var(--primary-green);"><i class="fa-solid fa-microphone"></i> Brezers Ana Sohbet Odası</h3>
-                    <p id="roomDescDisplay" style="font-size:12px; color:var(--text-sub);">Oda Sahibi: Admin | Kapasite: En Az 6 - En Fazla 30 Mik</p>
+                    <h3 id="roomTitleDisplay" style="color:var(--primary-green); font-size:18px;"><i class="fa-solid fa-microphone"></i> Brezers Ana Sohbet</h3>
+                    <p id="roomDescDisplay" style="font-size:11px; color:var(--text-sub);">Kapasite: 12 Koltuk</p>
                 </div>
-                <div style="display:flex; gap:8px;">
-                    <button class="btn-outline" style="width:auto; padding:5px 12px; font-size:12px;" onclick="alert('Canlı Müzik Botu Odaya Katıldı!')"><i class="fa-solid fa-music"></i> Müzik Botu</button>
-                    <button class="btn-outline" style="width:auto; padding:5px 12px; font-size:12px;" onclick="openRoomSettings()"><i class="fa-solid fa-gear"></i> Oda Ayarları</button>
-                </div>
+                <button class="btn-outline" style="width:auto; padding:5px 12px; font-size:12px;" onclick="openRoomSettings()"><i class="fa-solid fa-gear"></i> Ayarlar</button>
             </div>
 
             <div class="mic-grid" id="micGrid"></div>
 
-            <div style="background:rgba(0,0,0,0.5); border-radius:10px; padding:15px; border:1px solid var(--border-glow);">
+            <div style="background:rgba(0,0,0,0.5); border-radius:10px; padding:12px; border:1px solid var(--border-glow);">
                 <div id="chatBox" style="height:120px; overflow-y:auto; font-size:12px; margin-bottom:10px;">
-                    <div style="color:var(--primary-green);">[Sistem]: Sesli odaya katıldınız. Keyifli sohbetler!</div>
+                    <div style="color:var(--primary-green);">[Sistem]: Sesli odaya bağlandınız. Keyifli sohbetler!</div>
                 </div>
-                <div style="display:flex; gap:10px;">
-                    <input type="text" id="chatInput" class="form-control" placeholder="Mesajınızı yazın..." style="padding:8px 15px;">
-                    <button class="btn-primary" style="width:100px; padding:8px;" onclick="sendChatMessage()">Gönder</button>
+                <div style="display:flex; gap:8px;">
+                    <input type="text" id="chatInput" class="form-control" placeholder="Odaya mesaj yaz..." style="padding:8px 12px;">
+                    <button class="btn-primary" style="width:90px; padding:8px;" onclick="sendChatMessage()">Gönder</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ODA AYARLARI MODALI -->
-    <div id="roomSettingsModal" class="modal">
+    <!-- ADMIN MODALI -->
+    <div id="adminModal" class="modal">
         <div class="modal-content" style="max-width: 450px;">
-            <span class="close-btn" onclick="closeModal('roomSettingsModal')">&times;</span>
-            <h3 style="color:var(--primary-green); margin-bottom:15px;"><i class="fa-solid fa-sliders"></i> Sesli Oda Ayarları</h3>
+            <span class="close-btn" onclick="closeModal('adminModal')">&times;</span>
+            <h2 style="color:var(--danger-red); margin-bottom:15px; font-size:20px;"><i class="fa-solid fa-user-shield"></i> Admin Paneli</h2>
             
-            <div class="form-group">
-                <label style="font-size:12px; color:var(--text-sub);">Oda Adı</label>
-                <input type="text" id="setRoomTitle" class="form-control" value="Brezers Sohbet Odası">
+            <div style="margin-bottom:15px;">
+                <label style="font-size:12px; color:var(--text-sub);">Site Duyurusu Yayınla:</label>
+                <input type="text" id="adminAnnounceInput" class="form-control" placeholder="Duyuru metni..." style="margin-top:5px;">
+                <button class="btn-primary" style="margin-top:8px;" onclick="publishAdminAnnouncement()">Duyuruyu Yayınla</button>
             </div>
-            <div class="form-group">
-                <label style="font-size:12px; color:var(--text-sub);">Oda Açıklaması</label>
-                <input type="text" id="setRoomDesc" class="form-control" value="Keyifli Sohbetler!">
-            </div>
-            <div class="form-group">
-                <label style="font-size:12px; color:var(--text-sub);">Mikrofon Kapasitesi (6 - 30 Arası)</label>
-                <input type="number" id="setMicLimit" class="form-control" value="12" min="6" max="30">
-            </div>
-            <button class="btn-primary" onclick="saveRoomSettings()">Ayarları Kaydet</button>
         </div>
     </div>
 
     <!-- PROFİL MODALI -->
     <div id="profileModal" class="modal">
-        <div class="modal-content" style="max-width: 450px; overflow:hidden;">
+        <div class="modal-content" style="max-width: 420px; text-align:center;">
             <span class="close-btn" onclick="closeModal('profileModal')">&times;</span>
             
-            <div class="profile-card-container">
-                <div class="profile-slider" id="profileSlider">
-                    <div class="profile-page">
-                        <div style="text-align:center; margin-bottom:15px;">
-                            <img src="https://via.placeholder.com/150/00ff87/000000?text=PP" id="cardPP" style="width:80px; height:80px; border-radius:50%; border:2px solid var(--primary-green); object-fit:cover;">
-                            <h3 id="cardName" style="margin-top:8px;">Kullanıcı Adı</h3>
-                            <p style="font-size:11px; color:var(--text-sub);">VID: <span id="cardVID">102938</span></p>
-                            <p id="cardBio" style="font-size:12px; margin-top:5px; color:#fff;">"Henüz bir biyografi eklenmedi."</p>
-                        </div>
-                        <hr style="border-color:var(--border-glow); margin:10px 0;">
-                        <p style="font-size:11px; color:var(--text-sub);"><i class="fa-solid fa-calendar-day"></i> Katılım Tarihi: Ekim 2026</p>
-                        <div class="swipe-hint" onclick="slideProfile(1)">Diğer Seçenekler İçin Sola Kaydır <i class="fa-solid fa-arrow-right"></i></div>
-                    </div>
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230e1812'/><circle cx='50' cy='35' r='20' fill='%2300ff87'/><path d='M 20 85 C 20 60, 80 60, 80 85 Z' fill='%2300ff87'/></svg>" id="cardPP" style="width:85px; height:85px; border-radius:50%; border:2px solid var(--primary-green); object-fit:cover; margin-bottom:10px;">
+            <h3 id="cardName">Kullanıcı</h3>
+            <p style="font-size:12px; color:var(--text-sub);">VID: <span id="cardVID">100023</span></p>
 
-                    <div class="profile-page">
-                        <h4 style="color:var(--primary-green); margin-bottom:15px;"><i class="fa-solid fa-bolt"></i> Hızlı İşlemler</h4>
-                        <button class="btn-primary" style="margin-bottom:8px;" onclick="openVoiceRoom()"><i class="fa-solid fa-microphone"></i> Sesli Oda Aç</button>
-                        <button class="btn-outline" style="margin-bottom:8px;" onclick="alert('Mesaj kutusu açılıyor...')"><i class="fa-solid fa-envelope"></i> Mesaj At</button>
-                        <button class="btn-outline" style="margin-bottom:8px;" onclick="alert('Takip edildi!')"><i class="fa-solid fa-user-plus"></i> Takip Et</button>
-                        
-                        <div style="margin-top:15px;">
-                            <label style="font-size:11px; color:var(--text-sub);">Galeriden PP Değiştir:</label>
-                            <input type="file" accept="image/*" onchange="uploadPP(event)" style="font-size:11px; margin-top:5px; color:var(--text-sub);">
-                        </div>
-
-                        <div class="swipe-hint" onclick="slideProfile(0)"><i class="fa-solid fa-arrow-left"></i> Profil Bilgilerine Dön</div>
-                    </div>
-                </div>
+            <div style="margin-top:15px; text-align:left;">
+                <label style="font-size:11px; color:var(--text-sub);">Galeriden Profil Resmi Yükle:</label>
+                <input type="file" accept="image/*" onchange="uploadPP(event)" style="font-size:11px; margin-top:5px; color:var(--text-sub); width:100%;">
             </div>
         </div>
     </div>
 
     <!-- AİLE MODALI -->
     <div id="familyModal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content" style="max-width:400px;">
             <span class="close-btn" onclick="closeModal('familyModal')">&times;</span>
-            <h3 style="color:var(--primary-green); margin-bottom:15px;"><i class="fa-solid fa-users-rays"></i> Aile Sistemi</h3>
-            
+            <h3 style="color:var(--primary-green); margin-bottom:15px;"><i class="fa-solid fa-users-rays"></i> Aile Oluştur</h3>
             <div class="form-group">
-                <input type="text" id="famName" class="form-control" placeholder="Aile Adı">
+                <input type="text" id="famName" class="form-control" placeholder="Aile İsmi">
             </div>
-            <button class="btn-primary" onclick="alert('Aileniz başarıyla kuruldu!')">Aile Kur</button>
+            <button class="btn-primary" onclick="alert('Aileniz kuruldu!')">Aileyi Kur</button>
         </div>
     </div>
 
     <!-- SEARCH MODALI -->
     <div id="searchModal" class="modal">
-        <div class="modal-content" style="max-width: 500px;">
+        <div class="modal-content" style="max-width:400px;">
             <span class="close-btn" onclick="closeModal('searchModal')">&times;</span>
-            <h3 style="color:var(--primary-green); margin-bottom:15px;"><i class="fa-solid fa-magnifying-glass"></i> VID ile Arama</h3>
-            <input type="text" id="searchInput" class="form-control" placeholder="VID girin..." style="margin-bottom:10px;">
-            <button class="btn-primary" onclick="alert('Arama tamamlandı!')">Arama Yap</button>
+            <h3 style="color:var(--primary-green); margin-bottom:15px;"><i class="fa-solid fa-magnifying-glass"></i> VIP & VID Arama</h3>
+            <input type="text" class="form-control" placeholder="Kullanıcı VID Girin..." style="margin-bottom:10px;">
+            <button class="btn-primary" onclick="alert('Kullanıcı bulundu!')">Arama Yap</button>
         </div>
     </div>
 
-    <!-- ADMIN MODALI -->
-    <div id="adminModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('adminModal')">&times;</span>
-            <h2 style="color:var(--danger-red); margin-bottom:20px;"><i class="fa-solid fa-user-shield"></i> Admin Paneli</h2>
-            <div style="margin-bottom: 15px;">
-                <h4>Duyuru Yayınla</h4>
-                <input type="text" id="adminAnnounceInput" class="form-control" placeholder="Duyuru metni..." style="margin-top:5px;">
-                <button class="btn-primary" style="margin-top:5px;" onclick="publishAdminAnnouncement()">Yayınla</button>
+    <!-- ODA AYARLARI MODALI -->
+    <div id="roomSettingsModal" class="modal">
+        <div class="modal-content" style="max-width:400px;">
+            <span class="close-btn" onclick="closeModal('roomSettingsModal')">&times;</span>
+            <h3 style="color:var(--primary-green); margin-bottom:15px;"><i class="fa-solid fa-sliders"></i> Oda Ayarları</h3>
+            <div class="form-group">
+                <label style="font-size:11px; color:var(--text-sub);">Mikrofon Kapasitesi (6-30)</label>
+                <input type="number" id="setMicLimit" class="form-control" value="12" min="6" max="30">
             </div>
+            <button class="btn-primary" onclick="saveRoomSettings()">Kaydet</button>
         </div>
     </div>
 
@@ -630,6 +608,7 @@
         const ADMIN_PASS = "hasan890";
         let currentUser = null;
         let currentMicLimit = 12;
+        let userPP = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230e1812'/><circle cx='50' cy='35' r='20' fill='%2300ff87'/><path d='M 20 85 C 20 60, 80 60, 80 85 Z' fill='%2300ff87'/></svg>";
 
         function toggleAuth(mode) {
             document.getElementById('loginForm').style.display = mode === 'register' ? 'none' : 'block';
@@ -642,44 +621,58 @@
 
             if(type === 'login' && email === ADMIN_EMAIL && pass === ADMIN_PASS) {
                 alert("Yönetici Girişi Başarılı!");
+                document.getElementById('adminBadgeBtn').style.display = 'block';
                 document.getElementById('adminModal').style.display = 'flex';
                 loginUserSuccess("Admin_Hasan", ADMIN_EMAIL, 100001);
                 return;
             }
 
-            loginUserSuccess("Kullanıcı", email || "test@gmail.com", Math.floor(100000 + Math.random() * 900000));
+            const username = document.getElementById('regName').value || "Kullanıcı";
+            loginUserSuccess(username, email || "user@gmail.com", Math.floor(100000 + Math.random() * 900000));
         }
 
         function loginUserSuccess(name, email, vid) {
             currentUser = { name, email, vid };
-            document.getElementById('heroSection').style.display = 'none';
-            document.getElementById('userTopBar').style.display = 'flex';
             document.getElementById('cardName').innerText = name;
             document.getElementById('cardVID').innerText = vid;
-            renderMics();
+            alert("Başarıyla giriş yapıldı: " + name);
         }
 
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-        function openVoiceRoom() { document.getElementById('voiceRoomModal').style.display = 'flex'; renderMics(); }
+        function openVoiceRoom(title, owner) { 
+            if(title) document.getElementById('roomTitleDisplay').innerText = title;
+            document.getElementById('voiceRoomModal').style.display = 'flex'; 
+            renderMics(); 
+        }
         function openFamilyModal() { document.getElementById('familyModal').style.display = 'flex'; }
         function openSearchModal() { document.getElementById('searchModal').style.display = 'flex'; }
         function openContactModal() { document.getElementById('contactModal').style.display = 'flex'; }
         function openProfileModal() { document.getElementById('profileModal').style.display = 'flex'; }
+        function openRoomSettings() { document.getElementById('roomSettingsModal').style.display = 'flex'; }
 
         function renderMics() {
             const grid = document.getElementById('micGrid');
             grid.innerHTML = '';
             for(let i = 1; i <= currentMicLimit; i++) {
                 grid.innerHTML += `
-                    <div class="mic-seat" onclick="alert('Mik ${i} koltuğuna oturdunuz.')">
-                        <div class="mic-avatar"><i class="fa-solid fa-microphone-slash"></i></div>
-                        <div class="mic-label">Mik ${i}</div>
+                    <div class="mic-seat" onclick="takeMic(${i})">
+                        <div class="mic-avatar" id="micAvatar_${i}"><i class="fa-solid fa-microphone-slash"></i></div>
+                        <div class="mic-label" id="micLabel_${i}">Mik ${i}</div>
                     </div>
                 `;
             }
         }
 
-        function openRoomSettings() { document.getElementById('roomSettingsModal').style.display = 'flex'; }
+        function takeMic(index) {
+            const avatarEl = document.getElementById(`micAvatar_${index}`);
+            const labelEl = document.getElementById(`micLabel_${index}`);
+            
+            const name = currentUser ? currentUser.name : "Kullanıcı";
+            avatarEl.innerHTML = `<img src="${userPP}">`;
+            labelEl.innerText = name;
+            alert(`Mikrofon ${index} koltuğuna oturdunuz.`);
+        }
+
         function saveRoomSettings() {
             const limit = parseInt(document.getElementById('setMicLimit').value);
             if(limit >= 6 && limit <= 30) {
@@ -698,17 +691,15 @@
             box.scrollTop = box.scrollHeight;
         }
 
-        function slideProfile(page) {
-            document.getElementById('profileSlider').style.transform = `translateX(-${page * 50}%)`;
-        }
-
         function uploadPP(e) {
             const file = e.target.files[0];
             if(file) {
                 const reader = new FileReader();
                 reader.onload = function(evt) {
-                    document.getElementById('navProfileImg').src = evt.target.result;
-                    document.getElementById('cardPP').src = evt.target.result;
+                    userPP = evt.target.result;
+                    document.getElementById('navProfileImg').src = userPP;
+                    document.getElementById('cardPP').src = userPP;
+                    alert('Profil resminiz güncellendi!');
                 };
                 reader.readAsDataURL(file);
             }
