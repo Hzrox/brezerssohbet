@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brezers Sohbet - Giriş / Kayıt</title>
+    <title>Brezers Sohbet</title>
     <style>
         * {
             margin: 0;
@@ -14,6 +14,13 @@
 
         body {
             background-color: #0b131a;
+            color: #ffffff;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- GİRİŞ EKRANI STİLLERİ --- */
+        #authScreen {
             background-image: linear-gradient(rgba(11, 19, 26, 0.7), rgba(11, 19, 26, 0.85)), url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1920&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
@@ -21,8 +28,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            color: #ffffff;
-            overflow: hidden;
         }
 
         .container {
@@ -37,7 +42,6 @@
             overflow: hidden;
         }
 
-        /* Sol Taraf - Marka / Logo Alanı */
         .brand-section {
             flex: 1;
             display: flex;
@@ -99,7 +103,6 @@
             border-color: rgba(0, 255, 128, 0.3);
         }
 
-        /* Sağ Taraf - Form Alanı */
         .form-section {
             flex: 1.2;
             padding: 45px;
@@ -223,84 +226,416 @@
             font-size: 13px;
             color: #8b9bb4;
         }
+
+
+        /* --- SESLİ SOHBET PANELİ STİLLERİ --- */
+        #appScreen {
+            display: none; /* Başlangıçta gizli */
+            height: 100vh;
+            display: flex;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: #111b22;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .server-header {
+            padding: 20px;
+            font-size: 18px;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #00c868;
+        }
+
+        .channels-list {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+        }
+
+        .category-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #8b9bb4;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .channel-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #cbd5e1;
+            font-size: 14px;
+            margin-bottom: 5px;
+            transition: background 0.2s;
+        }
+
+        .channel-item:hover, .channel-item.active {
+            background: rgba(0, 200, 104, 0.1);
+            color: #ffffff;
+        }
+
+        .user-panel {
+            padding: 15px;
+            background: #0d141c;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            background: #00c868;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #0b131a;
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .user-status {
+            font-size: 11px;
+            color: #8b9bb4;
+        }
+
+        .main-chat {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #0b131a;
+        }
+
+        .chat-header {
+            padding: 20px;
+            background: #111b22;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .voice-room-container {
+            flex: 1;
+            padding: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 20px;
+            align-content: start;
+            overflow-y: auto;
+        }
+
+        .voice-user-card {
+            background: #111b22;
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            height: 140px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: border-color 0.3s;
+        }
+
+        .voice-user-card.speaking {
+            border-color: #00c868;
+            box-shadow: 0 0 15px rgba(0, 200, 104, 0.3);
+        }
+
+        .voice-card-avatar {
+            width: 60px;
+            height: 60px;
+            background: #1f2c34;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .voice-card-name {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .mic-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 12px;
+            color: #ef4444;
+        }
+
+        .voice-user-card.speaking .mic-icon {
+            color: #00c868;
+        }
+
+        .controls-bar {
+            padding: 15px 30px;
+            background: #111b22;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .control-btn {
+            background: #1f2c34;
+            border: none;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .control-btn:hover {
+            background: #2a3942;
+        }
+
+        .control-btn.disconnect {
+            background: #ef4444;
+        }
+
+        .control-btn.disconnect:hover {
+            background: #dc2626;
+        }
+
+        .right-sidebar {
+            width: 240px;
+            background: #111b22;
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px;
+        }
+
+        .online-title {
+            font-size: 12px;
+            color: #8b9bb4;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .online-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-size: 13px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #00c868;
+            border-radius: 50%;
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- Sol Sabit Alan (Tasarım ve Sosyal Medya) -->
-        <div class="brand-section">
-            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop" alt="Brezers Logo" class="logo-img">
-            <div class="brand-title">Brezers Sohbet</div>
-            <div class="brand-subtitle">Hoşgeldiniz</div>
+    <!-- 1. BÖLÜM: GİRİŞ EKRANI -->
+    <div id="authScreen">
+        <div class="container">
+            <!-- Sol Sabit Alan (Tasarım ve Sosyal Medya) -->
+            <div class="brand-section">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop" alt="Brezers Logo" class="logo-img">
+                <div class="brand-title">Brezers Sohbet</div>
+                <div class="brand-subtitle">Hoşgeldiniz</div>
+                
+                <div class="social-links">
+                    <a href="https://t.me/Hzrox" target="_blank" class="social-btn">
+                        <span>Telegram: @Hzrox</span>
+                    </a>
+                    <a href="https://wa.me/905397141379" target="_blank" class="social-btn">
+                        <span>WhatsApp: +90 539 714 13 79</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Sağ Taraf - Dinamik Form Alanı -->
+            <div class="form-section">
+                
+                <!-- Giriş Yap Formu -->
+                <div id="loginForm" class="form-box active">
+                    <h2>Giriş Yap</h2>
+                    <div class="input-group">
+                        <input type="email" id="loginEmail" placeholder="Email Adresi">
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="loginPassword" placeholder="Şifre">
+                        <span class="eye-icon">👁️</span>
+                    </div>
+                    <div class="forgot-password">
+                        <a href="#">Şifremi Unuttum</a>
+                    </div>
+                    <button class="submit-btn" onclick="handleLogin(event)">Giriş Yap</button>
+                    
+                    <div class="alt-buttons">
+                        <a href="https://t.me/Hzrox" target="_blank" class="alt-btn">Telegram</a>
+                        <a href="https://discord.com" target="_blank" class="alt-btn">Discord</a>
+                    </div>
+                    
+                    <div class="switch-form">
+                        Henüz üye değil misiniz? <a href="#" onclick="toggleForm(event)">Kaydolun</a>
+                    </div>
+                </div>
+
+                <!-- Hesap Oluştur Formu -->
+                <div id="registerForm" class="form-box">
+                    <h2>Hesap Oluştur</h2>
+                    <div class="input-group">
+                        <input type="text" placeholder="Kullanıcı Adı">
+                    </div>
+                    <div class="input-group">
+                        <input type="email" placeholder="Email Adresi">
+                    </div>
+                    <div class="input-group">
+                        <input type="password" placeholder="Şifre">
+                        <span class="eye-icon">👁️</span>
+                    </div>
+                    <button class="submit-btn" onclick="handleLogin(event)">Hesap Oluştur</button>
+                    
+                    <div class="alt-buttons">
+                        <a href="https://t.me/Hzrox" target="_blank" class="alt-btn">Telegram</a>
+                        <a href="https://discord.com" target="_blank" class="alt-btn">Discord</a>
+                    </div>
+                    
+                    <div class="switch-form">
+                        Zaten üye misiniz? <a href="#" onclick="toggleForm(event)">Giriş Yap</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. BÖLÜM: SESLİ SOHBET PANELİ (Giriş Yapınca Açılır) -->
+    <div id="appScreen" style="display: none;">
+        <!-- Sol Odalar Paneli -->
+        <div class="sidebar">
+            <div class="server-header">
+                <span>⚡ Brezers Sohbet</span>
+            </div>
+            <div class="channels-list">
+                <div class="category-title">Sesli Odalar</div>
+                <div class="channel-item active">
+                    🔊 <span>Ana Ses Odası</span>
+                </div>
+                <div class="channel-item">
+                    🔊 <span>Müzik Odası</span>
+                </div>
+                <div class="channel-item">
+                    🔊 <span>VIP Sohbet</span>
+                </div>
+                <div class="channel-item">
+                    🔊 <span>Oyun Odası</span>
+                </div>
+
+                <div class="category-title" style="margin-top: 20px;">Metin Kanalları</div>
+                <div class="channel-item">
+                    💬 <span>genel-sohbet</span>
+                </div>
+                <div class="channel-item">
+                    💬 <span>duyurular</span>
+                </div>
+            </div>
             
-            <div class="social-links">
-                <a href="https://t.me/Hzrox" target="_blank" class="social-btn">
-                    <span>Telegram: @Hzrox</span>
-                </a>
-                <a href="https://wa.me/905397141379" target="_blank" class="social-btn">
-                    <span>WhatsApp: +90 539 714 13 79</span>
-                </a>
+            <div class="user-panel">
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatarText">H</div>
+                    <div>
+                        <div class="user-name" id="userNameDisplay">Hüseyin Barış</div>
+                        <div class="user-status">Çevrimiçi</div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Sağ Taraf - Dinamik Form Alanı -->
-        <div class="form-section">
-            
-            <!-- Giriş Yap Formu (Temiz) -->
-            <div id="loginForm" class="form-box active">
-                <h2>Giriş Yap</h2>
-                <div class="input-group">
-                    <input type="email" placeholder="Email Adresi">
+        <!-- Orta Alan (Aktif Ses Odası ve Kişiler) -->
+        <div class="main-chat">
+            <div class="chat-header">
+                🔊 Ana Ses Odası / Canlı Yayın
+            </div>
+
+            <div class="voice-room-container">
+                <div class="voice-user-card speaking">
+                    <div class="mic-icon">🎙️</div>
+                    <div class="voice-card-avatar">👑</div>
+                    <div class="voice-card-name">ROX</div>
                 </div>
-                <div class="input-group">
-                    <input type="password" placeholder="Şifre">
-                    <span class="eye-icon">👁️</span>
+
+                <div class="voice-user-card">
+                    <div class="mic-icon">🔇</div>
+                    <div class="voice-card-avatar">👤</div>
+                    <div class="voice-card-name">Hasan</div>
                 </div>
-                <div class="forgot-password">
-                    <a href="#">Şifremi Unuttum</a>
-                </div>
-                <button class="submit-btn">Giriş Yap</button>
-                
-                <div class="alt-buttons">
-                    <a href="https://t.me/Hzrox" target="_blank" class="alt-btn">Telegram</a>
-                    <a href="https://discord.com" target="_blank" class="alt-btn">Discord</a>
-                </div>
-                
-                <div class="switch-form">
-                    Henüz üye değil misiniz? <a href="#" onclick="toggleForm(event)">Kaydolun</a>
+
+                <div class="voice-user-card">
+                    <div class="mic-icon">🔇</div>
+                    <div class="voice-card-avatar">👤</div>
+                    <div class="voice-card-name">Guest_34</div>
                 </div>
             </div>
 
-            <!-- Hesap Oluştur Formu -->
-            <div id="registerForm" class="form-box">
-                <h2>Hesap Oluştur</h2>
-                <div class="input-group">
-                    <input type="text" placeholder="Kullanıcı Adı">
-                </div>
-                <div class="input-group">
-                    <input type="email" placeholder="Email Adresi">
-                </div>
-                <div class="input-group">
-                    <input type="password" placeholder="Şifre">
-                    <span class="eye-icon">👁️️</span>
-                </div>
-                <button class="submit-btn">Hesap Oluştur</button>
-                
-                <div class="alt-buttons">
-                    <a href="https://t.me/Hzrox" target="_blank" class="alt-btn">Telegram</a>
-                    <a href="https://discord.com" target="_blank" class="alt-btn">Discord</a>
-                </div>
-                
-                <div class="switch-form">
-                    Zaten üye misiniz? <a href="#" onclick="toggleForm(event)">Giriş Yap</a>
-                </div>
+            <!-- Alt Ses Kontrolleri -->
+            <div class="controls-bar">
+                <button class="control-btn" onclick="toggleMic()">🎙️ Mikrofonu Aç/Kapat</button>
+                <button class="control-btn" onclick="toggleDeafen()">🎧 Kulaklığı Sustur</button>
+                <button class="control-btn disconnect" onclick="logout()">📞 Odadan Ayrıl</button>
             </div>
+        </div>
 
+        <!-- Sağ Çevrimiçi Üyeler -->
+        <div class="right-sidebar">
+            <div class="online-title">Çevrimiçi - 3</div>
+            <div class="online-user">
+                <div class="status-dot"></div>
+                <span>ROX (Admin)</span>
+            </div>
+            <div class="online-user">
+                <div class="status-dot"></div>
+                <span>Hasan</span>
+            </div>
+            <div class="online-user">
+                <div class="status-dot"></div>
+                <span>Guest_34</span>
+            </div>
         </div>
     </div>
 
     <script>
+        // Formlar arası geçiş (Giriş Yap <-> Kayıt Ol)
         function toggleForm(e) {
             e.preventDefault();
             const loginForm = document.getElementById('loginForm');
@@ -308,6 +643,29 @@
             
             loginForm.classList.toggle('active');
             registerForm.classList.toggle('active');
+        }
+
+        // Giriş yapınca veya hesap oluşturunca sesli sohbet paneline geçiş
+        function handleLogin(e) {
+            e.preventDefault();
+            
+            // Giriş ekranını gizle, sesli sohbet panelini göster
+            document.getElementById('authScreen').style.display = 'none';
+            document.getElementById('appScreen').style.display = 'flex';
+        }
+
+        // Odadan ayrıl / Çıkış yap
+        function logout() {
+            document.getElementById('appScreen').style.display = 'none';
+            document.getElementById('authScreen').style.display = 'flex';
+        }
+
+        function toggleMic() {
+            alert("Mikrofon durumu değiştirildi!");
+        }
+        
+        function toggleDeafen() {
+            alert("Kulaklık sağırlaştırma modu değiştirildi!");
         }
     </script>
 </body>
